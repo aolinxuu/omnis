@@ -3,7 +3,7 @@ import { badge, cluster, camIcon, drawCameraFrame, STATE_COLORS } from "./sprite
 { const f = document.createElement("link"); f.rel = "icon"; f.href = "static/spider-mask-transparent.png"; document.head.appendChild(f); }
 
 const $ = id => document.getElementById(id);
-const SUBJECT = "T-SUBJ";
+const isSubject = id => !!id && id.startsWith("T-SUBJ");
 const CENTER = [-122.3393, 47.6072]; // 2nd Ave corridor, downtown Seattle
 const SPEED_M_PER_S = 233 / 60;   // ~14 km/h scooter, from the prototype
 const UNCERT_S = 30;              // sighting-time uncertainty added to the radius
@@ -35,7 +35,7 @@ function recolor() {
 
 // ---------- state ----------
 const state = {
-  cameras: new Map(), sightings: [], subject: [], lastSubject: null, lostSince: null,
+  cameras: new Map(), sightings: [], subject: [], subjectByTrack: new Map(), lastSubject: null, lostSince: null,
   tracks: new Set(), lostCount: 0, prediction: null, clock: null,
 };
 const sightingsGeo = () => ({ type: "FeatureCollection", features: state.sightings.map(s => ({
@@ -43,9 +43,9 @@ const sightingsGeo = () => ({ type: "FeatureCollection", features: state.sightin
   properties: { id: s.id, state: s.state, conf: s.conf, cls: s.class, track: s.track_id || "", t: s.t, op: 1 } })) });
 const camerasGeo = () => { const r = searchRadius(), s = state.lastSubject; return { type: "FeatureCollection", features: [...state.cameras.values()].map(c => ({
   type: "Feature", geometry: { type: "Point", coordinates: [c.lon, c.lat] },
-  properties: { id: c.id, name: c.name, alive: c.alive, reach: !!(r && s && c.alive && metres(s, c) <= r && c.id !== s.camera_id) } })) }; };
+  properties: { id: c.id, name: c.name, alive: c.alive, image: c.image || "", stream: c.stream || "", reach: !!(r && s && c.alive && metres(s, c) <= r && c.id !== s.camera_id) } })) }; };
 const reachGeo = () => { const r = searchRadius(), s = state.lastSubject; return { type: "FeatureCollection", features: r ? [circlePoly(s.lat, s.lon, r)] : [] }; };
-const subjectLine = () => ({ type: "Feature", geometry: { type: "LineString", coordinates: state.subject.map(s => [s.lon, s.lat]) } });
+const subjectLine = () => ({ type: "Feature", geometry: { type: "MultiLineString", coordinates: [...state.subjectByTrack.values()].map(arr => arr.map(s => [s.lon, s.lat])).filter(a => a.length > 1) } });
 const predictionGeo = () => ({ type: "FeatureCollection", features: !state.prediction ? [] : state.prediction.branches.map((b, i) => ({
   type: "Feature", geometry: { type: "LineString", coordinates: b.path.map(([la, lo]) => [lo, la]) },
   properties: { p: b.p, label: b.label, actual: state.prediction.actual === b.label, resolved: !!state.prediction.actual, i } })) });
@@ -53,8 +53,10 @@ const predictionLabels = () => ({ type: "FeatureCollection", features: !state.pr
   const [la, lo] = b.path[b.path.length - 1]; return { type: "Feature", geometry: { type: "Point", coordinates: [lo, la] },
   properties: { label: `${Math.round(b.p*100)}%`, actual: state.prediction.actual === b.label } }; }) });
 
-map.on("load", () => {
-  recolor();
+let layersReady = false;
+function initLayers() {
+  if (layersReady) return; layersReady = true;
+  try { recolor();
   for (const st of Object.keys(STATE_COLORS)) map.addImage(`sight-${st}`, badge(st).data, { pixelRatio: 3 });
   map.addImage("subject-now", badge("linked", 3, true).data, { pixelRatio: 3 });
   map.addImage("cluster", cluster().data, { pixelRatio: 3 });
@@ -104,20 +106,62 @@ map.on("load", () => {
     new maplibregl.Popup({ closeButton: false }).setLngLat(e.lngLat).setHTML(`<b>${p.id}</b> ${p.cls} · ${p.state} · ${(+p.conf).toFixed(2)}${p.track ? " · " + p.track : ""}`).addTo(map); });
   map.on("mouseenter", "clusters", () => map.getCanvas().style.cursor = "pointer");
   map.on("mouseleave", "clusters", () => map.getCanvas().style.cursor = "");
-  map.on("mouseenter", "cameras", e => { const p = e.features[0].properties; camTip.setLngLat(e.lngLat).setHTML(`${p.id} · ${p.name}${p.alive ? "" : " · DEAD"}`).addTo(map); });
-  map.on("mouseleave", "cameras", () => camTip.remove());
+  map.on("mouseenter", "cameras", e => { map.getCanvas().style.cursor = "pointer"; if (!camPinned) openCamPopup(e.features[0].properties, e.lngLat, false); });
+  map.on("mouseleave", "cameras", () => { map.getCanvas().style.cursor = ""; if (!camPinned) closeCamPopup(); });
+  map.on("click", "cameras", e => { camPinned = true; openCamPopup(e.features[0].properties, e.lngLat, true); });
+  map.on("click", e => { if (!map.queryRenderedFeatures(e.point, { layers: ["cameras"] }).length && camPinned) { camPinned = false; closeCamPopup(); } });
 
-  feed.loadReplay("data/sightings.json");
-  frame();
-});
+  refresh(); frameCurrent();
+  } catch (e) { layersReady = false; (window.__errs ||= []).push("init: " + (e.stack || e)); console.error(e); }
+}
+map.on("load", initLayers);
+const readyPoll = setInterval(() => { if (layersReady) return clearInterval(readyPoll); if (map.isStyleLoaded()) initLayers(); else map.triggerRepaint(); }, 250);
+map.once("styledata", () => setTimeout(() => { if (!layersReady && map.isStyleLoaded()) initLayers(); }, 0));
 const HUD_PAD = { top: 90, left: 300, right: 330, bottom: 150 };
+function frameCurrent() {
+  const tid = state.lastSubject?.track_id;
+  const ride = (feed.data?.meta?.rides || []).find(r => r.track === tid);
+  const ids = ride?.cameras || feed.data?.meta?.corridor_cameras || [];
+  const pts = ids.map(id => state.cameras.get(id)).filter(Boolean).map(c => [c.lon, c.lat]);
+  frame(pts.length > 1 ? pts : undefined);
+}
 function frame(coords) {
-  const pts = coords || [...state.cameras.values()].slice(0, 18).map(c => [c.lon, c.lat]);
+  const ids = feed.data?.meta?.corridor_cameras;
+  const pts = coords || (ids ? ids.map(id => state.cameras.get(id)).filter(Boolean) : [...state.cameras.values()].slice(0, 18)).map(c => [c.lon, c.lat]);
   if (pts.length < 2) return map.jumpTo({ center: CENTER, zoom: 14.9 });
   const b = pts.reduce((bb, p) => bb.extend(p), new maplibregl.LngLatBounds(pts[0], pts[0]));
   map.fitBounds(b, { padding: HUD_PAD, maxZoom: 15.6, duration: 600 });
 }
-const camTip = new maplibregl.Popup({ closeButton: false, closeOnClick: false, offset: 8 });
+// ---------- camera hover/pin popup: live still, then HLS video ----------
+const camTip = new maplibregl.Popup({ closeButton: false, closeOnClick: false, offset: 10, maxWidth: "360px" });
+let camPinned = false, camHls = null;
+let camStillTimer = null, camHlsTimer = null;
+function closeCamPopup() { if (camHls) { camHls.destroy(); camHls = null; } clearInterval(camStillTimer); clearTimeout(camHlsTimer); camTip.remove(); }
+function openCamPopup(p, lngLat, pinned) {
+  closeCamPopup();
+  const cam = state.cameras.get(p.id) || p; const alive = cam.alive !== false && cam.alive !== "false";
+  const stillUrl = () => `${cam.image}?t=${Date.now()}`;
+  const img = cam.image ? `<img src="${stillUrl()}" alt="">` : "";
+  camTip.setLngLat(lngLat).setHTML(`<div class="cam-pop">
+    <div class="hd"><span class="id">${cam.id}</span><span class="st ${alive ? "" : "dead"}">${alive ? "ALIVE" : "DEAD"}</span></div>
+    <div class="name">${cam.name}</div>
+    <div class="view">${img}<video muted playsinline autoplay></video><span class="badge">${cam.image ? "STILL · refreshing" : "NO FEED"}</span></div>
+    <div class="hint">${pinned ? "pinned · click map to close" : "click camera to pin"}</div></div>`).addTo(map);
+  const el = camTip.getElement(), video = el.querySelector("video"), badge = el.querySelector(".badge"), still = el.querySelector("img");
+  if (still) camStillTimer = setInterval(() => { if (!video.classList.contains("on")) still.src = stillUrl(); }, 4000);
+  if (!alive || !cam.stream) return;
+  // dwell before starting HLS so sweeping across cameras doesn't hammer the stream server
+  camHlsTimer = setTimeout(() => {
+    badge.textContent = "CONNECTING…";
+    const onPlaying = () => { video.classList.add("on"); badge.textContent = "LIVE · HLS"; badge.classList.add("live"); };
+    video.addEventListener("playing", onPlaying, { once: true });
+    if (window.Hls && Hls.isSupported()) {
+      camHls = new Hls({ liveSyncDurationCount: 2, maxBufferLength: 10, manifestLoadingMaxRetry: 1, manifestLoadingRetryDelay: 1500, levelLoadingMaxRetry: 1 });
+      camHls.loadSource(cam.stream); camHls.attachMedia(video);
+      camHls.on(Hls.Events.ERROR, (_, d) => { if (d.fatal) { badge.textContent = "STREAM DOWN · still only"; badge.classList.add("live"); camHls?.destroy(); camHls = null; } });
+    } else if (video.canPlayType("application/vnd.apple.mpegurl")) { video.src = cam.stream; }
+  }, 400);
+}
 
 function refresh() {
   if (!map.getSource("sightings")) return;
@@ -145,7 +189,8 @@ function hud() {
   if (state.clock) $("lcdClock").textContent = new Date(state.clock).toLocaleTimeString("en-US", { hour12: false });
   const s = state.lastSubject;
   if (s) {
-    $("subjCam").textContent = state.cameras.get(s.camera_id)?.name.replace("2nd Ave & ", "2nd & ") || s.camera_id;
+    $("subjCam").textContent = (state.cameras.get(s.camera_id)?.name || s.camera_id).replace("2nd Ave & ", "2nd & ").replace("Westlake Ave N & ", "Westlake & ").replace("Westlake Ave & ", "Westlake & ");
+    $("subjHdr").textContent = `${s.track_id} · PRESENTER · CONSENTED`;
     // confidence decays while lost: 0.7%/s of replay clock after last sighting
     const age = state.clock ? (state.clock - new Date(s.t).getTime()) / 1000 : 0;
     const conf = s.state === "lost" || age > 45 ? Math.max(0.05, s.conf - age * 0.007) : s.conf;
@@ -157,7 +202,7 @@ function hud() {
     if (map.getSource("reach")) { map.getSource("reach").setData(reachGeo()); const cg = camerasGeo(); map.getSource("cameras").setData(cg);
       $("subjReach").textContent = r ? String(cg.features.filter(f => f.properties.reach).length) : "—"; }
     map.getSource("subject-now")?.setData({ type: "FeatureCollection", features: [{ type: "Feature", geometry: { type: "Point", coordinates: [s.lon, s.lat] }, properties: {} }] });
-    map.setPaintProperty?.("subject-now", "icon-opacity", Math.max(0.25, conf));
+    if (map.getLayer("subject-now")) map.setPaintProperty("subject-now", "icon-opacity", Math.max(0.25, conf));
   }
   drawCameraFrame($("camCanvas"), camSighting, camCamera, tick++);
 }
@@ -212,21 +257,24 @@ function camsPanel() {
 
 // ---------- feed wiring ----------
 const feed = new Feed();
+feed.loadReplay("data/sightings.json");
 feed.addEventListener("msg", ({ detail: m }) => {
   switch (m.type) {
     case "reset":
-      Object.assign(state, { sightings: [], subject: [], lastSubject: null, tracks: new Set(), lostCount: 0, prediction: null });
+      Object.assign(state, { sightings: [], subject: [], subjectByTrack: new Map(), lastSubject: null, tracks: new Set(), lostCount: 0, prediction: null });
       tickerEl.innerHTML = ""; $("predictPanel").hidden = true; camSighting = null; refresh(); break;
-    case "camera": state.cameras.set(m.id, m); map.getSource("cameras")?.setData(camerasGeo()); clearTimeout(window.__frameT); window.__frameT = setTimeout(() => frame(), 50); break;
+    case "camera": state.cameras.set(m.id, m); map.getSource("cameras")?.setData(camerasGeo()); clearTimeout(window.__frameT); window.__frameT = setTimeout(() => frameCurrent(), 50); break;
     case "clock": state.clock = m.t; hud(); if (!$("evalPanel").hidden && (tick % 10 === 0)) evalPanel(); if (!$("camsPanel").hidden && (tick % 10 === 0)) camsPanel(); break;
     case "sighting": {
       state.sightings.push(m);
       if (m.track_id) state.tracks.add(m.track_id);
       if (m.state === "lost") state.lostCount++;
-      if (m.track_id === SUBJECT) {
-        if (m.state === "linked") { state.subject.push(m); callout("SUBJECT SIGHTED", `${state.cameras.get(m.camera_id)?.name || m.camera_id} · ${m.conf.toFixed(2)}`, "#9C6A0C"); }
+      if (isSubject(m.track_id)) {
+        if (m.state === "linked") { state.subject.push(m); if (!state.subjectByTrack.has(m.track_id)) state.subjectByTrack.set(m.track_id, []); state.subjectByTrack.get(m.track_id).push(m); callout("SUBJECT SIGHTED", `${state.cameras.get(m.camera_id)?.name || m.camera_id} · ${m.conf.toFixed(2)}`, "#9C6A0C"); }
         else if (m.state === "lost") callout("SUBJECT LOST", "no camera coverage · confidence decaying", "#F0645A");
+        const newRide = !state.lastSubject || state.lastSubject.track_id !== m.track_id;
         state.lastSubject = m;
+        if (newRide) setTimeout(frameCurrent, 300);
         // resolve pending prediction when subject reappears
         if (state.prediction && !state.prediction.actual && m.state === "linked" && m.t !== state.prediction.t) {
           const p = feed.data?.predictions.find(x => x.id === state.prediction.id);
@@ -248,7 +296,7 @@ feed.addEventListener("msg", ({ detail: m }) => {
 // ---------- controls ----------
 $("btnPlay").onclick = () => { if (feed.i >= feed.items?.length) return feed.restart(); feed.playing = !feed.playing; $("btnPlay").textContent = feed.playing ? "PAUSE" : "PLAY"; };
 $("btnFreeze").onclick = e => { feed.freezeAtSplit = !feed.freezeAtSplit; e.currentTarget.classList.toggle("on", feed.freezeAtSplit); };
-$("btnCenter").onclick = () => state.subject.length > 1 ? frame(state.subject.map(s => [s.lon, s.lat])) : frame();
+$("btnCenter").onclick = () => { const cur = state.lastSubject && state.subjectByTrack.get(state.lastSubject.track_id); cur && cur.length > 1 ? frame(cur.map(s => [s.lon, s.lat])) : frame(); };
 $("btnCluster").onclick = e => { const on = e.currentTarget.classList.toggle("on");
   // rebuild source with clustering toggled
   const data = sightingsGeo(); map.removeLayer("sightings"); map.removeLayer("clusters"); map.removeSource("sightings");

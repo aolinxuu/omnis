@@ -1,12 +1,65 @@
 {
   "meta": {
-    "note": "HAND-WRITTEN FAKE DATA. Shape is the contract the vision pipeline must emit. Times are wall-clock ISO-8601 with offset. Subject = the presenter, consenting, riding south on the 2nd Ave protected bike lane from Battery St to S Jackson St. Cameras are real SDOT camera IDs and coordinates; CMR-0415 is marked dead on purpose to exercise the lost/reacquire path.",
+    "note": "HAND-WRITTEN FAKE DATA. Shape is the contract the vision pipeline must emit. Times are wall-clock ISO-8601 with offset. Two rides by the presenter (consenting): ride 1 south on the 2nd Ave protected bike lane (Battery St \u2192 S Jackson St); ride 2 a South Lake Union loop from the venue at 1700 Westlake Ave N (Westlake & Denny \u2192 Westlake & Harrison \u2192 Valley St \u2192 9th Ave N \u2192 Thomas St \u2192 Westlake & Harrison). See meta.rides. Cameras are real SDOT camera IDs and coordinates; CMR-0415 is marked dead on purpose to exercise the lost/reacquire path.",
     "session": "ride-2026-08-15-a",
     "corridor": "2nd Ave, Belltown -> Pioneer Square",
-    "subject_track": "T-SUBJ",
     "started": "2026-08-15T18:02:00-07:00",
     "ground_truth_note": "Presenter waves at each corridor camera while passing; GPS/phone timestamps logged. Compared against linked subject sightings per camera to give precision/recall. Additive to the frozen contract; no existing shape changed.",
-    "cameras_note": "First 18 = demo corridor + neighbours (hand-picked). Remaining = every SDOT camera in the downtown vicinity (Denny\u2192S Jackson, waterfront\u2192I-5) from data/sdot.json; alive=true is an assumption until the health checker runs."
+    "cameras_note": "First 18 = demo corridor + neighbours (hand-picked). Remaining = every SDOT camera in the downtown vicinity (Denny\u2192S Jackson, waterfront\u2192I-5) from data/sdot.json; alive=true is an assumption until the health checker runs.",
+    "corridor_cameras": [
+      "CMR-0185",
+      "CMR-0264",
+      "CMR-0240",
+      "CMR-0239",
+      "CMR-0030",
+      "CMR-0302",
+      "CMR-0069",
+      "CMR-0415",
+      "CMR-0218",
+      "CMR-0265",
+      "CMR-0425",
+      "CMR-0184",
+      "CMR-0260",
+      "CMR-0146",
+      "CMR-0154",
+      "CMR-0266"
+    ],
+    "rides": [
+      {
+        "track": "T-SUBJ",
+        "label": "ride 1 \u00b7 downtown \u00b7 2nd Ave bike lane, Battery St \u2192 S Jackson St",
+        "started": "2026-08-15T18:02:00-07:00",
+        "cameras": [
+          "CMR-0185",
+          "CMR-0264",
+          "CMR-0240",
+          "CMR-0239",
+          "CMR-0030",
+          "CMR-0302",
+          "CMR-0069",
+          "CMR-0415",
+          "CMR-0218",
+          "CMR-0265",
+          "CMR-0425"
+        ]
+      },
+      {
+        "track": "T-SUBJ-B",
+        "label": "ride 2 \u00b7 South Lake Union loop from the venue (1700 Westlake Ave N): Westlake & Denny \u2192 Harrison \u2192 Valley \u2192 9th Ave N \u2192 Thomas \u2192 Westlake & Harrison",
+        "started": "2026-08-15T18:12:00-07:00",
+        "cameras": [
+          "CMR-0184",
+          "CMR-0260",
+          "CMR-0146",
+          "CMR-0154",
+          "CMR-0266"
+        ]
+      }
+    ],
+    "subject_tracks": [
+      "T-SUBJ",
+      "T-SUBJ-B"
+    ]
   },
   "cameras": [
     {
@@ -15,7 +68,9 @@
       "lat": 47.614809,
       "lon": -122.346954,
       "kind": "sdot",
-      "alive": true
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/2_Battery_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/2_Battery_NS.stream/playlist.m3u8"
     },
     {
       "id": "CMR-0264",
@@ -23,7 +78,9 @@
       "lat": 47.613271,
       "lon": -122.344353,
       "kind": "sdot",
-      "alive": true
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/2_Blanchard_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/2_Blanchard_NS.stream/playlist.m3u8"
     },
     {
       "id": "CMR-0240",
@@ -31,7 +88,9 @@
       "lat": 47.612502,
       "lon": -122.343053,
       "kind": "sdot",
-      "alive": true
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/2_Lenora_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/2_Lenora_NS.stream/playlist.m3u8"
     },
     {
       "id": "CMR-0239",
@@ -39,7 +98,9 @@
       "lat": 47.611733,
       "lon": -122.341753,
       "kind": "sdot",
-      "alive": true
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/2_Virginia.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/2_Virginia.stream/playlist.m3u8"
     },
     {
       "id": "CMR-0030",
@@ -47,7 +108,9 @@
       "lat": 47.610964,
       "lon": -122.340452,
       "kind": "sdot",
-      "alive": true
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/2_Stewart_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/2_Stewart_NS.stream/playlist.m3u8"
     },
     {
       "id": "CMR-0302",
@@ -55,7 +118,9 @@
       "lat": 47.609268,
       "lon": -122.338888,
       "kind": "sdot",
-      "alive": true
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/2_Pike_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/2_Pike_NS.stream/playlist.m3u8"
     },
     {
       "id": "CMR-0069",
@@ -63,7 +128,9 @@
       "lat": 47.607347,
       "lon": -122.337128,
       "kind": "sdot",
-      "alive": true
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/2_University_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/2_University_NS.stream/playlist.m3u8"
     },
     {
       "id": "CMR-0415",
@@ -71,7 +138,9 @@
       "lat": 47.605881,
       "lon": -122.335771,
       "kind": "sdot",
-      "alive": false
+      "alive": false,
+      "image": "https://www.seattle.gov/trafficcams/images/2_Spring.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/2_Spring.stream/playlist.m3u8"
     },
     {
       "id": "CMR-0218",
@@ -79,7 +148,9 @@
       "lat": 47.604446,
       "lon": -122.334477,
       "kind": "sdot",
-      "alive": true
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/2_Marion_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/2_Marion_NS.stream/playlist.m3u8"
     },
     {
       "id": "CMR-0265",
@@ -87,7 +158,9 @@
       "lat": 47.602306,
       "lon": -122.332519,
       "kind": "sdot",
-      "alive": true
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/2_James_EW.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/2_James_EW.stream/playlist.m3u8"
     },
     {
       "id": "CMR-0425",
@@ -95,7 +168,9 @@
       "lat": 47.599225,
       "lon": -122.331578,
       "kind": "sdot",
-      "alive": true
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/2_S_Jackson.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/2_S_Jackson.stream/playlist.m3u8"
     },
     {
       "id": "CMR-0016",
@@ -103,7 +178,9 @@
       "lat": 47.610275,
       "lon": -122.341343,
       "kind": "sdot",
-      "alive": true
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/1_Stewart_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/1_Stewart_NS.stream/playlist.m3u8"
     },
     {
       "id": "CMR-0178",
@@ -111,7 +188,9 @@
       "lat": 47.607828,
       "lon": -122.339105,
       "kind": "sdot",
-      "alive": true
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/1_Union_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/1_Union_NS.stream/playlist.m3u8"
     },
     {
       "id": "CMR-0034",
@@ -119,7 +198,9 @@
       "lat": 47.611629,
       "lon": -122.339592,
       "kind": "sdot",
-      "alive": true
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/3_Stewart_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/3_Stewart_NS.stream/playlist.m3u8"
     },
     {
       "id": "CMR-0304",
@@ -127,7 +208,9 @@
       "lat": 47.608756,
       "lon": -122.336885,
       "kind": "sdot",
-      "alive": true
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/3_Union_SWC.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/3_Union_SWC.stream/playlist.m3u8"
     },
     {
       "id": "CMR-0257",
@@ -135,7 +218,9 @@
       "lat": 47.611207,
       "lon": -122.337592,
       "kind": "sdot",
-      "alive": true
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/4_Pine.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/4_Pine.stream/playlist.m3u8"
     },
     {
       "id": "CMR-0310",
@@ -143,7 +228,9 @@
       "lat": 47.601722,
       "lon": -122.334179,
       "kind": "sdot",
-      "alive": true
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/1_Yesler_EW.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/1_Yesler_EW.stream/playlist.m3u8"
     },
     {
       "id": "CMR-0036",
@@ -151,7 +238,240 @@
       "lat": 47.601716,
       "lon": -122.330265,
       "kind": "sdot",
-      "alive": true
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/3_Yesler_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/3_Yesler_NS.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0260",
+      "name": "Westlake Ave N & Harrison St",
+      "lat": 47.622041,
+      "lon": -122.338456,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Westlake_N_Harrison_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Westlake_N_Harrison_NS.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0146",
+      "name": "Westlake Ave & Valley St",
+      "lat": 47.625796,
+      "lon": -122.338635,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Westlake_Valley.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Westlake_Valley.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0154",
+      "name": "9th Ave N & Mercer St",
+      "lat": 47.624687,
+      "lon": -122.339741,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/9_N_Mercer.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/9_N_Mercer.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0266",
+      "name": "9th Ave N & Thomas St",
+      "lat": 47.620879,
+      "lon": -122.339769,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/9_N_Thomas_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/9_N_Thomas_NS.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0202",
+      "name": "Terry Ave N & Mercer St",
+      "lat": 47.624685,
+      "lon": -122.33713,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Terry_N_Mercer_EW.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Terry_N_Mercer_EW.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0259",
+      "name": "Fairview Ave N & Republican St",
+      "lat": 47.623162,
+      "lon": -122.334279,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Fairview_N_Republican_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Fairview_N_Republican_NS.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0211",
+      "name": "Dexter Ave N & Mercer St",
+      "lat": 47.62455,
+      "lon": -122.34235,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Dexter_N_Mercer.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Dexter_N_Mercer.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0203",
+      "name": "9th Ave N & Roy St",
+      "lat": 47.625393,
+      "lon": -122.339735,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/9_Roy.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/9_Roy.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0111",
+      "name": "Fairview Ave N @ Valley St",
+      "lat": 47.625966,
+      "lon": -122.334172,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Fairview_Valley_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Fairview_Valley_NS.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0110",
+      "name": "Fairview Ave N & Mercer St EW",
+      "lat": 47.624802,
+      "lon": -122.334377,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Fairview_Mercer_5.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Fairview_Mercer_5.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0396",
+      "name": "Fairview Ave N & Mercer St E",
+      "lat": 47.624673,
+      "lon": -122.334589,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Fairview_Mercer_4.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Fairview_Mercer_4.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0397",
+      "name": "Fairview Ave N & Mercer St NS",
+      "lat": 47.624487,
+      "lon": -122.334221,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Fairview_Mercer_3.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Fairview_Mercer_3.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0220",
+      "name": "Taylor Ave & Mercer St",
+      "lat": 47.624558,
+      "lon": -122.346266,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Taylor_N_Mercer_EW.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Taylor_N_Mercer_EW.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0163",
+      "name": "5th Ave N & Mercer St NS",
+      "lat": 47.624757,
+      "lon": -122.34757,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/5_Mercer_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/5_Mercer_NS.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0162",
+      "name": "5th Ave & Mercer St EW",
+      "lat": 47.624561,
+      "lon": -122.347571,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/5_Mercer_EW.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/5_Mercer_EW.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0081",
+      "name": "Aurora Ave N & Ward St",
+      "lat": 47.62802,
+      "lon": -122.343544,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Aurora_N_Ward.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Aurora_N_Ward.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0448",
+      "name": "Eastlake Ave E & Lakeview Blvd E",
+      "lat": 47.62427,
+      "lon": -122.329159,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Eastlake_E_Lakeview.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Eastlake_E_Lakeview.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0449",
+      "name": "Eastlake Ave E & Republican St",
+      "lat": 47.623129,
+      "lon": -122.32916,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Eastlake_E_Republican.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Eastlake_E_Republican.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0161",
+      "name": "6th Ave N & Harrison St",
+      "lat": 47.622065,
+      "lon": -122.345031,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/6_N_Harrison.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/6_N_Harrison.stream/playlist.m3u8",
+      "note": "SDOT catalog mislabels this camera as '15th Ave NE & NE 45th St'; image is 6_N_Harrison.jpg"
+    },
+    {
+      "id": "CMR-0236",
+      "name": "Aurora Ave N & Harrison St",
+      "lat": 47.622061,
+      "lon": -122.343675,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Aurora_N_Harrison_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Aurora_N_Harrison_NS.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0051",
+      "name": "5th Ave N & Broad St",
+      "lat": 47.620716,
+      "lon": -122.347603,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/5_Broad_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/5_Broad_NS.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0385",
+      "name": "Broad St & John St",
+      "lat": 47.619763,
+      "lon": -122.348842,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Broad_John_NWC.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Broad_John_NWC.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0104",
+      "name": "Eastlake Ave E & E Stewart St",
+      "lat": 47.619715,
+      "lon": -122.329135,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Eastlake_E_Stewart_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Eastlake_E_Stewart_NS.stream/playlist.m3u8"
     },
     {
       "id": "CMR-0332",
@@ -159,7 +479,9 @@
       "lat": 47.618586,
       "lon": -122.35136,
       "kind": "sdot",
-      "alive": true
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/3_N_Denny_EW.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/3_N_Denny_EW.stream/playlist.m3u8"
     },
     {
       "id": "CMR-0096",
@@ -167,7 +489,9 @@
       "lat": 47.618576,
       "lon": -122.348925,
       "kind": "sdot",
-      "alive": true
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/4_Denny_EW.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/4_Denny_EW.stream/playlist.m3u8"
     },
     {
       "id": "CMR-0365",
@@ -175,7 +499,9 @@
       "lat": 47.618561,
       "lon": -122.343645,
       "kind": "sdot",
-      "alive": true
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/7_Denny_1.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/7_Denny_1.stream/playlist.m3u8"
     },
     {
       "id": "CMR-0366",
@@ -183,7 +509,9 @@
       "lat": 47.618561,
       "lon": -122.343645,
       "kind": "sdot",
-      "alive": true
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/7_Denny_2.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/7_Denny_2.stream/playlist.m3u8"
     },
     {
       "id": "CMR-0380",
@@ -191,7 +519,9 @@
       "lat": 47.618559,
       "lon": -122.344969,
       "kind": "sdot",
-      "alive": true
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/6_N_Denny_NWC.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/6_N_Denny_NWC.stream/playlist.m3u8"
     },
     {
       "id": "CMR-0434",
@@ -199,7 +529,9 @@
       "lat": 47.61855,
       "lon": -122.342402,
       "kind": "sdot",
-      "alive": true
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Dexter_N_Denny_2.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Dexter_N_Denny_2.stream/playlist.m3u8"
     },
     {
       "id": "CMR-0098",
@@ -207,7 +539,9 @@
       "lat": 47.61855,
       "lon": -122.342402,
       "kind": "sdot",
-      "alive": true
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Dexter_N_Denny_EW.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Dexter_N_Denny_EW.stream/playlist.m3u8"
     },
     {
       "id": "CMR-0404",
@@ -215,7 +549,9 @@
       "lat": 47.618538,
       "lon": -122.337187,
       "kind": "sdot",
-      "alive": true
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Terry_Denny_SEC.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Terry_Denny_SEC.stream/playlist.m3u8"
     },
     {
       "id": "CMR-0267",
@@ -223,7 +559,9 @@
       "lat": 47.618534,
       "lon": -122.338485,
       "kind": "sdot",
-      "alive": true
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Westlake_Denny_EW.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Westlake_Denny_EW.stream/playlist.m3u8"
     },
     {
       "id": "CMR-0184",
@@ -231,7 +569,9 @@
       "lat": 47.618534,
       "lon": -122.338485,
       "kind": "sdot",
-      "alive": true
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Westlake_Denny_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Westlake_Denny_NS.stream/playlist.m3u8"
     },
     {
       "id": "CMR-0315",
@@ -239,7 +579,9 @@
       "lat": 47.618517,
       "lon": -122.334255,
       "kind": "sdot",
-      "alive": true
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Fairview_Denny_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Fairview_Denny_NS.stream/playlist.m3u8"
     },
     {
       "id": "CMR-0097",
@@ -247,7 +589,9 @@
       "lat": 47.618274,
       "lon": -122.330999,
       "kind": "sdot",
-      "alive": true
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Stewart_Denny_EW.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Stewart_Denny_EW.stream/playlist.m3u8"
     },
     {
       "id": "CMR-0056",
@@ -255,7 +599,9 @@
       "lat": 47.618022,
       "lon": -122.344452,
       "kind": "sdot",
-      "alive": true
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/6_Wall_EW.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/6_Wall_EW.stream/playlist.m3u8"
     },
     {
       "id": "CMR-0317",
@@ -263,7 +609,9 @@
       "lat": 47.617852,
       "lon": -122.334251,
       "kind": "sdot",
-      "alive": true
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Fairview_Boren_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Fairview_Boren_NS.stream/playlist.m3u8"
     },
     {
       "id": "CMR-0187",
@@ -271,7 +619,9 @@
       "lat": 47.617382,
       "lon": -122.341394,
       "kind": "sdot",
-      "alive": true
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/7_Bell.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/7_Bell.stream/playlist.m3u8"
     },
     {
       "id": "CMR-0241",
@@ -279,7 +629,9 @@
       "lat": 47.617019,
       "lon": -122.350691,
       "kind": "sdot",
-      "alive": true
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/2_Clay_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/2_Clay_NS.stream/playlist.m3u8"
     },
     {
       "id": "CMR-0047",
@@ -287,7 +639,9 @@
       "lat": 47.616983,
       "lon": -122.344142,
       "kind": "sdot",
-      "alive": true
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/5_Battery_East.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/5_Battery_East.stream/playlist.m3u8"
     },
     {
       "id": "CMR-0316",
@@ -295,7 +649,9 @@
       "lat": 47.61684,
       "lon": -122.330559,
       "kind": "sdot",
-      "alive": true
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Minor_Howell_EW.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Minor_Howell_EW.stream/playlist.m3u8"
     },
     {
       "id": "CMR-0048",
@@ -303,7 +659,9 @@
       "lat": 47.616642,
       "lon": -122.344487,
       "kind": "sdot",
-      "alive": true
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/5_Battery_West.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/5_Battery_West.stream/playlist.m3u8"
     },
     {
       "id": "CMR-0087",
@@ -311,7 +669,9 @@
       "lat": 47.616187,
       "lon": -122.331404,
       "kind": "sdot",
-      "alive": true
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Boren_Howell_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Boren_Howell_NS.stream/playlist.m3u8"
     },
     {
       "id": "CMR-0040",
@@ -319,7 +679,9 @@
       "lat": 47.616083,
       "lon": -122.345143,
       "kind": "sdot",
-      "alive": true
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/4_Battery_EW.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/4_Battery_EW.stream/playlist.m3u8"
     },
     {
       "id": "CMR-0169",
@@ -327,7 +689,9 @@
       "lat": 47.616046,
       "lon": -122.347025,
       "kind": "sdot",
-      "alive": true
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/3_Wall_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/3_Wall_NS.stream/playlist.m3u8"
     },
     {
       "id": "CMR-0175",
@@ -335,7 +699,9 @@
       "lat": 47.615616,
       "lon": -122.334436,
       "kind": "sdot",
-      "alive": true
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/9_Stewart_EW.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/9_Stewart_EW.stream/playlist.m3u8"
     },
     {
       "id": "CMR-0170",
@@ -343,7 +709,9 @@
       "lat": 47.61516,
       "lon": -122.339614,
       "kind": "sdot",
-      "alive": true
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/6_Lenora_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/6_Lenora_NS.stream/playlist.m3u8"
     },
     {
       "id": "CMR-0173",
@@ -351,7 +719,9 @@
       "lat": 47.615057,
       "lon": -122.337454,
       "kind": "sdot",
-      "alive": true
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/7_Virginia_EW.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/7_Virginia_EW.stream/playlist.m3u8"
     },
     {
       "id": "CMR-0382",
@@ -359,7 +729,9 @@
       "lat": 47.615005,
       "lon": -122.331809,
       "kind": "sdot",
-      "alive": true
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Terry_Olive_SEC.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Terry_Olive_SEC.stream/playlist.m3u8"
     },
     {
       "id": "CMR-0168",
@@ -367,7 +739,9 @@
       "lat": 47.614696,
       "lon": -122.348746,
       "kind": "sdot",
-      "alive": true
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/1_Wall_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/1_Wall_NS.stream/playlist.m3u8"
     },
     {
       "id": "CMR-0167",
@@ -375,7 +749,9 @@
       "lat": 47.614452,
       "lon": -122.349062,
       "kind": "sdot",
-      "alive": true
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/1_Wall_EW.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/1_Wall_EW.stream/playlist.m3u8"
     },
     {
       "id": "CMR-0059",
@@ -383,7 +759,9 @@
       "lat": 47.614065,
       "lon": -122.33404,
       "kind": "sdot",
-      "alive": true
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/8_Olive.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/8_Olive.stream/playlist.m3u8"
     },
     {
       "id": "CMR-0186",
@@ -391,7 +769,9 @@
       "lat": 47.614031,
       "lon": -122.349606,
       "kind": "sdot",
-      "alive": true
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Western_Wall_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Western_Wall_NS.stream/playlist.m3u8"
     },
     {
       "id": "CMR-0321",
@@ -399,7 +779,9 @@
       "lat": 47.613622,
       "lon": -122.337015,
       "kind": "sdot",
-      "alive": true
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/6_Stewart_EW.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/6_Stewart_EW.stream/playlist.m3u8"
     },
     {
       "id": "CMR-0172",
@@ -407,7 +789,9 @@
       "lat": 47.613528,
       "lon": -122.332042,
       "kind": "sdot",
-      "alive": true
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/9_Pine_EW.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/9_Pine_EW.stream/playlist.m3u8"
     },
     {
       "id": "CMR-0312",
@@ -415,7 +799,9 @@
       "lat": 47.613466,
       "lon": -122.328913,
       "kind": "sdot",
-      "alive": true
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Boren_Pike_EW.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Boren_Pike_EW.stream/playlist.m3u8"
     },
     {
       "id": "CMR-0174",
@@ -423,7 +809,9 @@
       "lat": 47.613063,
       "lon": -122.340033,
       "kind": "sdot",
-      "alive": true
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/4_Virginia.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/4_Virginia.stream/playlist.m3u8"
     },
     {
       "id": "CMR-0261",
@@ -431,7 +819,9 @@
       "lat": 47.612814,
       "lon": -122.351186,
       "kind": "sdot",
-      "alive": true
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Alaskan_Wall.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Alaskan_Wall.stream/playlist.m3u8"
     },
     {
       "id": "CMR-0046",
@@ -439,7 +829,9 @@
       "lat": 47.612665,
       "lon": -122.337394,
       "kind": "sdot",
-      "alive": true
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/5_Olive.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/5_Olive.stream/playlist.m3u8"
     },
     {
       "id": "CMR-0039",
@@ -447,7 +839,9 @@
       "lat": 47.612182,
       "lon": -122.338543,
       "kind": "sdot",
-      "alive": true
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/4_Olive_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/4_Olive_NS.stream/playlist.m3u8"
     },
     {
       "id": "CMR-0055",
@@ -455,7 +849,9 @@
       "lat": 47.612136,
       "lon": -122.335373,
       "kind": "sdot",
-      "alive": true
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/6_Pine_EW.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/6_Pine_EW.stream/playlist.m3u8"
     },
     {
       "id": "CMR-0370",
@@ -463,7 +859,9 @@
       "lat": 47.61208,
       "lon": -122.332265,
       "kind": "sdot",
-      "alive": true
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/8_Pike_NWC.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/8_Pike_NWC.stream/playlist.m3u8"
     },
     {
       "id": "CMR-0223",
@@ -471,7 +869,9 @@
       "lat": 47.611672,
       "lon": -122.336484,
       "kind": "sdot",
-      "alive": true
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/5_Pine_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/5_Pine_NS.stream/playlist.m3u8"
     },
     {
       "id": "CMR-0358",
@@ -479,7 +879,9 @@
       "lat": 47.611611,
       "lon": -122.346522,
       "kind": "sdot",
-      "alive": true
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Elliott_Ave_Elliott_Wy_NEC.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Elliott_Ave_Elliott_Wy_NEC.stream/playlist.m3u8"
     },
     {
       "id": "CMR-0058",
@@ -487,7 +889,9 @@
       "lat": 47.611606,
       "lon": -122.333354,
       "kind": "sdot",
-      "alive": true
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/7_Pike_EW.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/7_Pike_EW.stream/playlist.m3u8"
     },
     {
       "id": "CMR-0176",
@@ -495,7 +899,9 @@
       "lat": 47.611466,
       "lon": -122.336976,
       "kind": "sdot",
-      "alive": true
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/5_Pine_EW.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/5_Pine_EW.stream/playlist.m3u8"
     },
     {
       "id": "CMR-0089",
@@ -503,7 +909,9 @@
       "lat": 47.610765,
       "lon": -122.326444,
       "kind": "sdot",
-      "alive": true
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Boren_Seneca_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Boren_Seneca_NS.stream/playlist.m3u8"
     },
     {
       "id": "CMR-0309",
@@ -511,7 +919,9 @@
       "lat": 47.610678,
       "lon": -122.335574,
       "kind": "sdot",
-      "alive": true
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/5_Pike_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/5_Pike_NS.stream/playlist.m3u8"
     },
     {
       "id": "CMR-0255",
@@ -519,7 +929,9 @@
       "lat": 47.609685,
       "lon": -122.334666,
       "kind": "sdot",
-      "alive": true
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/5_Union_EW.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/5_Union_EW.stream/playlist.m3u8"
     },
     {
       "id": "CMR-0303",
@@ -527,7 +939,9 @@
       "lat": 47.609268,
       "lon": -122.338888,
       "kind": "sdot",
-      "alive": true
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/2_Pike_EW.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/2_Pike_EW.stream/playlist.m3u8"
     },
     {
       "id": "CMR-0444",
@@ -535,7 +949,9 @@
       "lat": 47.608724,
       "lon": -122.342892,
       "kind": "sdot",
-      "alive": true
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Alaskan_Elliott_NWC.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Alaskan_Elliott_NWC.stream/playlist.m3u8"
     },
     {
       "id": "CMR-0188",
@@ -543,7 +959,9 @@
       "lat": 47.608486,
       "lon": -122.331987,
       "kind": "sdot",
-      "alive": true
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/6_Seneca_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/6_Seneca_NS.stream/playlist.m3u8"
     },
     {
       "id": "CMR-0409",
@@ -551,7 +969,9 @@
       "lat": 47.607944,
       "lon": -122.328453,
       "kind": "sdot",
-      "alive": true
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/8_Madison.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/8_Madison.stream/playlist.m3u8"
     },
     {
       "id": "CMR-0035",
@@ -559,7 +979,9 @@
       "lat": 47.607763,
       "lon": -122.335976,
       "kind": "sdot",
-      "alive": true
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/3_University_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/3_University_NS.stream/playlist.m3u8"
     },
     {
       "id": "CMR-0373",
@@ -567,7 +989,9 @@
       "lat": 47.607733,
       "lon": -122.331339,
       "kind": "sdot",
-      "alive": true
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/6_Spring_NEC.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/6_Spring_NEC.stream/playlist.m3u8"
     },
     {
       "id": "CMR-T03",
@@ -575,7 +999,9 @@
       "lat": 47.607504,
       "lon": -122.329591,
       "kind": "sdot",
-      "alive": true
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/SDOT_Portable_3.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/SDOT_Portable_3.stream/playlist.m3u8"
     },
     {
       "id": "CMR-0291",
@@ -583,7 +1009,9 @@
       "lat": 47.607266,
       "lon": -122.332451,
       "kind": "sdot",
-      "alive": true
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/5_Spring_EW.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/5_Spring_EW.stream/playlist.m3u8"
     },
     {
       "id": "CMR-0191",
@@ -591,7 +1019,9 @@
       "lat": 47.607085,
       "lon": -122.335326,
       "kind": "sdot",
-      "alive": true
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/3_Seneca_EW.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/3_Seneca_EW.stream/playlist.m3u8"
     },
     {
       "id": "CMR-0389",
@@ -599,7 +1029,9 @@
       "lat": 47.607052,
       "lon": -122.34102,
       "kind": "sdot",
-      "alive": true
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Alaskan_Union.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Alaskan_Union.stream/playlist.m3u8"
     },
     {
       "id": "CMR-0181",
@@ -607,7 +1039,9 @@
       "lat": 47.606553,
       "lon": -122.331798,
       "kind": "sdot",
-      "alive": true
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/5_Madison_EW.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/5_Madison_EW.stream/playlist.m3u8"
     },
     {
       "id": "CMR-0050",
@@ -615,7 +1049,9 @@
       "lat": 47.606553,
       "lon": -122.331798,
       "kind": "sdot",
-      "alive": true
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/5_Madison_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/5_Madison_NS.stream/playlist.m3u8"
     },
     {
       "id": "CMR-0305",
@@ -623,7 +1059,9 @@
       "lat": 47.606337,
       "lon": -122.334672,
       "kind": "sdot",
-      "alive": true
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/3_Spring_EW.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/3_Spring_EW.stream/playlist.m3u8"
     },
     {
       "id": "CMR-0217",
@@ -631,7 +1069,9 @@
       "lat": 47.606125,
       "lon": -122.337536,
       "kind": "sdot",
-      "alive": true
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/1_Seneca.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/1_Seneca.stream/playlist.m3u8"
     },
     {
       "id": "CMR-0180",
@@ -639,7 +1079,9 @@
       "lat": 47.606088,
       "lon": -122.332909,
       "kind": "sdot",
-      "alive": true
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/4_Madison_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/4_Madison_NS.stream/playlist.m3u8"
     },
     {
       "id": "CMR-0194",
@@ -647,7 +1089,9 @@
       "lat": 47.605839,
       "lon": -122.331146,
       "kind": "sdot",
-      "alive": true
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/5_Marion_EW.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/5_Marion_EW.stream/playlist.m3u8"
     },
     {
       "id": "CMR-0179",
@@ -655,7 +1099,9 @@
       "lat": 47.604943,
       "lon": -122.338001,
       "kind": "sdot",
-      "alive": true
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Western_Spring.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Western_Spring.stream/playlist.m3u8"
     },
     {
       "id": "CMR-0318",
@@ -663,7 +1109,9 @@
       "lat": 47.604876,
       "lon": -122.328734,
       "kind": "sdot",
-      "alive": true
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/6_Cherry.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/6_Cherry.stream/playlist.m3u8"
     },
     {
       "id": "CMR-0256",
@@ -671,7 +1119,9 @@
       "lat": 47.604695,
       "lon": -122.336238,
       "kind": "sdot",
-      "alive": true
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/1_Madison_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/1_Madison_NS.stream/playlist.m3u8"
     },
     {
       "id": "CMR-0319",
@@ -679,7 +1129,9 @@
       "lat": 47.604625,
       "lon": -122.32697,
       "kind": "sdot",
-      "alive": true
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/7_James_EW.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/7_James_EW.stream/playlist.m3u8"
     },
     {
       "id": "CMR-0361",
@@ -687,7 +1139,9 @@
       "lat": 47.604624,
       "lon": -122.338812,
       "kind": "sdot",
-      "alive": true
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Alaskan_Spring.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Alaskan_Spring.stream/playlist.m3u8"
     },
     {
       "id": "CMR-0033",
@@ -695,7 +1149,9 @@
       "lat": 47.604197,
       "lon": -122.332714,
       "kind": "sdot",
-      "alive": true
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/3_Columbia_EW.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/3_Columbia_EW.stream/playlist.m3u8"
     },
     {
       "id": "CMR-0156",
@@ -703,7 +1159,9 @@
       "lat": 47.603948,
       "lon": -122.330952,
       "kind": "sdot",
-      "alive": true
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/4_Cherry_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/4_Cherry_NS.stream/playlist.m3u8"
     },
     {
       "id": "CMR-0153",
@@ -711,7 +1169,9 @@
       "lat": 47.603844,
       "lon": -122.338244,
       "kind": "sdot",
-      "alive": true
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Alaskan_Madison_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Alaskan_Madison_NS.stream/playlist.m3u8"
     },
     {
       "id": "CMR-0155",
@@ -719,7 +1179,9 @@
       "lat": 47.603825,
       "lon": -122.331241,
       "kind": "sdot",
-      "alive": true
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/4_Cherry_EW.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/4_Cherry_EW.stream/playlist.m3u8"
     },
     {
       "id": "CMR-0049",
@@ -727,7 +1189,9 @@
       "lat": 47.603698,
       "lon": -122.329187,
       "kind": "sdot",
-      "alive": true
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/5_James.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/5_James.stream/playlist.m3u8"
     },
     {
       "id": "CMR-0308",
@@ -735,7 +1199,9 @@
       "lat": 47.603286,
       "lon": -122.330364,
       "kind": "sdot",
-      "alive": true
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/4_James_NWC.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/4_James_NWC.stream/playlist.m3u8"
     },
     {
       "id": "CMR-0204",
@@ -743,7 +1209,9 @@
       "lat": 47.603134,
       "lon": -122.3376,
       "kind": "sdot",
-      "alive": true
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Alaskan_Marion_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Alaskan_Marion_NS.stream/playlist.m3u8"
     },
     {
       "id": "CMR-0379",
@@ -751,7 +1219,9 @@
       "lat": 47.602417,
       "lon": -122.336956,
       "kind": "sdot",
-      "alive": true
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Alaskan_Columbia_SWC.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Alaskan_Columbia_SWC.stream/playlist.m3u8"
     },
     {
       "id": "CMR-0065",
@@ -759,7 +1229,9 @@
       "lat": 47.601718,
       "lon": -122.336582,
       "kind": "sdot",
-      "alive": true
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Alaskan_Yesler_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Alaskan_Yesler_NS.stream/playlist.m3u8"
     },
     {
       "id": "CMR-0311",
@@ -767,7 +1239,9 @@
       "lat": 47.600875,
       "lon": -122.328963,
       "kind": "sdot",
-      "alive": true
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/4_S_Washington_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/4_S_Washington_NS.stream/playlist.m3u8"
     },
     {
       "id": "CMR-0258",
@@ -775,7 +1249,9 @@
       "lat": 47.600873,
       "lon": -122.32766,
       "kind": "sdot",
-      "alive": true
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/5_S_Washington_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/5_S_Washington_NS.stream/playlist.m3u8"
     },
     {
       "id": "CMR-0320",
@@ -783,7 +1259,9 @@
       "lat": 47.599991,
       "lon": -122.330342,
       "kind": "sdot",
-      "alive": true
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/2_Ext_Main_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/2_Ext_Main_NS.stream/playlist.m3u8"
     },
     {
       "id": "CMR-0428",
@@ -791,7 +1269,9 @@
       "lat": 47.599263,
       "lon": -122.327665,
       "kind": "sdot",
-      "alive": true
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/5_S_Jackson.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/5_S_Jackson.stream/playlist.m3u8"
     },
     {
       "id": "CMR-0350",
@@ -799,7 +1279,9 @@
       "lat": 47.599209,
       "lon": -122.335907,
       "kind": "sdot",
-      "alive": true
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Alaskan_S_Jackson.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Alaskan_S_Jackson.stream/playlist.m3u8"
     },
     {
       "id": "CMR-0189",
@@ -807,7 +1289,9 @@
       "lat": 47.599205,
       "lon": -122.334188,
       "kind": "sdot",
-      "alive": true
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/1_S_Jackson_EW.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/1_S_Jackson_EW.stream/playlist.m3u8"
     },
     {
       "id": "CMR-0043",
@@ -815,7 +1299,9 @@
       "lat": 47.599197,
       "lon": -122.328968,
       "kind": "sdot",
-      "alive": true
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/4_S_Jackson.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/4_S_Jackson.stream/playlist.m3u8"
     },
     {
       "id": "CMR-0333",
@@ -823,7 +1309,9 @@
       "lat": 47.598297,
       "lon": -122.335906,
       "kind": "sdot",
-      "alive": true
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Alaskan_S_King.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Alaskan_S_King.stream/playlist.m3u8"
     },
     {
       "id": "CMR-T01",
@@ -831,7 +1319,9 @@
       "lat": 47.598271,
       "lon": -122.333257,
       "kind": "sdot",
-      "alive": true
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/SDOT_Portable_1.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/SDOT_Portable_1.stream/playlist.m3u8"
     },
     {
       "id": "CMR-0427",
@@ -839,7 +1329,9 @@
       "lat": 47.597601,
       "lon": -122.328961,
       "kind": "sdot",
-      "alive": true
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/4_S_Weller.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/4_S_Weller.stream/playlist.m3u8"
     }
   ],
   "tracks": [
@@ -858,6 +1350,17 @@
       "id": "T-0032",
       "label": "bike",
       "class": "bike"
+    },
+    {
+      "id": "T-SUBJ-B",
+      "label": "SUBJECT ride 2 (presenter, consented)",
+      "class": "scooter",
+      "color": "amber"
+    },
+    {
+      "id": "T-0033",
+      "label": "scooter",
+      "class": "scooter"
     }
   ],
   "sightings": [
@@ -1370,6 +1873,186 @@
       "class": "bike",
       "state": "confirmed",
       "conf": 0.73
+    },
+    {
+      "id": "S-0043",
+      "t": "2026-08-15T18:12:03-07:00",
+      "camera_id": "CMR-0184",
+      "lat": 47.618534,
+      "lon": -122.338485,
+      "class": "scooter",
+      "state": "linked",
+      "conf": 0.9,
+      "track_id": "T-SUBJ-B",
+      "bbox": [
+        402,
+        190,
+        38,
+        72
+      ],
+      "note": "ride 2 starts at Westlake & Denny, northbound"
+    },
+    {
+      "id": "S-0044",
+      "t": "2026-08-15T18:12:20-07:00",
+      "camera_id": "CMR-0202",
+      "lat": 47.624685,
+      "lon": -122.33713,
+      "class": "scooter",
+      "state": "unverified",
+      "conf": 0.51
+    },
+    {
+      "id": "S-0045",
+      "t": "2026-08-15T18:12:41-07:00",
+      "camera_id": "CMR-0260",
+      "lat": 47.622041,
+      "lon": -122.338456,
+      "class": "scooter",
+      "state": "linked",
+      "conf": 0.93,
+      "track_id": "T-SUBJ-B",
+      "bbox": [
+        396,
+        186,
+        40,
+        74
+      ],
+      "note": "passes the venue: Westlake Ave N & Harrison St"
+    },
+    {
+      "id": "S-0046",
+      "t": "2026-08-15T18:12:55-07:00",
+      "camera_id": "CMR-0259",
+      "lat": 47.623162,
+      "lon": -122.334279,
+      "class": "bike",
+      "state": "confirmed",
+      "conf": 0.72
+    },
+    {
+      "id": "S-0047",
+      "t": "2026-08-15T18:13:20-07:00",
+      "camera_id": "CMR-0146",
+      "lat": 47.625796,
+      "lon": -122.338635,
+      "class": "scooter",
+      "state": "linked",
+      "conf": 0.88,
+      "track_id": "T-SUBJ-B",
+      "bbox": [
+        408,
+        192,
+        37,
+        70
+      ],
+      "note": "prediction P-003 fires here"
+    },
+    {
+      "id": "S-0048",
+      "t": "2026-08-15T18:13:40-07:00",
+      "camera_id": "CMR-0211",
+      "lat": 47.62455,
+      "lon": -122.34235,
+      "class": "scooter",
+      "state": "unverified",
+      "conf": 0.47
+    },
+    {
+      "id": "S-0049",
+      "t": "2026-08-15T18:14:05-07:00",
+      "camera_id": "CMR-0154",
+      "lat": 47.624687,
+      "lon": -122.339741,
+      "class": "scooter",
+      "state": "linked",
+      "conf": 0.85,
+      "track_id": "T-SUBJ-B",
+      "bbox": [
+        390,
+        196,
+        36,
+        69
+      ],
+      "note": "resolves P-003: went west on Valley to 9th"
+    },
+    {
+      "id": "S-0050",
+      "t": "2026-08-15T18:14:30-07:00",
+      "camera_id": "CMR-0203",
+      "lat": 47.625393,
+      "lon": -122.339735,
+      "class": "scooter",
+      "state": "linked",
+      "conf": 0.78,
+      "track_id": "T-0033"
+    },
+    {
+      "id": "S-0051",
+      "t": "2026-08-15T18:14:50-07:00",
+      "camera_id": "CMR-0266",
+      "lat": 47.620879,
+      "lon": -122.339769,
+      "class": "scooter",
+      "state": "linked",
+      "conf": 0.87,
+      "track_id": "T-SUBJ-B",
+      "bbox": [
+        404,
+        189,
+        38,
+        71
+      ],
+      "note": "prediction P-004 fires here"
+    },
+    {
+      "id": "S-0052",
+      "t": "2026-08-15T18:15:10-07:00",
+      "camera_id": "CMR-0202",
+      "lat": 47.624685,
+      "lon": -122.33713,
+      "class": "bike",
+      "state": "detected",
+      "conf": 0.36
+    },
+    {
+      "id": "S-0053",
+      "t": "2026-08-15T18:15:35-07:00",
+      "camera_id": "CMR-0260",
+      "lat": 47.622041,
+      "lon": -122.338456,
+      "class": "scooter",
+      "state": "linked",
+      "conf": 0.91,
+      "track_id": "T-SUBJ-B",
+      "bbox": [
+        399,
+        187,
+        39,
+        73
+      ],
+      "note": "back at the venue; ride 2 complete"
+    },
+    {
+      "id": "S-0054",
+      "t": "2026-08-15T18:15:50-07:00",
+      "camera_id": "CMR-0184",
+      "lat": 47.618534,
+      "lon": -122.338485,
+      "class": "scooter",
+      "state": "unverified",
+      "conf": 0.49
+    },
+    {
+      "id": "S-0055",
+      "t": "2026-08-15T18:16:12-07:00",
+      "camera_id": "CMR-0203",
+      "lat": 47.625393,
+      "lon": -122.339735,
+      "class": "scooter",
+      "state": "linked",
+      "conf": 0.74,
+      "track_id": "T-0033"
     }
   ],
   "predictions": [
@@ -1508,6 +2191,142 @@
       ],
       "actual": "continue S to S Jackson",
       "resolved_at": "2026-08-15T18:08:31-07:00"
+    },
+    {
+      "id": "P-003",
+      "t": "2026-08-15T18:13:20-07:00",
+      "track_id": "T-SUBJ-B",
+      "at": [
+        47.6257957699474,
+        -122.338634549835
+      ],
+      "at_camera": "CMR-0146",
+      "branches": [
+        {
+          "label": "W on Valley St to 9th Ave N",
+          "p": 0.52,
+          "path": [
+            [
+              47.6257957699474,
+              -122.338634549835
+            ],
+            [
+              47.6256,
+              -122.33974
+            ],
+            [
+              47.6246868623836,
+              -122.339741460748
+            ]
+          ]
+        },
+        {
+          "label": "continue N on Westlake to Aloha",
+          "p": 0.3,
+          "path": [
+            [
+              47.6257957699474,
+              -122.338634549835
+            ],
+            [
+              47.6272,
+              -122.339
+            ],
+            [
+              47.6285,
+              -122.3394
+            ]
+          ]
+        },
+        {
+          "label": "E on Valley St to Fairview",
+          "p": 0.18,
+          "path": [
+            [
+              47.6257957699474,
+              -122.338634549835
+            ],
+            [
+              47.6259,
+              -122.3364
+            ],
+            [
+              47.6259655718535,
+              -122.334172139026
+            ]
+          ]
+        }
+      ],
+      "actual": "W on Valley St to 9th Ave N",
+      "resolved_at": "2026-08-15T18:14:05-07:00"
+    },
+    {
+      "id": "P-004",
+      "t": "2026-08-15T18:14:50-07:00",
+      "track_id": "T-SUBJ-B",
+      "at": [
+        47.6208789314884,
+        -122.339768872858
+      ],
+      "at_camera": "CMR-0266",
+      "branches": [
+        {
+          "label": "E on Harrison to Westlake (venue)",
+          "p": 0.58,
+          "path": [
+            [
+              47.6208789314884,
+              -122.339768872858
+            ],
+            [
+              47.62204,
+              -122.33977
+            ],
+            [
+              47.6220412361757,
+              -122.338455706271
+            ]
+          ]
+        },
+        {
+          "label": "continue S on 9th to Denny",
+          "p": 0.27,
+          "path": [
+            [
+              47.6208789314884,
+              -122.339768872858
+            ],
+            [
+              47.6198,
+              -122.33977
+            ],
+            [
+              47.6186,
+              -122.33977
+            ]
+          ]
+        },
+        {
+          "label": "W on Thomas to Dexter",
+          "p": 0.15,
+          "path": [
+            [
+              47.6208789314884,
+              -122.339768872858
+            ],
+            [
+              47.62088,
+              -122.3411
+            ],
+            [
+              47.62088,
+              -122.3424
+            ]
+          ]
+        }
+      ],
+      "actual": "E on Harrison to Westlake (venue)",
+      "resolved_at": "2026-08-15T18:15:35-07:00"
     }
   ],
   "events": [
@@ -1591,6 +2410,64 @@
       "t": "2026-08-15T18:08:40-07:00",
       "kind": "system",
       "text": "ride complete \u00b7 11 cameras \u00b7 10 subject sightings \u00b7 1 gap \u00b7 2/2 predictions correct"
+    },
+    {
+      "t": "2026-08-15T18:11:40-07:00",
+      "kind": "system",
+      "text": "ride 2 \u00b7 South Lake Union loop from the venue \u00b7 25 SLU cameras armed"
+    },
+    {
+      "t": "2026-08-15T18:12:03-07:00",
+      "kind": "system",
+      "text": "T-SUBJ-B acquired at Westlake & Denny \u00b7 northbound \u00b7 conf 0.90"
+    },
+    {
+      "t": "2026-08-15T18:12:41-07:00",
+      "kind": "system",
+      "text": "T-SUBJ-B at Westlake Ave N & Harrison St \u00b7 the venue camera \u00b7 conf 0.93"
+    },
+    {
+      "t": "2026-08-15T18:13:00-07:00",
+      "kind": "vss",
+      "camera_id": "CMR-0260",
+      "text": "VSS: scooter rider northbound in right lane past 1700 Westlake, streetcar approaching, dry pavement"
+    },
+    {
+      "t": "2026-08-15T18:13:20-07:00",
+      "kind": "system",
+      "text": "P-003 \u00b7 Westlake & Valley \u00b7 leading: W on Valley to 9th (0.52)"
+    },
+    {
+      "t": "2026-08-15T18:13:50-07:00",
+      "kind": "vss",
+      "camera_id": "CMR-0146",
+      "text": "VSS: rider turns west onto Valley St, one cyclist behind"
+    },
+    {
+      "t": "2026-08-15T18:14:05-07:00",
+      "kind": "system",
+      "text": "P-003 resolved \u00b7 W on Valley St to 9th Ave N \u00b7 correct"
+    },
+    {
+      "t": "2026-08-15T18:14:50-07:00",
+      "kind": "system",
+      "text": "P-004 \u00b7 9th & Thomas \u00b7 leading: E on Harrison to Westlake (0.58)"
+    },
+    {
+      "t": "2026-08-15T18:15:20-07:00",
+      "kind": "vss",
+      "camera_id": "CMR-0266",
+      "text": "VSS: rider eastbound on Harrison St, light traffic, pedestrians at crosswalk"
+    },
+    {
+      "t": "2026-08-15T18:15:35-07:00",
+      "kind": "system",
+      "text": "P-004 resolved \u00b7 E on Harrison to Westlake \u00b7 correct \u00b7 T-SUBJ-B back at venue"
+    },
+    {
+      "t": "2026-08-15T18:15:45-07:00",
+      "kind": "system",
+      "text": "ride 2 complete \u00b7 5 cameras \u00b7 6 subject sightings \u00b7 0 gaps \u00b7 2/2 predictions correct"
     }
   ],
   "ground_truth": [
@@ -1648,6 +2525,36 @@
     {
       "camera_id": "CMR-0425",
       "t": "2026-08-15T18:08:29-07:00",
+      "kind": "wave"
+    },
+    {
+      "camera_id": "CMR-0184",
+      "t": "2026-08-15T18:12:01-07:00",
+      "kind": "wave"
+    },
+    {
+      "camera_id": "CMR-0260",
+      "t": "2026-08-15T18:12:39-07:00",
+      "kind": "wave"
+    },
+    {
+      "camera_id": "CMR-0146",
+      "t": "2026-08-15T18:13:18-07:00",
+      "kind": "wave"
+    },
+    {
+      "camera_id": "CMR-0154",
+      "t": "2026-08-15T18:14:03-07:00",
+      "kind": "wave"
+    },
+    {
+      "camera_id": "CMR-0266",
+      "t": "2026-08-15T18:14:48-07:00",
+      "kind": "wave"
+    },
+    {
+      "camera_id": "CMR-0260",
+      "t": "2026-08-15T18:15:33-07:00",
       "kind": "wave"
     }
   ]

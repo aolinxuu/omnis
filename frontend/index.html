@@ -8,6 +8,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
 <link href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" rel="stylesheet">
 <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.15/dist/hls.min.js"></script>
 <link rel="stylesheet" href="style.css">
 <script>window.__errs=[];addEventListener("error",e=>__errs.push(String(e.message)));addEventListener("unhandledrejection",e=>__errs.push("rej:"+String(e.reason&&e.reason.stack||e.reason)));</script>
 </head>
@@ -60,7 +61,7 @@
 
   <!-- subject card -->
   <section class="panel subject" id="subjectPanel">
-    <header>T-SUBJ · PRESENTER · CONSENTED</header>
+    <header id="subjHdr">SUBJECT · PRESENTER · CONSENTED</header>
     <div class="subject-row"><span>last cam</span><b id="subjCam">—</b></div>
     <div class="subject-row"><span>conf</span><b id="subjConf">—</b></div>
     <div class="subject-row"><span>gap</span><b id="subjGap">—</b></div>

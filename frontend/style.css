@@ -128,3 +128,22 @@ html, body { height:100%; margin:0; background:var(--navy); color:var(--cream); 
 .cams-list div b { font-weight:400; text-align:right; }
 
 [hidden] { display:none !important; }
+
+/* map popups — HUD themed */
+.maplibregl-popup-content { background:var(--hud-ink); color:var(--cream); padding:8px 10px; border-radius:0; font-family:var(--font-lcd); font-size:18px; line-height:1.25;
+  box-shadow:0 0 0 var(--px) var(--hud-dark), inset 0 0 0 2px var(--hud-mid); }
+.maplibregl-popup-anchor-bottom .maplibregl-popup-tip { border-top-color:var(--hud-dark); }
+.maplibregl-popup-anchor-top .maplibregl-popup-tip { border-bottom-color:var(--hud-dark); }
+.maplibregl-popup-anchor-left .maplibregl-popup-tip { border-right-color:var(--hud-dark); }
+.maplibregl-popup-anchor-right .maplibregl-popup-tip { border-left-color:var(--hud-dark); }
+.maplibregl-popup-close-button { color:var(--cream); font-size:18px; padding:2px 8px; }
+.cam-pop { width:336px; }
+.cam-pop .hd { display:flex; align-items:baseline; gap:8px; font-family:var(--font-px); font-size:9px; margin-bottom:6px; }
+.cam-pop .hd .id { color:#9EC1F0; } .cam-pop .hd .st { margin-left:auto; color:var(--green); } .cam-pop .hd .st.dead { color:var(--coral); }
+.cam-pop .name { font-size:19px; margin-bottom:6px; color:var(--cream); }
+.cam-pop .view { position:relative; width:320px; height:180px; background:#000; box-shadow:0 0 0 2px var(--hud-dark); overflow:hidden; }
+.cam-pop .view img, .cam-pop .view video { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block; }
+.cam-pop .view video { opacity:0; transition:opacity .3s; } .cam-pop .view video.on { opacity:1; }
+.cam-pop .badge { position:absolute; left:6px; top:6px; font-family:var(--font-px); font-size:7px; padding:3px 6px; background:rgba(11,34,71,.85); color:#9EC1F0; }
+.cam-pop .badge.live { color:var(--coral); }
+.cam-pop .hint { font-size:15px; color:#7FA6DA; margin-top:6px; }

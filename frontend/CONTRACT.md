@@ -26,7 +26,7 @@ Changes after the freeze require all three of us to agree. Expect zero.
 `id`, `t`, `track_id`, `at` `[lat, lon]`, `at_camera`, `branches[]` of `{label, p, path[[lat,lon],...]}` (p sums to 1), then later `actual` + `resolved_at` once known.
 
 ## camera  (ingestion health)
-`id`, `name`, `lat`, `lon`, `kind` (`sdot` \| `wsdot`), `alive` bool.
+`id`, `name`, `lat`, `lon`, `kind` (`sdot` \| `wsdot`), `alive` bool, optional `image` (still JPEG url) and `stream` (HLS m3u8 url; SDOT streams are 1080p, ~10 s chunks).
 
 ## track
 `id`, `label`, `class`, optional `color` (`amber` = the consenting subject).
