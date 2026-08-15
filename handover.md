@@ -39,6 +39,17 @@ clips (no clips exist yet — `prep_clips.py` has not been run on real footage).
 - **DNS was fixed with sudo** (`resolvectl dns wlP9s9 1.1.1.1 1.0.0.1`);
   non-persistent, redo after reconnect. Details in `deploy/vss/README.md`.
 - Both API keys that were pasted into chats today should be rotated after the demo.
+- **Routing engine built** (the "Routing — team-built entirely" box). `pipeline/roadgraph.py`
+  = OSM road graph for downtown + SLU (12k nodes / 21k directed edges, cached in
+  `data/road_graph.json`, stdlib Dijkstra, respects one-ways). `pipeline/predict.py`
+  = trajectory prediction: candidate next cameras reachable by road within the
+  horizon at the observed speed, scored by total path turning vs current heading
+  and road distance, softmax → branches with street-following paths in the
+  contract's `prediction` shape; `resolve()` fills `actual` from later sightings.
+  `python -m pipeline.predict --from-frontend --every` replays the fake rides:
+  the actual next camera is the top branch in nearly every case.
+  `--write` → `data/predictions.json`, which `build_payload.py` now merges.
+  Speed defaults to scooter; pass `--speed 10` for a car. 46 tests pass.
 
 ## Where this stands
 

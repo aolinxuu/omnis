@@ -259,6 +259,79 @@ class TestDataFiles(unittest.TestCase):
         self.assertEqual(ts, sorted(ts))
 
 
+class TestRouting(unittest.TestCase):
+    """pipeline/roadgraph.py + pipeline/predict.py: classical, no LLM."""
+
+    def test_bearing_and_turn(self):
+        from pipeline.roadgraph import bearing_deg, turn_deg
+        n = bearing_deg({"lat": 47.60, "lon": -122.33}, {"lat": 47.61, "lon": -122.33})
+        e = bearing_deg({"lat": 47.60, "lon": -122.33}, {"lat": 47.60, "lon": -122.32})
+        self.assertAlmostEqual(n, 0.0, places=0)
+        self.assertAlmostEqual(e, 90.0, places=0)
+        self.assertAlmostEqual(turn_deg(350.0, 10.0), 20.0)
+        self.assertAlmostEqual(turn_deg(10.0, 350.0), -20.0)
+        self.assertEqual(turn_deg(0.0, 180.0), 180.0)
+
+    def _grid(self):
+        # 3x3 grid, 100 m spacing, two-way, node ids r*3+c
+        from pipeline.roadgraph import RoadGraph
+        nodes, edges = {}, []
+        for r in range(3):
+            for c in range(3):
+                nodes[str(r * 3 + c)] = [47.600 + r * 0.0009, -122.330 + c * 0.00133]
+        for r in range(3):
+            for c in range(3):
+                i = r * 3 + c
+                if c < 2: edges += [[i, i + 1, 100.0, "EW"], [i + 1, i, 100.0, "EW"]]
+                if r < 2: edges += [[i, i + 3, 100.0, "NS"], [i + 3, i, 100.0, "NS"]]
+        return RoadGraph({"nodes": nodes, "edges": edges})
+
+    def test_dijkstra_on_grid(self):
+        g = self._grid()
+        d, path = g.shortest_path(0, 8)
+        self.assertAlmostEqual(d, 400.0)
+        self.assertEqual(path[0], 0); self.assertEqual(path[-1], 8); self.assertEqual(len(path), 5)
+        self.assertIsNone(g.shortest_path(0, 8, max_m=300))
+
+    def test_prediction_prefers_straight_on_and_sums_to_one(self):
+        from pipeline.predict import predict
+        g = self._grid()
+        pos = lambda n: {"lat": g.pos[n]["lat"], "lon": g.pos[n]["lon"]}
+        cams = [dict(id=f"C{n}", name=f"cam{n}", alive=True, **pos(n)) for n in range(9)]
+        # travelling east along the bottom row: node 0 -> node 1 seen; candidates 2 (straight), 4 (turn), ...
+        seen = [dict(id="S1", t="2026-08-15T18:00:00-07:00", camera_id="C0", state="linked", track_id="T-SUBJ", **pos(0)),
+                dict(id="S2", t="2026-08-15T18:00:20-07:00", camera_id="C1", state="linked", track_id="T-SUBJ", **pos(1))]
+        p = predict(cams, seen, g, horizon_s=120)
+        self.assertIsNotNone(p)
+        self.assertEqual(p["at_camera"], "C1")
+        self.assertAlmostEqual(sum(b["p"] for b in p["branches"]), 1.0, places=3)
+        self.assertEqual(p["branches"][0]["camera_id"], "C2", "straight on should rank first")
+        self.assertTrue(all(len(b["path"]) >= 2 for b in p["branches"]))
+        for b in p["branches"]:
+            self.assertEqual(b["path"][0], [round(g.pos[1]["lat"], 6), round(g.pos[1]["lon"], 6)])
+
+    def test_resolve_marks_actual(self):
+        from pipeline.predict import predict, resolve
+        g = self._grid()
+        pos = lambda n: {"lat": g.pos[n]["lat"], "lon": g.pos[n]["lon"]}
+        cams = [dict(id=f"C{n}", name=f"cam{n}", alive=True, **pos(n)) for n in range(9)]
+        seen = [dict(id="S1", t="2026-08-15T18:00:00-07:00", camera_id="C0", state="linked", track_id="T-SUBJ", **pos(0)),
+                dict(id="S2", t="2026-08-15T18:00:20-07:00", camera_id="C1", state="linked", track_id="T-SUBJ", **pos(1))]
+        later = [dict(id="S3", t="2026-08-15T18:00:40-07:00", camera_id="C4", state="linked", track_id="T-SUBJ", **pos(4))]
+        p = resolve(predict(cams, seen, g, horizon_s=120), later)
+        self.assertIn("actual", p); self.assertEqual(p["resolved_at"], later[0]["t"])
+
+    @unittest.skipUnless((ROOT / "data" / "road_graph.json").exists(), "road graph not built")
+    def test_real_graph_routes_along_second_avenue(self):
+        from pipeline.roadgraph import RoadGraph
+        g = RoadGraph.load()
+        a = g.nearest({"lat": 47.609268, "lon": -122.338888})   # 2nd & Pike
+        b = g.nearest({"lat": 47.607347, "lon": -122.337128})   # 2nd & University
+        d, path = g.shortest_path(a, b)
+        self.assertLess(d, 320); self.assertGreater(d, 200)
+        self.assertIn("2nd Avenue", g.street_names(path))
+
+
 if __name__ == "__main__":
     unittest.main()
 
@@ -322,6 +395,79 @@ class TestVSSAnswerParsing(unittest.TestCase):
                   '</agent-think-step></agent-think>\n\nSorry, I wasn\'t able to '
                   'complete your request. Please try again.')
         self.assertTrue(strip_think(failed).startswith("Sorry, I wasn't able"))
+
+
+class TestRouting(unittest.TestCase):
+    """pipeline/roadgraph.py + pipeline/predict.py: classical, no LLM."""
+
+    def test_bearing_and_turn(self):
+        from pipeline.roadgraph import bearing_deg, turn_deg
+        n = bearing_deg({"lat": 47.60, "lon": -122.33}, {"lat": 47.61, "lon": -122.33})
+        e = bearing_deg({"lat": 47.60, "lon": -122.33}, {"lat": 47.60, "lon": -122.32})
+        self.assertAlmostEqual(n, 0.0, places=0)
+        self.assertAlmostEqual(e, 90.0, places=0)
+        self.assertAlmostEqual(turn_deg(350.0, 10.0), 20.0)
+        self.assertAlmostEqual(turn_deg(10.0, 350.0), -20.0)
+        self.assertEqual(turn_deg(0.0, 180.0), 180.0)
+
+    def _grid(self):
+        # 3x3 grid, 100 m spacing, two-way, node ids r*3+c
+        from pipeline.roadgraph import RoadGraph
+        nodes, edges = {}, []
+        for r in range(3):
+            for c in range(3):
+                nodes[str(r * 3 + c)] = [47.600 + r * 0.0009, -122.330 + c * 0.00133]
+        for r in range(3):
+            for c in range(3):
+                i = r * 3 + c
+                if c < 2: edges += [[i, i + 1, 100.0, "EW"], [i + 1, i, 100.0, "EW"]]
+                if r < 2: edges += [[i, i + 3, 100.0, "NS"], [i + 3, i, 100.0, "NS"]]
+        return RoadGraph({"nodes": nodes, "edges": edges})
+
+    def test_dijkstra_on_grid(self):
+        g = self._grid()
+        d, path = g.shortest_path(0, 8)
+        self.assertAlmostEqual(d, 400.0)
+        self.assertEqual(path[0], 0); self.assertEqual(path[-1], 8); self.assertEqual(len(path), 5)
+        self.assertIsNone(g.shortest_path(0, 8, max_m=300))
+
+    def test_prediction_prefers_straight_on_and_sums_to_one(self):
+        from pipeline.predict import predict
+        g = self._grid()
+        pos = lambda n: {"lat": g.pos[n]["lat"], "lon": g.pos[n]["lon"]}
+        cams = [dict(id=f"C{n}", name=f"cam{n}", alive=True, **pos(n)) for n in range(9)]
+        # travelling east along the bottom row: node 0 -> node 1 seen; candidates 2 (straight), 4 (turn), ...
+        seen = [dict(id="S1", t="2026-08-15T18:00:00-07:00", camera_id="C0", state="linked", track_id="T-SUBJ", **pos(0)),
+                dict(id="S2", t="2026-08-15T18:00:20-07:00", camera_id="C1", state="linked", track_id="T-SUBJ", **pos(1))]
+        p = predict(cams, seen, g, horizon_s=120)
+        self.assertIsNotNone(p)
+        self.assertEqual(p["at_camera"], "C1")
+        self.assertAlmostEqual(sum(b["p"] for b in p["branches"]), 1.0, places=3)
+        self.assertEqual(p["branches"][0]["camera_id"], "C2", "straight on should rank first")
+        self.assertTrue(all(len(b["path"]) >= 2 for b in p["branches"]))
+        for b in p["branches"]:
+            self.assertEqual(b["path"][0], [round(g.pos[1]["lat"], 6), round(g.pos[1]["lon"], 6)])
+
+    def test_resolve_marks_actual(self):
+        from pipeline.predict import predict, resolve
+        g = self._grid()
+        pos = lambda n: {"lat": g.pos[n]["lat"], "lon": g.pos[n]["lon"]}
+        cams = [dict(id=f"C{n}", name=f"cam{n}", alive=True, **pos(n)) for n in range(9)]
+        seen = [dict(id="S1", t="2026-08-15T18:00:00-07:00", camera_id="C0", state="linked", track_id="T-SUBJ", **pos(0)),
+                dict(id="S2", t="2026-08-15T18:00:20-07:00", camera_id="C1", state="linked", track_id="T-SUBJ", **pos(1))]
+        later = [dict(id="S3", t="2026-08-15T18:00:40-07:00", camera_id="C4", state="linked", track_id="T-SUBJ", **pos(4))]
+        p = resolve(predict(cams, seen, g, horizon_s=120), later)
+        self.assertIn("actual", p); self.assertEqual(p["resolved_at"], later[0]["t"])
+
+    @unittest.skipUnless((ROOT / "data" / "road_graph.json").exists(), "road graph not built")
+    def test_real_graph_routes_along_second_avenue(self):
+        from pipeline.roadgraph import RoadGraph
+        g = RoadGraph.load()
+        a = g.nearest({"lat": 47.609268, "lon": -122.338888})   # 2nd & Pike
+        b = g.nearest({"lat": 47.607347, "lon": -122.337128})   # 2nd & University
+        d, path = g.shortest_path(a, b)
+        self.assertLess(d, 320); self.assertGreater(d, 200)
+        self.assertIn("2nd Avenue", g.street_names(path))
 
 
 if __name__ == "__main__":

@@ -27,6 +27,7 @@ from .common import (DATA, FRONTEND_PAYLOAD, PIPELINE_OUT, ROOT, STATES,
                      to_iso, write_json)
 
 BUILT = DATA / "frontend-payload.json"
+PREDICTIONS_JSON = DATA / "predictions.json"   # written by pipeline/predict.py --write
 SUBJECT_TRACK = "T-SUBJ"
 LOST_GAP_S = 150.0     # linked-to-linked gap beyond which the subject is lost
 
@@ -185,7 +186,8 @@ def main() -> None:
         "sightings": sightings,
         # Routing/branch prediction is out of scope for this build. The frontend
         # renders an empty list without complaint.
-        "predictions": [],
+        "predictions": (load_json(PREDICTIONS_JSON).get("predictions", [])
+                        if PREDICTIONS_JSON.exists() else []),
         "events": build_events(cams, sightings, t0, captions),
         "ground_truth": wave["waves"],
     }

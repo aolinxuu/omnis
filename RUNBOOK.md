@@ -134,3 +134,18 @@ re-identification.
   come from logged waves plus ≥90 s padding. Detection searches the whole clip
   independently. `tests/test_pipeline.py` asserts `detect.py`'s source contains
   no reference to the wave log, so the circularity cannot creep back in.
+
+
+## Trajectory prediction (added 2026-08-15)
+
+After `detect.py` has produced `data/sightings.json` with linked subject sightings:
+
+```
+python -m pipeline.predict --every --write      # one prediction per sighting, resolved against later ones
+python -m pipeline.build_payload --validate      # merges data/predictions.json into the payload
+```
+
+Road graph lives in `data/road_graph.json` (OSM, downtown + SLU). Rebuild with
+`python -m pipeline.roadgraph --build <overpass.json>` if the corridor moves;
+the Overpass query is in the module docstring's spirit: highway=* drivable + cycleway
+in bbox 47.594,-122.356,47.634,-122.318.
