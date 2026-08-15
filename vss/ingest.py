@@ -6,8 +6,9 @@ Order matters, and it is the order the build doc gives:
 2. every clip in clips/ ingested
 3. index confirmed populated with one trivial query
 
-Writes vss/ingest-index.json mapping camera_id -> VSS file id. query.py joins on
-it, so a camera missing here is a camera the query box cannot reach.
+Writes vss/ingest-index.json mapping camera_id -> VSS sensor_id (VST's id for the
+uploaded video) plus the upload name you refer to it by in questions. query.py
+joins on it, so a camera missing here is a camera the query box cannot reach.
 
     python -m vss.ingest --wait
     python -m vss.ingest --smoke-test
@@ -25,7 +26,7 @@ from pipeline.common import CLIP_INDEX, ROOT, load_json, write_json  # noqa: E40
 from vss.client import DEFAULT_ENDPOINT, VSSClient, VSSError  # noqa: E402
 
 INGEST_INDEX = ROOT / "vss" / "ingest-index.json"
-DEFAULT_MODEL = "vila-1.5"
+DEFAULT_MODEL = "agent"  # 3.2.1 picks the VLM server-side; kept for the index meta only
 
 SMOKE_QUESTION = "Describe what happens in this video in one sentence."
 
@@ -69,7 +70,7 @@ def main() -> None:
         if args.only and cam not in args.only:
             continue
         if cam in mapping and not args.reingest:
-            print(f"{cam}  already ingested ({mapping[cam]['file_id']})")
+            print(f"{cam}  already ingested ({mapping[cam]['sensor_id']})")
             continue
 
         clip = ROOT / entry["clip"]
@@ -78,26 +79,38 @@ def main() -> None:
             failures.append(cam)
             continue
 
+        # Upload name = camera id, so a question can say "In the video CMR-0302, ...".
+        # Uploading the same name twice makes a second sensor in VST, so remove
+        # the old one first when re-ingesting.
+        name = f"{cam}.mp4"
+        existing_video = client.find_video(name)
+        if existing_video and args.reingest:
+            try:
+                client.delete_video(existing_video["sensorId"])
+            except VSSError as exc:
+                print(f"{cam}  could not delete old upload: {exc}", file=sys.stderr)
         try:
-            file_id = client.upload(clip)
+            info = client.upload(clip, name=name)
         except VSSError as exc:
             print(f"{cam}  UPLOAD FAILED: {exc}", file=sys.stderr)
             failures.append(cam)
             continue
+        sensor_id = info["sensor_id"]
 
         mapping[cam] = {
-            "file_id": file_id,
+            "sensor_id": sensor_id,
+            "video": Path(name).stem,
             "clip": entry["clip"],
             # Carried through so query.py can turn a clip-local hit back into
             # wall clock without re-reading clips.json.
             "clip_offset_s": entry["clip_offset_s"],
             "duration_s": entry["duration_s"],
         }
-        print(f"{cam}  -> {file_id}")
+        print(f"{cam}  -> {sensor_id}")
 
     write_json(INGEST_INDEX, {
         "meta": {"endpoint": client.endpoint, "model": args.model,
-                 "note": "camera_id -> VSS file id. query.py joins on this."},
+                 "note": "camera_id -> VST sensor_id + upload name. query.py joins on this."},
         "files": mapping,
     })
     print(f"\nwrote {INGEST_INDEX.relative_to(ROOT)}  ({len(mapping)} clips indexed)")
@@ -109,11 +122,11 @@ def main() -> None:
         cam, info = next(iter(mapping.items()))
         print(f"\nsmoke test on {cam}...")
         try:
-            reply = client.ask(info["file_id"], SMOKE_QUESTION, args.model)
+            reply = client.ask(info["video"], SMOKE_QUESTION)
         except VSSError as exc:
             print(f"  index NOT queryable: {exc}", file=sys.stderr)
             sys.exit(1)
-        print(f"  {str(reply)[:400]}")
+        print(f"  {reply['answer'][:400]}")
         print("  index is populated and queryable")
 
     sys.exit(1 if failures else 0)

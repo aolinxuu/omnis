@@ -270,13 +270,20 @@ class TestVSSIdentity(unittest.TestCase):
         from vss.client import identify, looks_like_vss
         self.looks_like_vss, self.identify = looks_like_vss, identify
 
-    def test_real_vss_surface_accepted(self):
+    def test_real_321_surface_accepted(self):
+        """The 3.2.1 agent on gn100-223b:8010 (verified live 2026-08-15)."""
+        live = {"/openapi.json", "/generate", "/chat", "/v1/chat/completions",
+                "/api/v1/videos", "/api/v1/videos/{sensor_id}/complete",
+                "/api/v1/videos-for-search/{filename}", "/api/v1/videos/{video_id}"}
+        self.assertTrue(self.looks_like_vss(live))
+
+    def test_legacy_surface_still_accepted(self):
         self.assertTrue(self.looks_like_vss(
             {"/files", "/summarize", "/chat/completions", "/health/ready"}))
 
     def test_vllm_surface_rejected(self):
         """Observed on gn100-223b:8000 - answers /health 200, shares
-        /v1/chat/completions, but has no /files."""
+        /v1/chat/completions, but has no video ingest."""
         vllm = {"/health", "/ping", "/v1/models", "/v1/chat/completions",
                 "/tokenize", "/detokenize", "/v1/completions", "/metrics"}
         self.assertFalse(self.looks_like_vss(vllm))
@@ -284,3 +291,38 @@ class TestVSSIdentity(unittest.TestCase):
 
     def test_chat_completions_alone_is_not_enough(self):
         self.assertFalse(self.looks_like_vss({"/v1/chat/completions"}))
+        self.assertFalse(self.looks_like_vss({"/generate", "/chat"}))
+
+
+class TestVSSAnswerParsing(unittest.TestCase):
+    """The agent wraps its trace in <agent-think>; callers want the answer and
+    the VLM tool's own words. Sample is a real reply from the box."""
+
+    RAW = ('<agent-think><agent-think-step title="1 - Thought">Plan: 1. Call '
+           '`video_understanding` with sensor_id=\'westlake-22s\'</agent-think-step>\n'
+           '<agent-think-step title="2 - Tool Call">Tool: video_understanding Args: '
+           "{'sensor_id': 'westlake-22s'} Result: Yes, a person on the sidewalk is "
+           'waving. They are wearing a grey shirt.</agent-think-step></agent-think>'
+           '\n\nThe video analysis confirms that a person is waving at the camera.')
+
+    def test_strip_think(self):
+        from vss.client import strip_think
+        self.assertEqual(strip_think(self.RAW),
+                         "The video analysis confirms that a person is waving at the camera.")
+
+    def test_think_steps_extracted(self):
+        from vss.client import think_steps
+        steps = think_steps(self.RAW)
+        self.assertEqual(len(steps), 2)
+        self.assertIn("video_understanding", steps[1])
+
+    def test_failure_is_detectable(self):
+        from vss.client import strip_think
+        failed = ('<agent-think><agent-think-step title="1 - Error">Error: Cannot connect'
+                  '</agent-think-step></agent-think>\n\nSorry, I wasn\'t able to '
+                  'complete your request. Please try again.')
+        self.assertTrue(strip_think(failed).startswith("Sorry, I wasn't able"))
+
+
+if __name__ == "__main__":
+    unittest.main()

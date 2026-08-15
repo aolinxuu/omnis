@@ -1,4 +1,4 @@
-"""Natural-language query over the ingested clips.
+"""Natural-language query over the ingested clips (VSS 3.2.1 agent).
 
 Text in, ranked clip segments out. Every hit carries the camera it came from and
 a wall-clock time, because a segment the operator cannot place on the map and
@@ -99,12 +99,14 @@ def search(client: VSSClient, files: dict[str, Any], question: str, model: str,
         if only is not None and cam_id not in only:
             continue
         try:
-            raw = client.ask(info["file_id"], QUERY_PROMPT.format(q=question), model)
+            reply = client.ask(info["video"], QUERY_PROMPT.format(q=question))
         except VSSError as exc:
             print(f"  {cam_id}: query failed - {exc}", file=sys.stderr)
             continue
 
-        parsed = parse(reply_text(raw))
+        # Prefer the VLM tool's own words over the routing agent's paraphrase;
+        # the constrained VERDICT/TIME/DETAIL format survives better there.
+        parsed = parse(reply["tool_result"] or reply["answer"])
         if not parsed["hit"]:
             continue
 
@@ -143,11 +145,12 @@ def do_captions(client: VSSClient, files: dict[str, Any], model: str,
             continue
         t_clip = (datetime.fromisoformat(s["t"]) - t0).total_seconds() - info["clip_offset_s"]
         try:
-            raw = client.ask(info["file_id"], CAPTION_PROMPT.format(t=t_clip), model)
+            reply = client.ask(info["video"], CAPTION_PROMPT.format(t=t_clip),
+                               start_s=max(0.0, t_clip - 5), end_s=t_clip + 5)
         except VSSError as exc:
             print(f"  {s['id']} {s['camera_id']}: {exc}", file=sys.stderr)
             continue
-        text = reply_text(raw).strip().strip('"')
+        text = (reply["tool_result"] or reply["answer"]).strip().strip('"')
         if text and text.upper() != "NONE":
             captions[s["id"]] = text
             print(f"  {s['id']}  {s['camera_id']}  {text}")

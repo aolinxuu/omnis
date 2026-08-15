@@ -8,6 +8,38 @@ live on the box; ask the user for the SSH password.
 
 ---
 
+## Update 2026-08-15 evening — VSS wrappers fixed, end-to-end proven
+
+Everything in the "Next steps" list below is done except re-ingesting the demo
+clips (no clips exist yet — `prep_clips.py` has not been run on real footage).
+
+- `vss/client.py` rewritten against the real 3.2.1 surface (verified live):
+  `PUT /api/v1/videos-for-search/{filename}` → `sensor_id`; `POST /generate`
+  with `input_message`; VST list at `:30888/vst/api/v1/sensor/list`; identity
+  = `/api/v1/videos` (legacy `/files`+`/summarize` still accepted); no `/health`.
+  Default endpoint `http://localhost:8010`. `python -m vss.client --list --ask <video> "<q>"`.
+- **Scoping a query to one video: name it in the message.** The agent is a NAT
+  planner with tools `video_understanding(sensor_id, start_ts, end_ts, prompt)`,
+  `vst_video_list`, `vst_video_clip`, `vst_snapshot`, `report_agent`; it picks
+  the sensor from the filename you mention. `VSSClient.ask()` prefixes
+  "In the video <name>, ...".
+- `vss/ingest.py` writes `sensor_id` + `video` (upload name = camera id);
+  `vss/query.py` uses `ask()` and prefers the VLM tool's own text.
+- Tests: 41 pass (`TestVSSIdentity` rewritten, `TestVSSAnswerParsing` added).
+- **Proven:** `/tmp/westlake-22s.mp4` uploaded (sensor
+  `040cd9e7-0f4d-41c3-bfbb-2a37473d1887`, name `westlake-22s`). Asked *"is
+  anyone waving at the camera?"* → *"Yes … person on the sidewalk in the lower
+  right corner, grey shirt and dark pants, waving from about 00:08."*
+- **Model backend changed to fully local.** The NGC key is 403 for hosted
+  inference (both the key on the box and a second one tried), and the remote
+  config had a `/v1/v1` URL bug. The agent now uses the multimodal
+  `nvidia/Qwen3.6-35B-A3B-NVFP4` on `nemoclaw-vllm:8000` for LLM and VLM. See
+  `deploy/vss/README.md` for the override, the config patch, and how to switch
+  back to Nemotron + Cosmos-Reason2 when a working build.nvidia.com key lands.
+- **DNS was fixed with sudo** (`resolvectl dns wlP9s9 1.1.1.1 1.0.0.1`);
+  non-persistent, redo after reconnect. Details in `deploy/vss/README.md`.
+- Both API keys that were pasted into chats today should be rotated after the demo.
+
 ## Where this stands
 
 | Piece | State |

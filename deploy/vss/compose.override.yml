@@ -1,16 +1,7 @@
-# Copy to ~/vss-blueprint/deploy/docker/compose.override.yml
-#
-# The nvidia container runtime is not registered with dockerd on gn100-223b and
-# there is no /etc/docker/daemon.json, so "runtime: nvidia" fails with
-#   unknown or invalid runtime name: nvidia
-# But CDI *is* configured (/var/run/cdi/nvidia.yaml, nvidia.com/gpu=all) and the
-# user's nemoclaw-vllm already takes the GPU that way, via plain runc + device
-# requests. These two services are the only ones in the base profile that ask
-# for the nvidia runtime, so grant them the GPU via CDI instead. This avoids a
-# root-level daemon change.
-#
-# Proper fix, if root is available:
-#   sudo nvidia-ctk runtime configure --runtime=docker && sudo systemctl restart docker
+# The nvidia container runtime is not registered with dockerd on this box, but
+# CDI is configured (/var/run/cdi/nvidia.yaml) and nemoclaw-vllm already uses it
+# via plain runc + device requests. Grant these two the GPU the same way instead
+# of requiring "runtime: nvidia", which avoids a root-level daemon change.
 services:
   sensor-ms:
     runtime: runc
@@ -18,3 +9,21 @@ services:
   streamprocessing-ms:
     runtime: runc
     gpus: all
+
+  # Local-model mode (added 2026-08-15): the NGC key on this box is not entitled for
+  # integrate.api.nvidia.com inference (403), so route the agent's LLM and VLM to the
+  # multimodal vLLM already running on the host (nemoclaw-vllm, port 8000). The agent
+  # uses host networking, so localhost is the host. Note the NAT config appends /v1
+  # itself, so *_BASE_URL must NOT end in /v1 (the previous remote setting did, which
+  # produced /v1/v1 -> 404). To go back to hosted NVIDIA models: delete this block,
+  # set LLM_BASE_URL/VLM_BASE_URL=https://integrate.api.nvidia.com in generated.env,
+  # and recreate vss-agent.
+  vss-agent:
+    environment:
+      LLM_MODEL_TYPE: vllm
+      VLM_MODEL_TYPE: vllm
+      LLM_NAME: nvidia/Qwen3.6-35B-A3B-NVFP4
+      VLM_NAME: nvidia/Qwen3.6-35B-A3B-NVFP4
+      LLM_BASE_URL: http://localhost:8000
+      VLM_BASE_URL: http://localhost:8000
+      LLM_ENABLE_THINKING: "false"

@@ -9,6 +9,27 @@ Full context, including the five blockers already solved, is in
 
 ## Shape of the deployment
 
+**Current (since 2026-08-15 evening): fully local.** VSS services local, and the
+agent's LLM *and* VLM are the multimodal `nvidia/Qwen3.6-35B-A3B-NVFP4` that
+`nemoclaw-vllm` already serves on the host at `:8000`. This is set by the
+`vss-agent` block in `compose.override.yml` (`*_MODEL_TYPE=vllm`,
+`*_BASE_URL=http://localhost:8000` — no `/v1`, the NAT config appends it) plus
+`patch-agent-config.sh`, which disables Qwen's thinking mode in the `vllm_vlm`
+profile so it answers instead of reasoning into the token limit.
+
+Why: the NGC key on the box returns **403 "Authorization failed"** for chat
+completions on `integrate.api.nvidia.com` (`/v1/models` says 200, which is what
+fooled the earlier check). And independently, the remote setting had
+`LLM_BASE_URL=https://integrate.api.nvidia.com/v1`, which the config turns into
+`/v1/v1/...` → 404 ("Page not found", surfaced as `Unknown Error age not found`).
+
+To go back to hosted Nemotron + Cosmos-Reason2 once a working
+build.nvidia.com key is in `~/.ngc-env`: remove the `vss-agent` block from the
+override, set `LLM_BASE_URL`/`VLM_BASE_URL=https://integrate.api.nvidia.com`
+(no `/v1`) in `developer-profiles/dev-profile-base/generated.env`, and recreate
+`vss-agent` (command at the bottom of `patch-agent-config.sh`).
+
+The original design, kept for reference:
 Hybrid: **VSS services run locally, the VLM and LLM run on NVIDIA's hosted API.**
 
 That is not the default, and it is deliberate. `nvcr.io/nim/*` returns
@@ -52,9 +73,15 @@ cp run-up.sh ~/ && setsid nohup bash ~/run-up.sh >/dev/null 2>&1 </dev/null & di
 
 Watch `/tmp/vss-up.log`; `/tmp/vss-up.done` appears when it finishes.
 
-**Pull images sequentially with retries.** The systemd-resolved stub on this
-network drops roughly one DNS query in three, and compose's parallel pull fails
-on it. A loop of `docker pull` per image, retried, gets through.
+**DNS.** The systemd-resolved stub forwards to OpenDNS (208.67.x), which on
+the venue network fails outright some of the time (it was 100% down on the
+evening of 2026-08-15 — the agent could not resolve `integrate.api.nvidia.com`).
+Fix, needs sudo (acer01 has it, password = login password), non-persistent:
+
+    sudo resolvectl dns wlP9s9 1.1.1.1 1.0.0.1 && sudo resolvectl flush-caches
+
+Re-run after a Wi-Fi reconnect or reboot. Also pull images sequentially with
+retries; compose's parallel pull trips on flaky DNS.
 
 ## Endpoints once up
 
