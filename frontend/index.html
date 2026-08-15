@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Omnis Tracker</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+<link href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" rel="stylesheet">
+<script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+<link rel="stylesheet" href="style.css">
+<script>window.__errs=[];addEventListener("error",e=>__errs.push(String(e.message)));addEventListener("unhandledrejection",e=>__errs.push("rej:"+String(e.reason&&e.reason.stack||e.reason)));</script>
+</head>
+<body>
+<div id="map" style="position:fixed;inset:0"></div>
+<div class="scanlines" aria-hidden="true"></div>
+
+<!-- HUD chrome -->
+<div class="hud">
+
+  <!-- brand plate -->
+  <div class="brand"><img id="logo" src="static/spider-mask-transparent.png" alt="Omnis" width="40" height="40"><div><div class="brand-name">OMNIS</div><div class="brand-sub">rider tracker · seattle</div></div></div>
+
+
+  <!-- top-left: raw camera tile -->
+  <section class="panel cam" id="camPanel">
+    <header><span class="dot live"></span><span id="camId">CMR-----</span><span class="cam-name" id="camName">waiting for feed</span></header>
+    <canvas id="camCanvas" width="256" height="176"></canvas>
+    <footer><span id="camClass">—</span><span id="camConf">conf —</span></footer>
+  </section>
+
+  <!-- top-center: callout -->
+  <div class="callout" id="callout" hidden>
+    <div class="callout-eyebrow" id="calloutEyebrow">SUBJECT SIGHTED</div>
+    <div class="callout-text" id="calloutText">2nd Ave &amp; Pike St · 0.92</div>
+  </div>
+
+  <!-- top-right: LCD + status -->
+  <section class="panel lcd-panel">
+    <div class="lcd-label">UNLINKED SIGHTINGS</div>
+    <div class="lcd" id="lcdUnlinked">0x0000</div>
+    <div class="lcd-row"><span class="lcd-label">CLOCK</span><span class="lcd small" id="lcdClock">--:--:--</span></div>
+    <div class="lcd-row"><span class="lcd-label">CAMS</span><span class="lcd small" id="lcdCams">--/--</span></div>
+    <div class="lcd-row"><span class="lcd-label">FEED</span><span class="lcd small" id="lcdFeed">REPLAY ×6</span></div>
+  </section>
+
+  <!-- left rail: counters -->
+  <aside class="rail">
+    <div class="tile"><b id="cntSight">0</b><span>SIGHT</span></div>
+    <div class="tile"><b id="cntTrack">0</b><span>TRACK</span></div>
+    <div class="tile lost"><b id="cntLost">0</b><span>LOST</span></div>
+    <div class="legend">
+      <div><i class="sw s-detected"></i>detected</div>
+      <div><i class="sw s-unverified"></i>unverified</div>
+      <div><i class="sw s-confirmed"></i>confirmed</div>
+      <div><i class="sw s-linked"></i>subject</div>
+      <div><i class="sw s-lost"></i>lost</div>
+    </div>
+  </aside>
+
+  <!-- subject card -->
+  <section class="panel subject" id="subjectPanel">
+    <header>T-SUBJ · PRESENTER · CONSENTED</header>
+    <div class="subject-row"><span>last cam</span><b id="subjCam">—</b></div>
+    <div class="subject-row"><span>conf</span><b id="subjConf">—</b></div>
+    <div class="subject-row"><span>gap</span><b id="subjGap">—</b></div>
+    <div class="subject-row"><span>search radius</span><b id="subjRadius">—</b></div>
+    <div class="subject-row"><span>reachable cams</span><b id="subjReach">—</b></div>
+    <div class="confbar"><i id="subjConfBar"></i></div>
+  </section>
+
+  <!-- prediction card -->
+  <section class="panel predict" id="predictPanel" hidden>
+    <header>ROUTE SPLIT · <span id="predAt">—</span></header>
+    <ol id="predList"></ol>
+    <div class="pred-actual" id="predActual"></div>
+  </section>
+
+  <!-- camera list -->
+  <section class="panel camsp" id="camsPanel" hidden>
+    <header>CAMERAS IN VICINITY · <span id="camsCount">0</span></header>
+    <div class="cams-list" id="camsList"></div>
+  </section>
+
+  <!-- eval panel -->
+  <section class="panel evalp" id="evalPanel" hidden>
+    <header>EVAL · WAVE GROUND TRUTH vs SYSTEM</header>
+    <table id="evalTable"><thead><tr><th>camera</th><th>wave</th><th>found</th><th>result</th></tr></thead><tbody></tbody></table>
+    <footer><span id="evalRecall">recall —</span><span id="evalPrec">precision —</span></footer>
+  </section>
+
+  <!-- bottom: ticker + buttons -->
+  <footer class="bottom">
+    <div class="ticker"><div class="ticker-track" id="ticker"></div></div>
+    <div class="buttons">
+      <button id="btnPlay" class="btn green">PAUSE</button>
+      <button id="btnFreeze" class="btn cream">FREEZE @ SPLIT</button>
+      <button id="btnCenter" class="btn cream">CENTER</button>
+      <button id="btnCluster" class="btn cream on">CLUSTER</button>
+      <button id="btnRestart" class="btn cream">RESTART</button>
+      <button id="btnSpeed" class="btn cream">×6</button>
+      <button id="btnEval" class="btn cream">EVAL</button>
+      <button id="btnCams" class="btn cream">CAMS</button>
+    </div>
+  </footer>
+</div>
+
+<script type="module" src="app.js"></script>
+</body>
+</html>
