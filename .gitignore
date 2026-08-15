@@ -1,6 +1,17 @@
 .venv/
 __pycache__/
 *.pyc
-/data/
 *.pt
 .DS_Store
+
+# Raw capture and generated pipeline output stay out of git. The two
+# hand-maintained config files under data/ do not.
+/data/*
+!/data/cameras.json
+!/data/wave-log.json
+!/data/raw-manifest.json
+
+/clips/
+/raw/
+/vss/ingest-index.json
+!/data/raw-manifest.example.json

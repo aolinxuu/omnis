@@ -1,0 +1,276 @@
+"""Natural-language query over the ingested clips.
+
+Text in, ranked clip segments out. Every hit carries the camera it came from and
+a wall-clock time, because a segment the operator cannot place on the map and
+the timeline is not an answer.
+
+Three modes:
+
+    python -m vss.query "person in orange on a scooter"
+    python -m vss.query "..." --reachable-at 6 --uncertainty 1   # search only
+                                                                 # reachable cameras
+    python -m vss.query --captions        # write data/captions.json for the ticker
+    python -m vss.query "..." --repeat 3  # the doc's "three times in a row" gate
+
+`--serve` exposes GET /query?q=... on localhost for a frontend query box to call.
+The frontend is frozen in this build, so nothing calls it yet; it exists so
+wiring it later is a two-line change on the frontend side.
+"""
+
+from __future__ import annotations
+
+import argparse
+import json
+import re
+import sys
+from datetime import datetime
+from pathlib import Path
+from typing import Any
+
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+
+from pipeline.common import (DATA, PIPELINE_OUT, ROOT, camera_index,  # noqa: E402
+                             load_cameras, load_json, load_t0, to_iso, write_json)
+from pipeline.reachability import reachable  # noqa: E402
+from vss.client import DEFAULT_ENDPOINT, VSSClient, VSSError  # noqa: E402
+from vss.ingest import DEFAULT_MODEL, INGEST_INDEX  # noqa: E402
+
+CAPTIONS_OUT = DATA / "captions.json"
+
+# Tuned against the blueprint's Q&A behaviour: force a parseable first token so
+# ranking does not depend on prose, and demand a timestamp so hits are placeable.
+QUERY_PROMPT = (
+    "You are reviewing traffic camera footage. Question: {q}\n"
+    "Answer in exactly this format and nothing else:\n"
+    "VERDICT: YES or NO\n"
+    "TIME: the timestamp in seconds from the start of this clip, or NONE\n"
+    "DETAIL: one short sentence describing what you see, or NONE"
+)
+
+CAPTION_PROMPT = (
+    "Describe, in one short sentence under twelve words, the person on a bicycle "
+    "or scooter visible around {t:.0f} seconds into this clip. Mention their "
+    "clothing colour and direction of travel. If nobody is visible, answer NONE."
+)
+
+NEGATIVE = re.compile(r"\b(no|none|not|nobody|cannot|isn't|there is no)\b", re.I)
+
+
+def reply_text(reply: Any) -> str:
+    """VSS answers in an OpenAI-ish envelope; tolerate the plain-string case."""
+    if isinstance(reply, str):
+        return reply
+    if isinstance(reply, dict):
+        choices = reply.get("choices")
+        if choices:
+            msg = choices[0].get("message", {})
+            return msg.get("content") or choices[0].get("text", "")
+        for key in ("response", "content", "text", "answer"):
+            if key in reply:
+                return str(reply[key])
+    return json.dumps(reply)
+
+
+def parse(text: str) -> dict[str, Any]:
+    """Pull verdict / time / detail out of the constrained answer format."""
+    verdict = re.search(r"VERDICT:\s*(YES|NO)", text, re.I)
+    tm = re.search(r"TIME:\s*([0-9]+(?:\.[0-9]+)?)", text, re.I)
+    detail = re.search(r"DETAIL:\s*(.+)", text, re.I)
+
+    if verdict:
+        hit = verdict.group(1).upper() == "YES"
+    else:  # model ignored the format - fall back to reading the prose
+        hit = not NEGATIVE.search(text[:80])
+
+    d = detail.group(1).strip() if detail else text.strip()[:160]
+    return {
+        "hit": hit and d.upper() != "NONE",
+        "t_clip": float(tm.group(1)) if tm else None,
+        "detail": d,
+    }
+
+
+def search(client: VSSClient, files: dict[str, Any], question: str, model: str,
+           t0: datetime, cams: dict[str, dict[str, Any]],
+           only: set[str] | None = None) -> list[dict[str, Any]]:
+    """Ask every ingested clip, return the hits ranked by clip order."""
+    results = []
+    for cam_id, info in files.items():
+        if only is not None and cam_id not in only:
+            continue
+        try:
+            raw = client.ask(info["file_id"], QUERY_PROMPT.format(q=question), model)
+        except VSSError as exc:
+            print(f"  {cam_id}: query failed - {exc}", file=sys.stderr)
+            continue
+
+        parsed = parse(reply_text(raw))
+        if not parsed["hit"]:
+            continue
+
+        t_clip = parsed["t_clip"]
+        seed_rel = info["clip_offset_s"] + (t_clip if t_clip is not None else 0.0)
+        results.append({
+            "camera_id": cam_id,
+            "camera_name": cams.get(cam_id, {}).get("name", cam_id),
+            "lat": cams.get(cam_id, {}).get("lat"),
+            "lon": cams.get(cam_id, {}).get("lon"),
+            "t_clip_s": t_clip,
+            "t": to_iso(t0, seed_rel),
+            "seed_rel_s": round(seed_rel, 1),
+            "detail": parsed["detail"],
+            "approximate_time": t_clip is None,
+        })
+
+    results.sort(key=lambda r: r["seed_rel_s"])
+    return results
+
+
+def do_captions(client: VSSClient, files: dict[str, Any], model: str,
+                t0: datetime) -> dict[str, str]:
+    """Caption the subject sightings, for the ticker and the sighting note field."""
+    if not PIPELINE_OUT.exists():
+        print(f"missing {PIPELINE_OUT.relative_to(ROOT)} - run detect.py first",
+              file=sys.stderr)
+        sys.exit(2)
+
+    captions: dict[str, str] = {}
+    for s in load_json(PIPELINE_OUT)["sightings"]:
+        if s["state"] not in ("linked", "confirmed"):
+            continue
+        info = files.get(s["camera_id"])
+        if not info:
+            continue
+        t_clip = (datetime.fromisoformat(s["t"]) - t0).total_seconds() - info["clip_offset_s"]
+        try:
+            raw = client.ask(info["file_id"], CAPTION_PROMPT.format(t=t_clip), model)
+        except VSSError as exc:
+            print(f"  {s['id']} {s['camera_id']}: {exc}", file=sys.stderr)
+            continue
+        text = reply_text(raw).strip().strip('"')
+        if text and text.upper() != "NONE":
+            captions[s["id"]] = text
+            print(f"  {s['id']}  {s['camera_id']}  {text}")
+    return captions
+
+
+def serve(client: VSSClient, files: dict[str, Any], model: str, t0: datetime,
+          cams: dict[str, dict[str, Any]], port: int) -> None:
+    from http.server import BaseHTTPRequestHandler, HTTPServer
+    from urllib.parse import parse_qs, urlparse
+
+    class Handler(BaseHTTPRequestHandler):
+        def do_GET(self):  # noqa: N802
+            q = parse_qs(urlparse(self.path).query).get("q", [""])[0]
+            if not q:
+                self.send_error(400, "missing q")
+                return
+            try:
+                hits = search(client, files, q, model, t0, cams)
+                body = json.dumps({"query": q, "results": hits}).encode()
+                code = 200
+            except Exception as exc:  # keep the demo alive on a bad query
+                body = json.dumps({"query": q, "error": str(exc)}).encode()
+                code = 500
+            self.send_response(code)
+            self.send_header("Content-Type", "application/json")
+            self.send_header("Access-Control-Allow-Origin", "*")
+            self.send_header("Content-Length", str(len(body)))
+            self.end_headers()
+            self.wfile.write(body)
+
+        def log_message(self, *a):  # quieter console during a demo
+            pass
+
+    print(f"query server on http://127.0.0.1:{port}/query?q=...")
+    HTTPServer(("127.0.0.1", port), Handler).serve_forever()
+
+
+def main() -> None:
+    ap = argparse.ArgumentParser(description=__doc__)
+    ap.add_argument("question", nargs="?", help="natural-language query")
+    ap.add_argument("--endpoint", default=DEFAULT_ENDPOINT)
+    ap.add_argument("--model", default=DEFAULT_MODEL)
+    ap.add_argument("--reachable-at", type=float, default=None,
+                    help="minutes since seed; restricts the search to reachable cameras")
+    ap.add_argument("--uncertainty", type=float, default=0.0)
+    ap.add_argument("--captions", action="store_true",
+                    help="caption detected sightings into data/captions.json")
+    ap.add_argument("--repeat", type=int, default=1,
+                    help="run the query N times and report whether it is stable")
+    ap.add_argument("--serve", type=int, metavar="PORT", default=None)
+    ap.add_argument("--json", action="store_true")
+    args = ap.parse_args()
+
+    if not INGEST_INDEX.exists():
+        print(f"missing {INGEST_INDEX.relative_to(ROOT)} - run vss/ingest.py first",
+              file=sys.stderr)
+        sys.exit(2)
+
+    files = load_json(INGEST_INDEX)["files"]
+    cams_raw = load_cameras()
+    t0 = load_t0(cams_raw)
+    cams = camera_index(cams_raw)
+    client = VSSClient(args.endpoint)
+
+    if args.captions:
+        captions = do_captions(client, files, args.model, t0)
+        write_json(CAPTIONS_OUT, {
+            "meta": {"note": "VSS captions keyed by sighting id; merged by "
+                             "pipeline/build_payload.py into the note field.",
+                     "model": args.model},
+            "captions": captions,
+        })
+        print(f"\nwrote {CAPTIONS_OUT.relative_to(ROOT)}  ({len(captions)} captions)")
+        return
+
+    if args.serve is not None:
+        serve(client, files, args.model, t0, cams, args.serve)
+        return
+
+    if not args.question:
+        ap.error("a question is required unless --captions or --serve is given")
+
+    only = None
+    if args.reachable_at is not None:
+        r = reachable(cams_raw["cameras"], cams_raw["seed"],
+                      args.reachable_at, args.uncertainty)
+        if r["state"] == "too_wide":
+            print(f"TOO WIDE - {r['message']} "
+                  f"({r['count']}/{r['total']} cameras). Narrow the uncertainty "
+                  f"before querying.")
+            sys.exit(3)
+        only = {c["id"] for c in r["cameras"]}
+        print(f"restricted to {len(only)} reachable cameras "
+              f"(radius {r['radius_m']:.0f} m)\n")
+
+    runs = []
+    for i in range(max(1, args.repeat)):
+        hits = search(client, files, args.question, args.model, t0, cams, only)
+        runs.append(hits)
+        if args.repeat > 1:
+            print(f"run {i + 1}: {len(hits)} hit(s) "
+                  f"[{', '.join(h['camera_id'] for h in hits) or '-'}]")
+
+    hits = runs[-1]
+    if args.repeat > 1:
+        shapes = {tuple(h["camera_id"] for h in r) for r in runs}
+        print("STABLE across all runs" if len(shapes) == 1
+              else f"UNSTABLE - {len(shapes)} different result sets. Tune the prompt.")
+
+    if args.json:
+        print(json.dumps({"query": args.question, "results": hits}, indent=2))
+        return
+
+    if not hits:
+        print("no matching segments")
+        return
+    print(f"{len(hits)} segment(s):\n")
+    for h in hits:
+        approx = " (time approximate)" if h["approximate_time"] else ""
+        print(f"  {h['t'][11:19]}  {h['camera_id']}  {h['camera_name']}{approx}")
+        print(f"            {h['detail']}")
+
+
+if __name__ == "__main__":
+    main()
