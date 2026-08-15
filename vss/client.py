@@ -30,8 +30,9 @@ from typing import Any
 try:
     import requests
 except ImportError:  # pragma: no cover - dependency check
-    print("requests not installed:  pip install -r requirements.txt", file=sys.stderr)
-    raise
+    # Deferred, so the pure helpers below stay importable without the dep.
+    # VSSClient() raises with a clear message instead.
+    requests = None  # type: ignore[assignment]
 
 DEFAULT_ENDPOINT = os.environ.get("VSS_API_ENDPOINT", "http://localhost:8000")
 
@@ -48,8 +49,28 @@ class VSSError(RuntimeError):
     pass
 
 
+def looks_like_vss(paths: set[str]) -> bool:
+    """Does this OpenAPI surface actually belong to VSS?
+
+    /v1/chat/completions is NOT a discriminator - every OpenAI-compatible
+    inference server has one. File ingestion is what makes it VSS.
+    """
+    return FILES in paths and SUMMARIZE in paths
+
+
+def identify(paths: set[str]) -> str:
+    """Best-effort name for whatever is squatting on the port, for the error."""
+    if {"/v1/models", "/tokenize", "/detokenize"} <= paths:
+        return "a vLLM / OpenAI-compatible inference server"
+    if "/v1/models" in paths:
+        return "an OpenAI-compatible API"
+    return "an unknown service"
+
+
 class VSSClient:
     def __init__(self, endpoint: str = DEFAULT_ENDPOINT, timeout: float = 600.0):
+        if requests is None:
+            raise VSSError("requests not installed:  pip install -r requirements.txt")
         self.endpoint = endpoint.rstrip("/")
         self.timeout = timeout
         self.session = requests.Session()
@@ -76,16 +97,41 @@ class VSSClient:
 
     # -- introspection -----------------------------------------------------
 
-    def health(self) -> str:
+    def health(self, verify_identity: bool = True) -> str:
+        """Confirm VSS is up *and* that it is actually VSS.
+
+        Liveness alone is not enough. A plain vLLM server answers GET /health
+        with 200 and shares /v1/chat/completions with us, so a naive check goes
+        green against the wrong service and the failure only surfaces later, as
+        a confusing 404 from /files. Ports get reused on a shared box; this is
+        not hypothetical.
+        """
+        found = None
         for path in HEALTH_PATHS:
             try:
                 self._request("GET", path, timeout=10)
-                return path
+                found = path
+                break
             except VSSError:
                 continue
-        raise VSSError(
-            f"no health endpoint answered at {self.endpoint} "
-            f"(tried {', '.join(HEALTH_PATHS)}). Is the container up?")
+        if found is None:
+            raise VSSError(
+                f"no health endpoint answered at {self.endpoint} "
+                f"(tried {', '.join(HEALTH_PATHS)}). Is the container up?")
+
+        if verify_identity:
+            try:
+                paths = set(self.openapi().get("paths", {}))
+            except VSSError:
+                return found  # no spec exposed; caller gets liveness only
+            if not looks_like_vss(paths):
+                raise VSSError(
+                    f"{self.endpoint} answered {found} but does not expose the "
+                    f"VSS API ({FILES} and {SUMMARIZE} are absent). Something "
+                    f"else is on this port - it looks like "
+                    f"{identify(paths)}. Set VSS_API_ENDPOINT to the real "
+                    f"VSS endpoint.")
+        return found
 
     def openapi(self) -> dict[str, Any]:
         return self._request("GET", "/openapi.json", timeout=30)

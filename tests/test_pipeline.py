@@ -261,3 +261,26 @@ class TestDataFiles(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class TestVSSIdentity(unittest.TestCase):
+    """A live port is not proof it is VSS. See vss/client.health()."""
+
+    def setUp(self):
+        from vss.client import identify, looks_like_vss
+        self.looks_like_vss, self.identify = looks_like_vss, identify
+
+    def test_real_vss_surface_accepted(self):
+        self.assertTrue(self.looks_like_vss(
+            {"/files", "/summarize", "/chat/completions", "/health/ready"}))
+
+    def test_vllm_surface_rejected(self):
+        """Observed on gn100-223b:8000 - answers /health 200, shares
+        /v1/chat/completions, but has no /files."""
+        vllm = {"/health", "/ping", "/v1/models", "/v1/chat/completions",
+                "/tokenize", "/detokenize", "/v1/completions", "/metrics"}
+        self.assertFalse(self.looks_like_vss(vllm))
+        self.assertIn("vLLM", self.identify(vllm))
+
+    def test_chat_completions_alone_is_not_enough(self):
+        self.assertFalse(self.looks_like_vss({"/v1/chat/completions"}))
