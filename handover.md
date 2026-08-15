@@ -125,15 +125,21 @@ Trust it over any documentation, including this file.
    `.env.bak`). **`nemoclaw-vllm` was deliberately left running** — the user was
    asked and never answered, so the non-destructive route was taken.
 
-### Files changed on the box (outside git)
+### Deployment config — now in the repo
 
-- `~/.ngc-env` — credentials, mode 600
-- `~/vss-blueprint/deploy/docker/compose.override.yml` — the CDI GPU override
-- `~/vss-blueprint/deploy/docker/developer-profiles/dev-profile-base/.env` —
-  `VSS_AGENT_PORT=8010` (backup `.env.bak`)
-- `/tmp/run-up.sh` — bring-up wrapper (in `/tmp`; will not survive a reboot)
+All of it is committed under **`deploy/vss/`**, with setup instructions in
+`deploy/vss/README.md`. It was previously box-only, one piece in `/tmp` where a
+reboot would have destroyed it.
 
-None of this is version-controlled. Consider moving it into the repo.
+| Repo | Live location on the box |
+|---|---|
+| `deploy/vss/compose.override.yml` | `~/vss-blueprint/deploy/docker/compose.override.yml` |
+| `deploy/vss/run-up.sh` | `/tmp/run-up.sh` |
+| `deploy/vss/ngc-env.example` | `~/.ngc-env` (filled in, mode 600, **not** committed) |
+| documented in the README | `VSS_AGENT_PORT=8010` in `dev-profile-base/.env` (backup `.env.bak`) |
+
+If you change deployment config on the box, mirror it back into `deploy/vss/`
+or the next person loses it.
 
 ---
 
