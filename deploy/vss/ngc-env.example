@@ -1,0 +1,15 @@
+# Copy to ~/.ngc-env on the box and chmod 600. Never commit the filled-in file.
+#   source ~/.ngc-env    # before any VSS command
+
+# NGC personal API key (ngc.nvidia.com > Setup > Personal API keys).
+# Grants nvcr.io/nvidia/vss-core/* but NOT nvcr.io/nim/* (that returns 402
+# without an AI Enterprise / NIM entitlement).
+export NGC_CLI_API_KEY=nvapi-REPLACE_ME
+export NGC_API_KEY=nvapi-REPLACE_ME
+
+# Same key works for the hosted inference API used by the remote VLM/LLM.
+export NVIDIA_API_KEY=nvapi-REPLACE_ME
+
+# Required whenever --use-remote-llm / --use-remote-vlm are passed.
+export LLM_ENDPOINT_URL=https://integrate.api.nvidia.com/v1
+export VLM_ENDPOINT_URL=https://integrate.api.nvidia.com/v1

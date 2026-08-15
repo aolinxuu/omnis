@@ -1,0 +1,64 @@
+{
+  "meta": {
+    "note": "GROUND TRUTH. Presenter waves at each corridor camera while passing. Typed manually during the ride. Scoring only - detect.py must never read this file.",
+    "session": "ride-2026-08-15-a",
+    "t0": "2026-08-15T18:02:00-07:00"
+  },
+  "waves": [
+    {
+      "camera_id": "CMR-0185",
+      "t": "2026-08-15T18:02:02-07:00",
+      "kind": "wave"
+    },
+    {
+      "camera_id": "CMR-0264",
+      "t": "2026-08-15T18:02:39-07:00",
+      "kind": "wave"
+    },
+    {
+      "camera_id": "CMR-0240",
+      "t": "2026-08-15T18:03:10-07:00",
+      "kind": "wave"
+    },
+    {
+      "camera_id": "CMR-0239",
+      "t": "2026-08-15T18:03:42-07:00",
+      "kind": "wave"
+    },
+    {
+      "camera_id": "CMR-0030",
+      "t": "2026-08-15T18:04:14-07:00",
+      "kind": "wave"
+    },
+    {
+      "camera_id": "CMR-0302",
+      "t": "2026-08-15T18:05:00-07:00",
+      "kind": "wave"
+    },
+    {
+      "camera_id": "CMR-0069",
+      "t": "2026-08-15T18:05:45-07:00",
+      "kind": "wave"
+    },
+    {
+      "camera_id": "CMR-0415",
+      "t": "2026-08-15T18:06:22-07:00",
+      "kind": "wave"
+    },
+    {
+      "camera_id": "CMR-0218",
+      "t": "2026-08-15T18:06:56-07:00",
+      "kind": "wave"
+    },
+    {
+      "camera_id": "CMR-0265",
+      "t": "2026-08-15T18:07:39-07:00",
+      "kind": "wave"
+    },
+    {
+      "camera_id": "CMR-0425",
+      "t": "2026-08-15T18:08:29-07:00",
+      "kind": "wave"
+    }
+  ]
+}

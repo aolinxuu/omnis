@@ -1,0 +1,850 @@
+{
+  "meta": {
+    "note": "Camera roster + Amber-Alert seed. Real SDOT IDs and coordinates. Field names match the frozen contract (lon, not lng).",
+    "session": "ride-2026-08-15-a",
+    "corridor": "2nd Ave, Belltown -> Pioneer Square",
+    "t0": "2026-08-15T18:02:00-07:00",
+    "t0_note": "Wall clock for seed-relative t=0. Pipeline converts minutes<->ISO against this."
+  },
+  "seed": {
+    "camera": "CMR-0185",
+    "name": "2nd Ave & Battery St",
+    "lat": 47.614809,
+    "lon": -122.346954,
+    "t": 0
+  },
+  "cameras": [
+    {
+      "id": "CMR-0016",
+      "name": "1st Ave & Stewart St",
+      "lat": 47.610275,
+      "lon": -122.341343,
+      "kind": "sdot",
+      "alive": true
+    },
+    {
+      "id": "CMR-0030",
+      "name": "2nd Ave & Stewart St",
+      "lat": 47.610964,
+      "lon": -122.340452,
+      "kind": "sdot",
+      "alive": true
+    },
+    {
+      "id": "CMR-0033",
+      "name": "3rd Ave & Columbia St",
+      "lat": 47.604197,
+      "lon": -122.332714,
+      "kind": "sdot",
+      "alive": true
+    },
+    {
+      "id": "CMR-0034",
+      "name": "3rd Ave & Stewart St",
+      "lat": 47.611629,
+      "lon": -122.339592,
+      "kind": "sdot",
+      "alive": true
+    },
+    {
+      "id": "CMR-0035",
+      "name": "3rd Ave & University St",
+      "lat": 47.607763,
+      "lon": -122.335976,
+      "kind": "sdot",
+      "alive": true
+    },
+    {
+      "id": "CMR-0036",
+      "name": "3rd Ave & Yesler Way",
+      "lat": 47.601716,
+      "lon": -122.330265,
+      "kind": "sdot",
+      "alive": true
+    },
+    {
+      "id": "CMR-0039",
+      "name": "4th Ave & Olive St",
+      "lat": 47.612182,
+      "lon": -122.338543,
+      "kind": "sdot",
+      "alive": true
+    },
+    {
+      "id": "CMR-0040",
+      "name": "4th Ave & Battery St",
+      "lat": 47.616083,
+      "lon": -122.345143,
+      "kind": "sdot",
+      "alive": true
+    },
+    {
+      "id": "CMR-0043",
+      "name": "4th Ave S & S Jackson St",
+      "lat": 47.599197,
+      "lon": -122.328968,
+      "kind": "sdot",
+      "alive": true
+    },
+    {
+      "id": "CMR-0046",
+      "name": "5th Ave & Olive Way",
+      "lat": 47.612665,
+      "lon": -122.337394,
+      "kind": "sdot",
+      "alive": true
+    },
+    {
+      "id": "CMR-0047",
+      "name": "5th Ave & Battery St East Side",
+      "lat": 47.616983,
+      "lon": -122.344142,
+      "kind": "sdot",
+      "alive": true
+    },
+    {
+      "id": "CMR-0048",
+      "name": "5th Ave & Battery St West Side",
+      "lat": 47.616642,
+      "lon": -122.344487,
+      "kind": "sdot",
+      "alive": true
+    },
+    {
+      "id": "CMR-0049",
+      "name": "5th Ave & James St",
+      "lat": 47.603698,
+      "lon": -122.329187,
+      "kind": "sdot",
+      "alive": true
+    },
+    {
+      "id": "CMR-0050",
+      "name": "5th Ave & Madison St NS",
+      "lat": 47.606553,
+      "lon": -122.331798,
+      "kind": "sdot",
+      "alive": true
+    },
+    {
+      "id": "CMR-0055",
+      "name": "6th Ave & Pine St",
+      "lat": 47.612136,
+      "lon": -122.335373,
+      "kind": "sdot",
+      "alive": true
+    },
+    {
+      "id": "CMR-0056",
+      "name": "6th Ave & Wall St",
+      "lat": 47.618022,
+      "lon": -122.344452,
+      "kind": "sdot",
+      "alive": true
+    },
+    {
+      "id": "CMR-0058",
+      "name": "7th Ave & Pike St",
+      "lat": 47.611606,
+      "lon": -122.333354,
+      "kind": "sdot",
+      "alive": true
+    },
+    {
+      "id": "CMR-0059",
+      "name": "8th Ave & Olive Way",
+      "lat": 47.614065,
+      "lon": -122.33404,
+      "kind": "sdot",
+      "alive": true
+    },
+    {
+      "id": "CMR-0065",
+      "name": "Alaskan Way & Yesler Way",
+      "lat": 47.601718,
+      "lon": -122.336582,
+      "kind": "sdot",
+      "alive": true
+    },
+    {
+      "id": "CMR-0069",
+      "name": "2nd Ave & University St",
+      "lat": 47.607347,
+      "lon": -122.337128,
+      "kind": "sdot",
+      "alive": true
+    },
+    {
+      "id": "CMR-0087",
+      "name": "Boren Ave & Howell St",
+      "lat": 47.616187,
+      "lon": -122.331404,
+      "kind": "sdot",
+      "alive": true
+    },
+    {
+      "id": "CMR-0089",
+      "name": "Boren Ave & Seneca St",
+      "lat": 47.610765,
+      "lon": -122.326444,
+      "kind": "sdot",
+      "alive": true
+    },
+    {
+      "id": "CMR-0096",
+      "name": "4th Ave N & Denny Way",
+      "lat": 47.618576,
+      "lon": -122.348925,
+      "kind": "sdot",
+      "alive": true
+    },
+    {
+      "id": "CMR-0097",
+      "name": "Denny Way & Yale St / Stewart St",
+      "lat": 47.618274,
+      "lon": -122.330999,
+      "kind": "sdot",
+      "alive": true
+    },
+    {
+      "id": "CMR-0098",
+      "name": "Dexter Ave & Denny Way",
+      "lat": 47.61855,
+      "lon": -122.342402,
+      "kind": "sdot",
+      "alive": true
+    },
+    {
+      "id": "CMR-0153",
+      "name": "Alaskan Way & Madison St",
+      "lat": 47.603844,
+      "lon": -122.338244,
+      "kind": "sdot",
+      "alive": true
+    },
+    {
+      "id": "CMR-0155",
+      "name": "4th Ave & Cherry St EW",
+      "lat": 47.603825,
+      "lon": -122.331241,
+      "kind": "sdot",
+      "alive": true
+    },
+    {
+      "id": "CMR-0156",
+      "name": "4th Ave & Cherry St NS",
+      "lat": 47.603948,
+      "lon": -122.330952,
+      "kind": "sdot",
+      "alive": true
+    },
+    {
+      "id": "CMR-0167",
+      "name": "1st Ave & Wall St EW",
+      "lat": 47.614452,
+      "lon": -122.349062,
+      "kind": "sdot",
+      "alive": true
+    },
+    {
+      "id": "CMR-0168",
+      "name": "1st Ave & Wall St NS",
+      "lat": 47.614696,
+      "lon": -122.348746,
+      "kind": "sdot",
+      "alive": true
+    },
+    {
+      "id": "CMR-0169",
+      "name": "3rd Ave & Wall St",
+      "lat": 47.616046,
+      "lon": -122.347025,
+      "kind": "sdot",
+      "alive": true
+    },
+    {
+      "id": "CMR-0170",
+      "name": "6th Ave & Lenora St",
+      "lat": 47.61516,
+      "lon": -122.339614,
+      "kind": "sdot",
+      "alive": true
+    },
+    {
+      "id": "CMR-0172",
+      "name": "9th Ave & Pine St",
+      "lat": 47.613528,
+      "lon": -122.332042,
+      "kind": "sdot",
+      "alive": true
+    },
+    {
+      "id": "CMR-0173",
+      "name": "7th Ave & Virginia St",
+      "lat": 47.615057,
+      "lon": -122.337454,
+      "kind": "sdot",
+      "alive": true
+    },
+    {
+      "id": "CMR-0174",
+      "name": "4th Ave & Virginia St",
+      "lat": 47.613063,
+      "lon": -122.340033,
+      "kind": "sdot",
+      "alive": true
+    },
+    {
+      "id": "CMR-0175",
+      "name": "9th Ave & Stewart St",
+      "lat": 47.615616,
+      "lon": -122.334436,
+      "kind": "sdot",
+      "alive": true
+    },
+    {
+      "id": "CMR-0176",
+      "name": "5th Ave & Pine St EW",
+      "lat": 47.611466,
+      "lon": -122.336976,
+      "kind": "sdot",
+      "alive": true
+    },
+    {
+      "id": "CMR-0178",
+      "name": "1st Ave & Union St",
+      "lat": 47.607828,
+      "lon": -122.339105,
+      "kind": "sdot",
+      "alive": true
+    },
+    {
+      "id": "CMR-0179",
+      "name": "Western Ave & Spring St",
+      "lat": 47.604943,
+      "lon": -122.338001,
+      "kind": "sdot",
+      "alive": true
+    },
+    {
+      "id": "CMR-0180",
+      "name": "4th Ave & Madison St",
+      "lat": 47.606088,
+      "lon": -122.332909,
+      "kind": "sdot",
+      "alive": true
+    },
+    {
+      "id": "CMR-0181",
+      "name": "5th Ave & Madison St EW",
+      "lat": 47.606553,
+      "lon": -122.331798,
+      "kind": "sdot",
+      "alive": true
+    },
+    {
+      "id": "CMR-0184",
+      "name": "Westlake Ave & Denny Way NS",
+      "lat": 47.618534,
+      "lon": -122.338485,
+      "kind": "sdot",
+      "alive": true
+    },
+    {
+      "id": "CMR-0185",
+      "name": "2nd Ave & Battery St",
+      "lat": 47.614809,
+      "lon": -122.346954,
+      "kind": "sdot",
+      "alive": true
+    },
+    {
+      "id": "CMR-0186",
+      "name": "Western Ave & Wall St",
+      "lat": 47.614031,
+      "lon": -122.349606,
+      "kind": "sdot",
+      "alive": true
+    },
+    {
+      "id": "CMR-0187",
+      "name": "7th Ave & Bell St",
+      "lat": 47.617382,
+      "lon": -122.341394,
+      "kind": "sdot",
+      "alive": true
+    },
+    {
+      "id": "CMR-0188",
+      "name": "6th Ave & Seneca St",
+      "lat": 47.608486,
+      "lon": -122.331987,
+      "kind": "sdot",
+      "alive": true
+    },
+    {
+      "id": "CMR-0189",
+      "name": "1st Ave S & Jackson St",
+      "lat": 47.599205,
+      "lon": -122.334188,
+      "kind": "sdot",
+      "alive": true
+    },
+    {
+      "id": "CMR-0191",
+      "name": "3rd Ave & Seneca St",
+      "lat": 47.607085,
+      "lon": -122.335326,
+      "kind": "sdot",
+      "alive": true
+    },
+    {
+      "id": "CMR-0194",
+      "name": "5th Ave & Marion St",
+      "lat": 47.605839,
+      "lon": -122.331146,
+      "kind": "sdot",
+      "alive": true
+    },
+    {
+      "id": "CMR-0204",
+      "name": "Alaskan Way & Marion St",
+      "lat": 47.603134,
+      "lon": -122.3376,
+      "kind": "sdot",
+      "alive": true
+    },
+    {
+      "id": "CMR-0217",
+      "name": "1st Ave & Seneca St",
+      "lat": 47.606125,
+      "lon": -122.337536,
+      "kind": "sdot",
+      "alive": true
+    },
+    {
+      "id": "CMR-0218",
+      "name": "2nd Ave & Marion St",
+      "lat": 47.604446,
+      "lon": -122.334477,
+      "kind": "sdot",
+      "alive": true
+    },
+    {
+      "id": "CMR-0223",
+      "name": "5th Ave & Pine St NS",
+      "lat": 47.611672,
+      "lon": -122.336484,
+      "kind": "sdot",
+      "alive": true
+    },
+    {
+      "id": "CMR-0239",
+      "name": "2nd Ave & Virginia St",
+      "lat": 47.611733,
+      "lon": -122.341753,
+      "kind": "sdot",
+      "alive": true
+    },
+    {
+      "id": "CMR-0240",
+      "name": "2nd Ave & Lenora St",
+      "lat": 47.612502,
+      "lon": -122.343053,
+      "kind": "sdot",
+      "alive": true
+    },
+    {
+      "id": "CMR-0241",
+      "name": "2nd Ave & Clay St",
+      "lat": 47.617019,
+      "lon": -122.350691,
+      "kind": "sdot",
+      "alive": true
+    },
+    {
+      "id": "CMR-0255",
+      "name": "5th Ave & Union St",
+      "lat": 47.609685,
+      "lon": -122.334666,
+      "kind": "sdot",
+      "alive": true
+    },
+    {
+      "id": "CMR-0256",
+      "name": "1st Ave & Madison St",
+      "lat": 47.604695,
+      "lon": -122.336238,
+      "kind": "sdot",
+      "alive": true
+    },
+    {
+      "id": "CMR-0257",
+      "name": "4th Ave & Pine St",
+      "lat": 47.611207,
+      "lon": -122.337592,
+      "kind": "sdot",
+      "alive": true
+    },
+    {
+      "id": "CMR-0258",
+      "name": "5th Ave S & S Washington St",
+      "lat": 47.600873,
+      "lon": -122.32766,
+      "kind": "sdot",
+      "alive": true
+    },
+    {
+      "id": "CMR-0261",
+      "name": "Alaskan Way & Wall St",
+      "lat": 47.612814,
+      "lon": -122.351186,
+      "kind": "sdot",
+      "alive": true
+    },
+    {
+      "id": "CMR-0264",
+      "name": "2nd Ave & Blanchard St",
+      "lat": 47.613271,
+      "lon": -122.344353,
+      "kind": "sdot",
+      "alive": true
+    },
+    {
+      "id": "CMR-0265",
+      "name": "2nd Ave & James St",
+      "lat": 47.602306,
+      "lon": -122.332519,
+      "kind": "sdot",
+      "alive": true
+    },
+    {
+      "id": "CMR-0267",
+      "name": "Westlake Ave & Denny Way EW",
+      "lat": 47.618534,
+      "lon": -122.338485,
+      "kind": "sdot",
+      "alive": true
+    },
+    {
+      "id": "CMR-0291",
+      "name": "5th Ave & Spring St",
+      "lat": 47.607266,
+      "lon": -122.332451,
+      "kind": "sdot",
+      "alive": true
+    },
+    {
+      "id": "CMR-0302",
+      "name": "2nd Ave & Pike St NS",
+      "lat": 47.609268,
+      "lon": -122.338888,
+      "kind": "sdot",
+      "alive": true
+    },
+    {
+      "id": "CMR-0303",
+      "name": "2nd Ave & Pike St EW",
+      "lat": 47.609268,
+      "lon": -122.338888,
+      "kind": "sdot",
+      "alive": true
+    },
+    {
+      "id": "CMR-0304",
+      "name": "3rd Ave & Union St",
+      "lat": 47.608756,
+      "lon": -122.336885,
+      "kind": "sdot",
+      "alive": true
+    },
+    {
+      "id": "CMR-0305",
+      "name": "3rd Ave & Spring St",
+      "lat": 47.606337,
+      "lon": -122.334672,
+      "kind": "sdot",
+      "alive": true
+    },
+    {
+      "id": "CMR-0308",
+      "name": "4th Ave & James St",
+      "lat": 47.603286,
+      "lon": -122.330364,
+      "kind": "sdot",
+      "alive": true
+    },
+    {
+      "id": "CMR-0309",
+      "name": "5th Ave & Pike St",
+      "lat": 47.610678,
+      "lon": -122.335574,
+      "kind": "sdot",
+      "alive": true
+    },
+    {
+      "id": "CMR-0310",
+      "name": "1st Ave & Yesler Way",
+      "lat": 47.601722,
+      "lon": -122.334179,
+      "kind": "sdot",
+      "alive": true
+    },
+    {
+      "id": "CMR-0311",
+      "name": "4th Ave S & S Washington St",
+      "lat": 47.600875,
+      "lon": -122.328963,
+      "kind": "sdot",
+      "alive": true
+    },
+    {
+      "id": "CMR-0312",
+      "name": "Boren Ave & Pike St",
+      "lat": 47.613466,
+      "lon": -122.328913,
+      "kind": "sdot",
+      "alive": true
+    },
+    {
+      "id": "CMR-0315",
+      "name": "Fairview Ave & Denny Way",
+      "lat": 47.618517,
+      "lon": -122.334255,
+      "kind": "sdot",
+      "alive": true
+    },
+    {
+      "id": "CMR-0316",
+      "name": "Howell St & Minor Ave",
+      "lat": 47.61684,
+      "lon": -122.330559,
+      "kind": "sdot",
+      "alive": true
+    },
+    {
+      "id": "CMR-0317",
+      "name": "Fairview Ave & Boren Ave",
+      "lat": 47.617852,
+      "lon": -122.334251,
+      "kind": "sdot",
+      "alive": true
+    },
+    {
+      "id": "CMR-0318",
+      "name": "6th Ave & Cherry St",
+      "lat": 47.604876,
+      "lon": -122.328734,
+      "kind": "sdot",
+      "alive": true
+    },
+    {
+      "id": "CMR-0319",
+      "name": "7th Ave & James St",
+      "lat": 47.604625,
+      "lon": -122.32697,
+      "kind": "sdot",
+      "alive": true
+    },
+    {
+      "id": "CMR-0320",
+      "name": "2nd Ave Ext S & S Main St",
+      "lat": 47.599991,
+      "lon": -122.330342,
+      "kind": "sdot",
+      "alive": true
+    },
+    {
+      "id": "CMR-0321",
+      "name": "6th Ave & Stewart St",
+      "lat": 47.613622,
+      "lon": -122.337015,
+      "kind": "sdot",
+      "alive": true
+    },
+    {
+      "id": "CMR-0332",
+      "name": "3rd Ave & Denny Way",
+      "lat": 47.618586,
+      "lon": -122.35136,
+      "kind": "sdot",
+      "alive": true
+    },
+    {
+      "id": "CMR-0333",
+      "name": "Alaskan Way S & S King St",
+      "lat": 47.598297,
+      "lon": -122.335906,
+      "kind": "sdot",
+      "alive": true
+    },
+    {
+      "id": "CMR-0350",
+      "name": "Alaskan Way S & S Jackson St",
+      "lat": 47.599209,
+      "lon": -122.335907,
+      "kind": "sdot",
+      "alive": true
+    },
+    {
+      "id": "CMR-0358",
+      "name": "Elliott Ave & Elliott Way",
+      "lat": 47.611611,
+      "lon": -122.346522,
+      "kind": "sdot",
+      "alive": true
+    },
+    {
+      "id": "CMR-0361",
+      "name": "Alaskan Way & Spring St",
+      "lat": 47.604624,
+      "lon": -122.338812,
+      "kind": "sdot",
+      "alive": true
+    },
+    {
+      "id": "CMR-0365",
+      "name": "7th Ave N & Denny Way 1",
+      "lat": 47.618561,
+      "lon": -122.343645,
+      "kind": "sdot",
+      "alive": true
+    },
+    {
+      "id": "CMR-0366",
+      "name": "7th Ave N & Denny Way 2",
+      "lat": 47.618561,
+      "lon": -122.343645,
+      "kind": "sdot",
+      "alive": true
+    },
+    {
+      "id": "CMR-0370",
+      "name": "8th Ave & Pike St",
+      "lat": 47.61208,
+      "lon": -122.332265,
+      "kind": "sdot",
+      "alive": true
+    },
+    {
+      "id": "CMR-0373",
+      "name": "6th Ave & Spring St",
+      "lat": 47.607733,
+      "lon": -122.331339,
+      "kind": "sdot",
+      "alive": true
+    },
+    {
+      "id": "CMR-0379",
+      "name": "Alaskan Way & Columbia St",
+      "lat": 47.602417,
+      "lon": -122.336956,
+      "kind": "sdot",
+      "alive": true
+    },
+    {
+      "id": "CMR-0380",
+      "name": "6th Ave N & Denny Way",
+      "lat": 47.618559,
+      "lon": -122.344969,
+      "kind": "sdot",
+      "alive": true
+    },
+    {
+      "id": "CMR-0382",
+      "name": "Terry Ave & Olive Way",
+      "lat": 47.615005,
+      "lon": -122.331809,
+      "kind": "sdot",
+      "alive": true
+    },
+    {
+      "id": "CMR-0389",
+      "name": "Alaskan Way & Union St",
+      "lat": 47.607052,
+      "lon": -122.34102,
+      "kind": "sdot",
+      "alive": true
+    },
+    {
+      "id": "CMR-0404",
+      "name": "Denny Way & Terry Ave",
+      "lat": 47.618538,
+      "lon": -122.337187,
+      "kind": "sdot",
+      "alive": true
+    },
+    {
+      "id": "CMR-0409",
+      "name": "8th Ave & Madison St",
+      "lat": 47.607944,
+      "lon": -122.328453,
+      "kind": "sdot",
+      "alive": true
+    },
+    {
+      "id": "CMR-0415",
+      "name": "2nd Ave & Spring St",
+      "lat": 47.605881,
+      "lon": -122.335771,
+      "kind": "sdot",
+      "alive": false
+    },
+    {
+      "id": "CMR-0425",
+      "name": "2nd Ave S & S Jackson St",
+      "lat": 47.599225,
+      "lon": -122.331578,
+      "kind": "sdot",
+      "alive": true
+    },
+    {
+      "id": "CMR-0427",
+      "name": "4th Ave S & S Weller St",
+      "lat": 47.597601,
+      "lon": -122.328961,
+      "kind": "sdot",
+      "alive": true
+    },
+    {
+      "id": "CMR-0428",
+      "name": "5th Ave S & S Jackson St",
+      "lat": 47.599263,
+      "lon": -122.327665,
+      "kind": "sdot",
+      "alive": true
+    },
+    {
+      "id": "CMR-0434",
+      "name": "Dexter Ave N & Denny Way - 2",
+      "lat": 47.61855,
+      "lon": -122.342402,
+      "kind": "sdot",
+      "alive": true
+    },
+    {
+      "id": "CMR-0444",
+      "name": "Alaskan Way & Elliott Way",
+      "lat": 47.608724,
+      "lon": -122.342892,
+      "kind": "sdot",
+      "alive": true
+    },
+    {
+      "id": "CMR-T01",
+      "name": "Occidental Ave S & S King St",
+      "lat": 47.598271,
+      "lon": -122.333257,
+      "kind": "sdot",
+      "alive": true
+    },
+    {
+      "id": "CMR-T03",
+      "name": "Madison St & 7th Ave",
+      "lat": 47.607504,
+      "lon": -122.329591,
+      "kind": "sdot",
+      "alive": true
+    }
+  ]
+}

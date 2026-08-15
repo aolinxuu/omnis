@@ -1,0 +1,11 @@
+{
+  "meta": {
+    "note": "Template. Copy to raw-manifest.json and fill in one entry per camera. `started` is the wall clock of the raw file's FIRST FRAME - prep_clips.py uses it to convert wave times into a seek offset. Getting it wrong shifts every detection for that camera.",
+    "t0_reference": "2026-08-15T18:02:00-07:00"
+  },
+  "raws": [
+    { "camera_id": "CMR-0185", "file": "raw/battery.mp4",   "started": "2026-08-15T18:00:12-07:00" },
+    { "camera_id": "CMR-0302", "file": "raw/pike.mp4",      "started": "2026-08-15T18:01:05-07:00" },
+    { "camera_id": "CMR-0425", "file": "raw/jackson.mp4",   "started": "2026-08-15T18:04:30-07:00" }
+  ]
+}

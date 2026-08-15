@@ -1,0 +1,20 @@
+# Copy to ~/vss-blueprint/deploy/docker/compose.override.yml
+#
+# The nvidia container runtime is not registered with dockerd on gn100-223b and
+# there is no /etc/docker/daemon.json, so "runtime: nvidia" fails with
+#   unknown or invalid runtime name: nvidia
+# But CDI *is* configured (/var/run/cdi/nvidia.yaml, nvidia.com/gpu=all) and the
+# user's nemoclaw-vllm already takes the GPU that way, via plain runc + device
+# requests. These two services are the only ones in the base profile that ask
+# for the nvidia runtime, so grant them the GPU via CDI instead. This avoids a
+# root-level daemon change.
+#
+# Proper fix, if root is available:
+#   sudo nvidia-ctk runtime configure --runtime=docker && sudo systemctl restart docker
+services:
+  sensor-ms:
+    runtime: runc
+    gpus: all
+  streamprocessing-ms:
+    runtime: runc
+    gpus: all
