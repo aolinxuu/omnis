@@ -147,3 +147,4 @@ html, body { height:100%; margin:0; background:var(--navy); color:var(--cream); 
 .cam-pop .badge { position:absolute; left:6px; top:6px; font-family:var(--font-px); font-size:7px; padding:3px 6px; background:rgba(11,34,71,.85); color:#9EC1F0; }
 .cam-pop .badge.live { color:var(--coral); }
 .cam-pop .hint { font-size:15px; color:#7FA6DA; margin-top:6px; }
+.cams-list i { font-style:normal; font-family:var(--font-px); font-size:7px; color:#8A97AD; }

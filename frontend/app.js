@@ -43,7 +43,7 @@ const sightingsGeo = () => ({ type: "FeatureCollection", features: state.sightin
   properties: { id: s.id, state: s.state, conf: s.conf, cls: s.class, track: s.track_id || "", t: s.t, op: 1 } })) });
 const camerasGeo = () => { const r = searchRadius(), s = state.lastSubject; return { type: "FeatureCollection", features: [...state.cameras.values()].map(c => ({
   type: "Feature", geometry: { type: "Point", coordinates: [c.lon, c.lat] },
-  properties: { id: c.id, name: c.name, alive: c.alive, image: c.image || "", stream: c.stream || "", reach: !!(r && s && c.alive && metres(s, c) <= r && c.id !== s.camera_id) } })) }; };
+  properties: { id: c.id, name: c.name, alive: c.alive, kind: c.kind || "sdot", image: c.image || "", stream: c.stream || "", reach: !!(r && s && c.alive && metres(s, c) <= r && c.id !== s.camera_id) } })) }; };
 const reachGeo = () => { const r = searchRadius(), s = state.lastSubject; return { type: "FeatureCollection", features: r ? [circlePoly(s.lat, s.lon, r)] : [] }; };
 const subjectLine = () => ({ type: "Feature", geometry: { type: "MultiLineString", coordinates: [...state.subjectByTrack.values()].map(arr => arr.map(s => [s.lon, s.lat])).filter(a => a.length > 1) } });
 const predictionGeo = () => ({ type: "FeatureCollection", features: !state.prediction ? [] : state.prediction.branches.map((b, i) => ({
@@ -62,6 +62,7 @@ function initLayers() {
   map.addImage("cluster", cluster().data, { pixelRatio: 3 });
   map.addImage("cam-alive", camIcon(true).data, { pixelRatio: 3 });
   map.addImage("cam-dead", camIcon(false).data, { pixelRatio: 3 });
+  map.addImage("cam-wsdot", camIcon(true, "wsdot").data, { pixelRatio: 3 });
 
   map.addSource("reach", { type: "geojson", data: reachGeo() });
   map.addLayer({ id: "reach-fill", type: "fill", source: "reach", paint: { "fill-color": "#48D06A", "fill-opacity": 0.06 } });
@@ -70,7 +71,8 @@ function initLayers() {
   map.addLayer({ id: "cameras-reach", type: "circle", source: "cameras", filter: ["get", "reach"],
     paint: { "circle-radius": 11, "circle-color": "#F6B53A", "circle-opacity": 0.35, "circle-stroke-color": "#F6B53A", "circle-stroke-width": 1.5 } });
   map.addLayer({ id: "cameras", type: "symbol", source: "cameras",
-    layout: { "icon-image": ["case", ["get", "alive"], "cam-alive", "cam-dead"], "icon-allow-overlap": true, "icon-size": 1 } });
+    layout: { "icon-image": ["case", ["!", ["get", "alive"]], "cam-dead", ["==", ["get", "kind"], "wsdot"], "cam-wsdot", "cam-alive"], "icon-allow-overlap": true,
+              "icon-size": ["interpolate", ["linear"], ["zoom"], 9, 0.55, 12, 0.8, 14, 1, 17, 1.4] } });
 
   map.addSource("subject-line", { type: "geojson", data: subjectLine() });
   map.addLayer({ id: "subject-line", type: "line", source: "subject-line",
@@ -149,16 +151,19 @@ function openCamPopup(p, lngLat, pinned) {
     <div class="hint">${pinned ? "pinned · click map to close" : "click camera to pin"}</div></div>`).addTo(map);
   const el = camTip.getElement(), video = el.querySelector("video"), badge = el.querySelector(".badge"), still = el.querySelector("img");
   if (still) camStillTimer = setInterval(() => { if (!video.classList.contains("on")) still.src = stillUrl(); }, 4000);
+  if (cam.kind === "wsdot") { badge.textContent = "WSDOT · still ~1/min"; return; }
   if (!alive || !cam.stream) return;
   // dwell before starting HLS so sweeping across cameras doesn't hammer the stream server
   camHlsTimer = setTimeout(() => {
     badge.textContent = "CONNECTING…";
-    const onPlaying = () => { video.classList.add("on"); badge.textContent = "LIVE · HLS"; badge.classList.add("live"); };
+    const giveUp = () => { badge.textContent = "STREAM DOWN · still only"; badge.classList.add("live"); if (camHls) { camHls.destroy(); camHls = null; } };
+    const deadline = setTimeout(() => { if (!video.classList.contains("on")) giveUp(); }, 6000);
+    const onPlaying = () => { clearTimeout(deadline); video.classList.add("on"); badge.textContent = "LIVE · HLS"; badge.classList.add("live"); };
     video.addEventListener("playing", onPlaying, { once: true });
     if (window.Hls && Hls.isSupported()) {
-      camHls = new Hls({ liveSyncDurationCount: 2, maxBufferLength: 10, manifestLoadingMaxRetry: 1, manifestLoadingRetryDelay: 1500, levelLoadingMaxRetry: 1 });
+      camHls = new Hls({ liveSyncDurationCount: 2, maxBufferLength: 10, manifestLoadingTimeOut: 4000, manifestLoadingMaxRetry: 0, levelLoadingTimeOut: 4000, levelLoadingMaxRetry: 0, fragLoadingTimeOut: 6000 });
       camHls.loadSource(cam.stream); camHls.attachMedia(video);
-      camHls.on(Hls.Events.ERROR, (_, d) => { if (d.fatal) { badge.textContent = "STREAM DOWN · still only"; badge.classList.add("live"); camHls?.destroy(); camHls = null; } });
+      camHls.on(Hls.Events.ERROR, (_, d) => { if (d.fatal) { clearTimeout(deadline); giveUp(); } });
     } else if (video.canPlayType("application/vnd.apple.mpegurl")) { video.src = cam.stream; }
   }, 400);
 }
@@ -252,7 +257,7 @@ function camsPanel() {
   const rows = [...state.cameras.values()].map(c => ({ ...c, reach: !!(r && sub && c.alive && metres(sub, c) <= r && c.id !== sub.camera_id), seen: lastSeen.get(c.id) }))
     .sort((a, b) => (b.reach - a.reach) || (a.alive - b.alive) || (b.seen || "").localeCompare(a.seen || "") || a.name.localeCompare(b.name));
   $("camsCount").textContent = `${rows.filter(c => c.alive).length}/${rows.length} alive`;
-  $("camsList").innerHTML = rows.map(c => `<div class="${c.alive ? "" : "dead"}${c.reach ? " reach" : ""}${c.seen ? " seen" : ""}"><span>${c.id}</span><span>${c.name}</span><b>${!c.alive ? "DEAD" : c.reach ? "REACH" : c.seen ? c.seen.slice(11, 19) : "—"}</b></div>`).join("");
+  $("camsList").innerHTML = rows.map(c => `<div class="${c.alive ? "" : "dead"}${c.reach ? " reach" : ""}${c.seen ? " seen" : ""}"><span>${c.id}</span><span>${c.kind === "wsdot" ? "<i>W</i> " : ""}${c.name}</span><b>${!c.alive ? "DEAD" : c.reach ? "REACH" : c.seen ? c.seen.slice(11, 19) : "—"}</b></div>`).join("");
 }
 
 // ---------- feed wiring ----------

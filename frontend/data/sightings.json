@@ -5,7 +5,7 @@
     "corridor": "2nd Ave, Belltown -> Pioneer Square",
     "started": "2026-08-15T18:02:00-07:00",
     "ground_truth_note": "Presenter waves at each corridor camera while passing; GPS/phone timestamps logged. Compared against linked subject sightings per camera to give precision/recall. Additive to the frozen contract; no existing shape changed.",
-    "cameras_note": "First 18 = demo corridor + neighbours (hand-picked). Remaining = every SDOT camera in the downtown vicinity (Denny\u2192S Jackson, waterfront\u2192I-5) from data/sdot.json; alive=true is an assumption until the health checker runs.",
+    "cameras_note": "First 18 = downtown demo corridor + neighbours; next 25 = South Lake Union ride cameras; then every remaining SDOT + WSDOT camera in the Seattle-area catalog (data/sdot.json from snibk/seattle-traffic-cams), sorted north\u2192south. alive=true is an assumption until the health checker runs. SDOT: 1920px still + 1080p HLS; WSDOT: still only (~1/min).",
     "corridor_cameras": [
       "CMR-0185",
       "CMR-0264",
@@ -1332,6 +1332,4935 @@
       "alive": true,
       "image": "https://www.seattle.gov/trafficcams/images/4_S_Weller.jpg",
       "stream": "https://61e0c5d388c2e.streamlock.net:443/live/4_S_Weller.stream/playlist.m3u8"
+    },
+    {
+      "id": "SR53140",
+      "name": "SR-531 @ 40th Ave NE",
+      "lat": 48.152402,
+      "lon": -122.174439,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/531vc00692.jpg"
+    },
+    {
+      "id": "SR53143",
+      "name": "SR-531 @ 43rd Ave NE",
+      "lat": 48.152315,
+      "lon": -122.172149,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/531vc00721.jpg"
+    },
+    {
+      "id": "I5SR528",
+      "name": "I-5 @ SR-528",
+      "lat": 48.050032,
+      "lon": -122.184649,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/005vc19910.jpg"
+    },
+    {
+      "id": "I5SR529",
+      "name": "I-5 @ SR 529",
+      "lat": 48.040846,
+      "lon": -122.180234,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/005vc19843.jpg"
+    },
+    {
+      "id": "I37",
+      "name": "I-5 @ 37th St NE",
+      "lat": 48.027755,
+      "lon": -122.176581,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/005vc19754.jpg"
+    },
+    {
+      "id": "I526",
+      "name": "I-5 @ 26th St NE",
+      "lat": 48.018934,
+      "lon": -122.174594,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/005vc19684.jpg"
+    },
+    {
+      "id": "I512",
+      "name": "I-5 @ 12th St NE",
+      "lat": 48.007612,
+      "lon": -122.172663,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/005vc19601.jpg"
+    },
+    {
+      "id": "SR9VernonRd",
+      "name": "SR-9 @ Vernon Rd",
+      "lat": 48.004951,
+      "lon": -122.106605,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/009vc01591.jpg"
+    },
+    {
+      "id": "SR9-SR204",
+      "name": "SR-9 @ SR 204",
+      "lat": 48.002906,
+      "lon": -122.106316,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/009vc01577.jpg"
+    },
+    {
+      "id": "SR9Market",
+      "name": "SR-9 @ Market Pl",
+      "lat": 47.997865,
+      "lon": -122.105511,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/009vc01544.jpg"
+    },
+    {
+      "id": "I515",
+      "name": "I-5 @ 15th St",
+      "lat": 47.993505,
+      "lon": -122.179491,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/005vc19534.jpg"
+    },
+    {
+      "id": "I5MarineViewDr",
+      "name": "I-5 @ Marine View Dr",
+      "lat": 47.989029,
+      "lon": -122.183245,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/005vc19469.jpg"
+    },
+    {
+      "id": "I5Everett",
+      "name": "I-5 @ Everett Ave",
+      "lat": 47.983497,
+      "lon": -122.184791,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/005vc19406.jpg"
+    },
+    {
+      "id": "I5US2",
+      "name": "I-5 @ US-2",
+      "lat": 47.980417,
+      "lon": -122.188143,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/005vc19389.jpg"
+    },
+    {
+      "id": "US2EbeySlough",
+      "name": "US-2 @ Ebey Slough",
+      "lat": 47.978109,
+      "lon": -122.140244,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/002vc00207.jpg"
+    },
+    {
+      "id": "US2HomeacresRd",
+      "name": "US-2 @ Homeacres Rd",
+      "lat": 47.97809,
+      "lon": -122.1775,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/002vc00068.jpg"
+    },
+    {
+      "id": "I5Pacific",
+      "name": "I-5 @ Pacific Ave",
+      "lat": 47.976652,
+      "lon": -122.190668,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/005vc19357.jpg"
+    },
+    {
+      "id": "SR9SLkStevensRd",
+      "name": "SR-9 @ S Lk Stevens Rd",
+      "lat": 47.974864,
+      "lon": -122.10255,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/009vc01383.jpg"
+    },
+    {
+      "id": "I547",
+      "name": "I-5 @ 47th St SE",
+      "lat": 47.954922,
+      "lon": -122.200251,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/005vc19195.jpg"
+    },
+    {
+      "id": "I573NB",
+      "name": "I-5 @ 73rd St SE, NB",
+      "lat": 47.933718,
+      "lon": -122.195847,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/005vc19041.jpg"
+    },
+    {
+      "id": "I573SB",
+      "name": "I-5 @ 73rd St SE, SB",
+      "lat": 47.933563,
+      "lon": -122.196241,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/005vc19039.jpg"
+    },
+    {
+      "id": "SR52584",
+      "name": "SR-525 @ 84th St SW/SR526",
+      "lat": 47.922006,
+      "lon": -122.300167,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/525vc00651"
+    },
+    {
+      "id": "I5SR526",
+      "name": "I-5 @ SR-526",
+      "lat": 47.91575,
+      "lon": -122.207508,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/005vc18934.jpg"
+    },
+    {
+      "id": "SR52592",
+      "name": "SR-525 @ 92nd St SW",
+      "lat": 47.915141,
+      "lon": -122.297395,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/525vc00598.jpg"
+    },
+    {
+      "id": "I5128",
+      "name": "I-5 @ 128th St SW",
+      "lat": 47.881903,
+      "lon": -122.232726,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/005vc18648.jpg"
+    },
+    {
+      "id": "I5164",
+      "name": "I-5 @ 164th St SW",
+      "lat": 47.850312,
+      "lon": -122.256571,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/005vc18391.jpg"
+    },
+    {
+      "id": "SR9180",
+      "name": "SR-9 @ 180th St SE",
+      "lat": 47.835489,
+      "lon": -122.124427,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/009vc00376.jpg"
+    },
+    {
+      "id": "I5186",
+      "name": "I-5 @ 186th St SW",
+      "lat": 47.831171,
+      "lon": -122.263255,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/005vc18250.jpg"
+    },
+    {
+      "id": "SR527186",
+      "name": "SR-527 @ 186th Pl SE",
+      "lat": 47.828514,
+      "lon": -122.209118,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/527vc00507"
+    },
+    {
+      "id": "I405FilbertRd",
+      "name": "I-405 @ Filbert Rd",
+      "lat": 47.825195,
+      "lon": -122.253661,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/405vc02951.jpg"
+    },
+    {
+      "id": "I5196",
+      "name": "I-5 @ 196th St SW",
+      "lat": 47.821665,
+      "lon": -122.277354,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/005vc18155.jpg"
+    },
+    {
+      "id": "I405DamsonRd",
+      "name": "I-405 @ Damson Rd",
+      "lat": 47.820319,
+      "lon": -122.242741,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/405vc02895.jpg"
+    },
+    {
+      "id": "SR527196",
+      "name": "SR-527 @ 196th St SE",
+      "lat": 47.820274,
+      "lon": -122.207457,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/527vc00449.jpg"
+    },
+    {
+      "id": "SR52719Dr",
+      "name": "SR-527 @ 19th Dr SE",
+      "lat": 47.814321,
+      "lon": -122.207537,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/527vc00407.jpg"
+    },
+    {
+      "id": "I544",
+      "name": "I-5 @ 44th Ave W",
+      "lat": 47.810421,
+      "lon": -122.299041,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/005vc18065.jpg"
+    },
+    {
+      "id": "I5220",
+      "name": "I-5 @ 220th St SW",
+      "lat": 47.798155,
+      "lon": -122.314596,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/005vc17928.jpg"
+    },
+    {
+      "id": "I405SR527",
+      "name": "I-405 @ SR-527",
+      "lat": 47.794521,
+      "lon": -122.214236,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/405vc02674.jpg"
+    },
+    {
+      "id": "I405232",
+      "name": "I-405 @ 232nd St SE",
+      "lat": 47.789003,
+      "lon": -122.203638,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/405vc02594.jpg"
+    },
+    {
+      "id": "I5236",
+      "name": "I-5 @ 236th St SW",
+      "lat": 47.78472,
+      "lon": -122.31654,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/005vc17828.jpg"
+    },
+    {
+      "id": "I405243",
+      "name": "I-405 @ 243rd St SE",
+      "lat": 47.77838,
+      "lon": -122.192787,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/405vc02510.jpg"
+    },
+    {
+      "id": "I405195",
+      "name": "I-405 @ NE 195th St",
+      "lat": 47.769119,
+      "lon": -122.189035,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/405vc02452.jpg"
+    },
+    {
+      "id": "I5195",
+      "name": "I-5 @ NE 195th St",
+      "lat": 47.763122,
+      "lon": -122.323643,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/005vc17720.jpg"
+    },
+    {
+      "id": "SR522SR202",
+      "name": "SR-522 @ SR-202",
+      "lat": 47.75872,
+      "lon": -122.161835,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/522vc01207.jpg"
+    },
+    {
+      "id": "I405SR522",
+      "name": "I-405 @ SR-522",
+      "lat": 47.758415,
+      "lon": -122.184708,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/405vc02371.jpg"
+    },
+    {
+      "id": "SR52261",
+      "name": "SR-522 @ 61st Ave NE",
+      "lat": 47.758121,
+      "lon": -122.262034,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/522vc00661.jpg"
+    },
+    {
+      "id": "SR52273",
+      "name": "SR-522 @ 73rd Ave NE",
+      "lat": 47.75732,
+      "lon": -122.243737,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/522vc00750.jpg"
+    },
+    {
+      "id": "I5175N",
+      "name": "I-5 @ NE 175th St, N",
+      "lat": 47.757084,
+      "lon": -122.328304,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/005vc17627.jpg"
+    },
+    {
+      "id": "I5175S",
+      "name": "I-5 @ NE 175th St, S",
+      "lat": 47.75442,
+      "lon": -122.33044,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/005vc17603.jpg"
+    },
+    {
+      "id": "I405175",
+      "name": "I-405 @ NE 175th St",
+      "lat": 47.75032,
+      "lon": -122.187035,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/405vc02337.jpg"
+    },
+    {
+      "id": "SR522165",
+      "name": "SR-522 @ NE 165th St",
+      "lat": 47.748242,
+      "lon": -122.284798,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/522vc00536.jpg"
+    },
+    {
+      "id": "I5MetroBusBarn",
+      "name": "I-5 @ METRO Bus Barn",
+      "lat": 47.747119,
+      "lon": -122.329143,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/005vc17552.jpg"
+    },
+    {
+      "id": "I405160",
+      "name": "I-405 @ NE 160th St",
+      "lat": 47.744187,
+      "lon": -122.186778,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/405vc02256.jpg"
+    },
+    {
+      "id": "I5155",
+      "name": "I-5 @ NE 155th St",
+      "lat": 47.740863,
+      "lon": -122.328676,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/005vc17510.jpg"
+    },
+    {
+      "id": "SR522153",
+      "name": "SR-522 @ NE 153rd St",
+      "lat": 47.739617,
+      "lon": -122.289549,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/522vc00467.jpg"
+    },
+    {
+      "id": "CMR-0075",
+      "name": "Aurora Ave N & N 145th St EW",
+      "lat": 47.734128,
+      "lon": -122.345024,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Aurora_N_145_1.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Aurora_N_145_1.stream/playlist.m3u8"
+    },
+    {
+      "id": "I5145",
+      "name": "I-5 @ NE 145th St",
+      "lat": 47.733879,
+      "lon": -122.322859,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/005vc17461.jpg"
+    },
+    {
+      "id": "CMR-0423",
+      "name": "Lake City Way NE & NE 145th St",
+      "lat": 47.733724,
+      "lon": -122.29243,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/LCW_NE_145.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/LCW_NE_145.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0076",
+      "name": "Aurora Ave N & N 145th St NS",
+      "lat": 47.733498,
+      "lon": -122.34509,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Aurora_N_145_2.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Aurora_N_145_2.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0121",
+      "name": "Lake City Way & NE 137th St",
+      "lat": 47.728288,
+      "lon": -122.29225,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/LCW_NE_137.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/LCW_NE_137.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0422",
+      "name": "Lake City Way NE & NE 135th St",
+      "lat": 47.726477,
+      "lon": -122.292288,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/LCW_NE_135.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/LCW_NE_135.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0247",
+      "name": "Greenwood Ave N & N 130th St",
+      "lat": 47.723234,
+      "lon": -122.355547,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Greenwood_N_130.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Greenwood_N_130.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0440",
+      "name": "Greenwood Ave N & N 130th St 2 - EW",
+      "lat": 47.723227,
+      "lon": -122.355188,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Greenwood_N_130_2.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Greenwood_N_130_2.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0073",
+      "name": "Aurora Ave N & N 130th St EW",
+      "lat": 47.723215,
+      "lon": -122.346797,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Aurora_N_130_EW.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Aurora_N_130_EW.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-T05",
+      "name": "1st Ave NE & NE 130th St",
+      "lat": 47.723171,
+      "lon": -122.328929,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/SDOT_Portable_5.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/SDOT_Portable_5.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-T07",
+      "name": "5th Ave NE & NE 130th St",
+      "lat": 47.723136,
+      "lon": -122.323577,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/SDOT_Portable_7.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/SDOT_Portable_7.stream/playlist.m3u8"
+    },
+    {
+      "id": "I5130",
+      "name": "I-5 @ NE 130th St, E",
+      "lat": 47.723112,
+      "lon": -122.324098,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/005vc17386.jpg"
+    },
+    {
+      "id": "I5130W",
+      "name": "I-5 @ NE 130th St, W",
+      "lat": 47.722825,
+      "lon": -122.324535,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/005vc17374.jpg"
+    },
+    {
+      "id": "CMR-0074",
+      "name": "Aurora Ave N & N 130th St NS",
+      "lat": 47.722483,
+      "lon": -122.344969,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Aurora_N_130_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Aurora_N_130_NS.stream/playlist.m3u8"
+    },
+    {
+      "id": "I405132",
+      "name": "I-405 @ NE 132nd St",
+      "lat": 47.720974,
+      "lon": -122.189075,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/405vc02103.jpg"
+    },
+    {
+      "id": "CMR-0246",
+      "name": "Greenwood Ave N & N 125th St",
+      "lat": 47.719601,
+      "lon": -122.355539,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Greenwood_N_125_EW.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Greenwood_N_125_EW.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0120",
+      "name": "Lake City Way NE & NE 125th St 1",
+      "lat": 47.719272,
+      "lon": -122.293968,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/LCW_NE_125_1.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/LCW_NE_125_1.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0119",
+      "name": "Lake City Way & NE 125th St 2",
+      "lat": 47.719133,
+      "lon": -122.29532,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/LCW_NE_125_2.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/LCW_NE_125_2.stream/playlist.m3u8"
+    },
+    {
+      "id": "I5120",
+      "name": "I-5 @ NE 120th St",
+      "lat": 47.715882,
+      "lon": -122.325692,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/005vc17338.jpg"
+    },
+    {
+      "id": "CMR-0072",
+      "name": "Aurora Ave N & N 117th Pl",
+      "lat": 47.714777,
+      "lon": -122.344853,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Aurora_N_117_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Aurora_N_117_NS.stream/playlist.m3u8"
+    },
+    {
+      "id": "I405128",
+      "name": "I-405 @ NE 128th St",
+      "lat": 47.71469,
+      "lon": -122.185176,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/405vc02066.jpg"
+    },
+    {
+      "id": "CMR-0245",
+      "name": "Greenwood Ave N & N 117th St",
+      "lat": 47.714159,
+      "lon": -122.355516,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Greenwood_N_117_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Greenwood_N_117_NS.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0424",
+      "name": "Lake City Way NE & NE Northgate Way",
+      "lat": 47.71044,
+      "lon": -122.300466,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/LCW_N_Northgate.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/LCW_N_Northgate.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0229",
+      "name": "Meridian Ave N & N Northgate Way",
+      "lat": 47.708663,
+      "lon": -122.333993,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Meridian_N_Northgate.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Meridian_N_Northgate.stream/playlist.m3u8"
+    },
+    {
+      "id": "I5N110",
+      "name": "I-5 @ N 110th St,W",
+      "lat": 47.708631,
+      "lon": -122.330109,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/005vc17287.jpg"
+    },
+    {
+      "id": "CMR-0018",
+      "name": "1st Ave NE & NE Northgate Way",
+      "lat": 47.708629,
+      "lon": -122.328634,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/1_NE_Northgate.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/1_NE_Northgate.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0134",
+      "name": "5th Ave NE & NE Northgate Way EW",
+      "lat": 47.708602,
+      "lon": -122.324517,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/5_NE_Northgate_EW.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/5_NE_Northgate_EW.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0226",
+      "name": "5th Ave NE & Northgate Way 2",
+      "lat": 47.708594,
+      "lon": -122.323275,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/5_NE_Northgate2.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/5_NE_Northgate2.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0227",
+      "name": "15th Ave NE & NE Northgate Way",
+      "lat": 47.708528,
+      "lon": -122.31243,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/15_NE_Northgate_EW.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/15_NE_Northgate_EW.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0052",
+      "name": "5th Ave NE & NE Northgate Way NS",
+      "lat": 47.707706,
+      "lon": -122.32325,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/5_NE_Northgate_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/5_NE_Northgate_NS.stream/playlist.m3u8"
+    },
+    {
+      "id": "I5107",
+      "name": "I-5 @ NE 107th St",
+      "lat": 47.706846,
+      "lon": -122.329604,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/005vc17263.jpg"
+    },
+    {
+      "id": "CMR-0228",
+      "name": "N 105th St & N Northgate Way",
+      "lat": 47.705095,
+      "lon": -122.338648,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Northgate_N_105_EW.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Northgate_N_105_EW.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0206",
+      "name": "Greenwood Ave N & N 105th St",
+      "lat": 47.705084,
+      "lon": -122.355453,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Greenwood_N_105_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Greenwood_N_105_NS.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0071",
+      "name": "Aurora Ave N & N 105th St EW",
+      "lat": 47.705051,
+      "lon": -122.344694,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Aurora_N_105_EW.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Aurora_N_105_EW.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0070",
+      "name": "Aurora Ave N & N 103rd St",
+      "lat": 47.703241,
+      "lon": -122.344673,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Aurora_N_103_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Aurora_N_103_NS.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0421",
+      "name": "Lake City Way NE & NE 95th St",
+      "lat": 47.697577,
+      "lon": -122.30548,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/LCW_NE_95.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/LCW_NE_95.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0080",
+      "name": "Aurora Ave N & N 90th St",
+      "lat": 47.694186,
+      "lon": -122.344565,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Aurora_N_90_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Aurora_N_90_NS.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0079",
+      "name": "Aurora Ave N & N 87th St NS",
+      "lat": 47.692012,
+      "lon": -122.344539,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Aurora_N_87_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Aurora_N_87_NS.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0008",
+      "name": "15th Ave NW & NW 85th St",
+      "lat": 47.690609,
+      "lon": -122.376806,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/15_NW_85_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/15_NW_85_NS.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0078",
+      "name": "Linden Ave N & N 85th St",
+      "lat": 47.690568,
+      "lon": -122.346387,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Linden_N_85.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Linden_N_85.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0401",
+      "name": "Aurora Ave N & N 85th St NS",
+      "lat": 47.69056,
+      "lon": -122.344519,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Aurora_N_85_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Aurora_N_85_NS.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0402",
+      "name": "Aurora Ave N & N 85th St EW",
+      "lat": 47.690555,
+      "lon": -122.344686,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Aurora_N_85_EW.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Aurora_N_85_EW.stream/playlist.m3u8"
+    },
+    {
+      "id": "I585",
+      "name": "I-5 @ NE 85th st",
+      "lat": 47.690453,
+      "lon": -122.32889,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/005vc17153.jpg"
+    },
+    {
+      "id": "CMR-0437",
+      "name": "Lake City Way NE & NE 82nd St",
+      "lat": 47.688504,
+      "lon": -122.310757,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/LCW_NE_82.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/LCW_NE_82.stream/playlist.m3u8"
+    },
+    {
+      "id": "I405100",
+      "name": "I-405 @ NE 100th St",
+      "lat": 47.687659,
+      "lon": -122.182058,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/405vc01887.jpg"
+    },
+    {
+      "id": "CMR-0431",
+      "name": "Aurora Ave N & N 80th St",
+      "lat": 47.686939,
+      "lon": -122.344518,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Aurora_N_80.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Aurora_N_80.stream/playlist.m3u8"
+    },
+    {
+      "id": "I580Rev",
+      "name": "I-5 @ NE 80th St, Rev",
+      "lat": 47.686782,
+      "lon": -122.326284,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/005vc17124.jpg"
+    },
+    {
+      "id": "CMR-0420",
+      "name": "Lake City Way NE & NE 80th St",
+      "lat": 47.686702,
+      "lon": -122.313302,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/LCW_NE_80.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/LCW_NE_80.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0118",
+      "name": "15th Ave NE & NE 80th St",
+      "lat": 47.686625,
+      "lon": -122.31207,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/15_NE_80.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/15_NE_80.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0139",
+      "name": "Roosevelt Ave NE & NE 75th St",
+      "lat": 47.683111,
+      "lon": -122.31749,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Roosevelt_NE_75.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Roosevelt_NE_75.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0005",
+      "name": "14th Ave NE & NE 75th St",
+      "lat": 47.683059,
+      "lon": -122.313171,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/14_NE_75.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/14_NE_75.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0082",
+      "name": "Aurora Ave N & N Winona St",
+      "lat": 47.682772,
+      "lon": -122.344484,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Aurora_N_Winona_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Aurora_N_Winona_NS.stream/playlist.m3u8"
+    },
+    {
+      "id": "SR522Roosevelt",
+      "name": "SR-522 & Roosevelt Tunnel",
+      "lat": 47.68249,
+      "lon": -122.318192,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/522vc00048.jpg"
+    },
+    {
+      "id": "SR522I5Ramps",
+      "name": "SR-522 @ I-5 Ramps",
+      "lat": 47.682137,
+      "lon": -122.318804,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/522vc00034.jpg"
+    },
+    {
+      "id": "I5LakeCityWayRev",
+      "name": "I-5 @ Lake City Way, REV",
+      "lat": 47.681943,
+      "lon": -122.32116,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/005vc17082.jpg"
+    },
+    {
+      "id": "I5LCW",
+      "name": "I-5 @ Lake City Way",
+      "lat": 47.681363,
+      "lon": -122.320761,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/005vc17078.jpg"
+    },
+    {
+      "id": "I40585",
+      "name": "I-405 @ NE 85th St",
+      "lat": 47.677121,
+      "lon": -122.184035,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/405vc01801.jpg"
+    },
+    {
+      "id": "CMR-0007",
+      "name": "15th Ave NW & NW 65th St NS",
+      "lat": 47.676357,
+      "lon": -122.376759,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/15_NW_65_1.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/15_NW_65_1.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0006",
+      "name": "15th Ave NW & NW 65th St EW",
+      "lat": 47.675945,
+      "lon": -122.375739,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/15_NW_65_2.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/15_NW_65_2.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0031",
+      "name": "32nd Ave NE & NE 65th St",
+      "lat": 47.675863,
+      "lon": -122.292985,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/32_NE_65_EW.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/32_NE_65_EW.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0015",
+      "name": "18th Ave NE & NE 65th St",
+      "lat": 47.675781,
+      "lon": -122.308714,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/18_NE_65_SEC.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/18_NE_65_SEC.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0029",
+      "name": "25th Ave NE & NE 66th St",
+      "lat": 47.675774,
+      "lon": -122.300652,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/25_NE_66_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/25_NE_66_NS.stream/playlist.m3u8"
+    },
+    {
+      "id": "SR520RedmondWay",
+      "name": "SR-520 @ Redmond Way",
+      "lat": 47.669621,
+      "lon": -122.107832,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/520vc01283.jpg"
+    },
+    {
+      "id": "CMR-0322",
+      "name": "24th Ave NW & NW Market St",
+      "lat": 47.668679,
+      "lon": -122.387576,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/24_NW_Market_EW.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/24_NW_Market_EW.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0010",
+      "name": "15th Ave NW & NW Market St EW",
+      "lat": 47.668667,
+      "lon": -122.375927,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/15_NW_Market_2.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/15_NW_Market_2.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0011",
+      "name": "15th Ave NW & NW Market St NS",
+      "lat": 47.668514,
+      "lon": -122.376215,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/15_NW_Market_1.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/15_NW_Market_1.stream/playlist.m3u8"
+    },
+    {
+      "id": "I40570",
+      "name": "I-405 @ NE 70th Pl",
+      "lat": 47.665402,
+      "lon": -122.186963,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/405vc01742.jpg"
+    },
+    {
+      "id": "I550",
+      "name": "I-5 @ NE 50th St",
+      "lat": 47.665233,
+      "lon": -122.321725,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/005vc16965.jpg"
+    },
+    {
+      "id": "CMR-0115",
+      "name": "Greenlake Way N & N 50th St",
+      "lat": 47.665034,
+      "lon": -122.340207,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Green_Lake_N_50.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Green_Lake_N_50.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0400",
+      "name": "7th Ave NE & NE 50th St",
+      "lat": 47.664959,
+      "lon": -122.321727,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/7_NE_50.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/7_NE_50.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0116",
+      "name": "Latona Ave NE & NE 50th St",
+      "lat": 47.664953,
+      "lon": -122.32562,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Latona_NE_50.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Latona_NE_50.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0225",
+      "name": "12th Ave NE & NE 50th St",
+      "lat": 47.664917,
+      "lon": -122.315239,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/12_NE_50.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/12_NE_50.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0009",
+      "name": "15th Ave NW & NW Leary Way",
+      "lat": 47.663651,
+      "lon": -122.375301,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/15_NW_Leary_EW.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/15_NW_Leary_EW.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0077",
+      "name": "Aurora Ave N & N 46th St",
+      "lat": 47.662145,
+      "lon": -122.347149,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Aurora_N_46.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Aurora_N_46.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0381",
+      "name": "Linden Ave N & N 46th St",
+      "lat": 47.662129,
+      "lon": -122.348579,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Linden_N_46.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Linden_N_46.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0372",
+      "name": "Phinney Ave N & N 46th St",
+      "lat": 47.66212,
+      "lon": -122.353998,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Phinney_N_46_SWC.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Phinney_N_46_SWC.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0371",
+      "name": "Green Lake Way N & N 46th St",
+      "lat": 47.662012,
+      "lon": -122.346363,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Green_Lake_N_46_S-Gore.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Green_Lake_N_46_S-Gore.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0359",
+      "name": "Wallingford Ave N & N 45th St",
+      "lat": 47.661388,
+      "lon": -122.336353,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Wallingford_N_45_SWC.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Wallingford_N_45_SWC.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0342",
+      "name": "Roosevelt Way NE & NE 45th St NWC",
+      "lat": 47.661387,
+      "lon": -122.317691,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Roosevelt_NE_45_NWC.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Roosevelt_NE_45_NWC.stream/playlist.m3u8"
+    },
+    {
+      "id": "I545",
+      "name": "I-5 @ NE 45th St",
+      "lat": 47.661328,
+      "lon": -122.32216,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/005vc16939.jpg"
+    },
+    {
+      "id": "CMR-0393",
+      "name": "7th Ave NE & NE 45th St",
+      "lat": 47.661307,
+      "lon": -122.320743,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/7_NE_45_SEC.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/7_NE_45_SEC.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0343",
+      "name": "Brooklyn Ave NE & NE 45th St",
+      "lat": 47.661293,
+      "lon": -122.314242,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Brooklyn_NE_45_NEC.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Brooklyn_NE_45_NEC.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0344",
+      "name": "20th Ave NE & NE 45th St",
+      "lat": 47.661263,
+      "lon": -122.306519,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/20_NE_45_NWC.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/20_NE_45_NWC.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0216",
+      "name": "15th Ave NE & NE 45th St",
+      "lat": 47.661262,
+      "lon": -122.311993,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/15_NE_45.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/15_NE_45.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0133",
+      "name": "NE 45th St & Union Bay",
+      "lat": 47.661243,
+      "lon": -122.292864,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/UnionBay_NE_45_EW.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/UnionBay_NE_45_EW.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0341",
+      "name": "Roosevelt Way NE & NE 45th St SEC",
+      "lat": 47.661223,
+      "lon": -122.317564,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Roosevelt_NE_45_SEC.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Roosevelt_NE_45_SEC.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0130",
+      "name": "Montlake Blvd NE & 25th Ave NE",
+      "lat": 47.659059,
+      "lon": -122.301149,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Montlake_NE_25_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Montlake_NE_25_NS.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0253",
+      "name": "Leary Way NW & NW 43rd St",
+      "lat": 47.658944,
+      "lon": -122.364716,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Leary_NW_43_EW.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Leary_NW_43_EW.stream/playlist.m3u8"
+    },
+    {
+      "id": "I5742",
+      "name": "I-5 @ 7th Ave NE @ NE 42nd St",
+      "lat": 47.656821,
+      "lon": -122.32085,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/005vc16908.jpg"
+    },
+    {
+      "id": "CMR-0215",
+      "name": "15th Ave NE & NE Campus Pkwy",
+      "lat": 47.656206,
+      "lon": -122.312126,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/15_NE_Campus_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/15_NE_Campus_NS.stream/playlist.m3u8"
+    },
+    {
+      "id": "SR202-204",
+      "name": "SR-202 @ 204th Pl NE",
+      "lat": 47.656052,
+      "lon": -122.070537,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/202vc00987.jpg"
+    },
+    {
+      "id": "I5SCB",
+      "name": "I-5 @ Ship Canal Bridge",
+      "lat": 47.654514,
+      "lon": -122.322601,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/005vc16887.jpg"
+    },
+    {
+      "id": "CMR-0013",
+      "name": "15th Ave W & W Emerson St",
+      "lat": 47.653888,
+      "lon": -122.376257,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/15_W_Emerson_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/15_W_Emerson_NS.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0390",
+      "name": "15th Ave W & W Nickerson St",
+      "lat": 47.653471,
+      "lon": -122.376181,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/15_W_Nickerson.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/15_W_Nickerson.stream/playlist.m3u8"
+    },
+    {
+      "id": "I40559",
+      "name": "I-405 @ NE 59th St",
+      "lat": 47.653018,
+      "lon": -122.187045,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/405vc01675.jpg"
+    },
+    {
+      "id": "CMR-0214",
+      "name": "15th Ave NE & NE Pacific St",
+      "lat": 47.652976,
+      "lon": -122.312464,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/15_NE_Pacific.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/15_NE_Pacific.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0432",
+      "name": "Bridge Way N & N 38th St",
+      "lat": 47.652597,
+      "lon": -122.346662,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Bridge_N_38.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Bridge_N_38.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0348",
+      "name": "17th Ave NE & NE Pacific St PED",
+      "lat": 47.652077,
+      "lon": -122.310657,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/17_NE_Pacific.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/17_NE_Pacific.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0386",
+      "name": "Eastlake Ave E & Fuhrman Ave E",
+      "lat": 47.651592,
+      "lon": -122.321281,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Eastlake_Fuhrman.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Eastlake_Fuhrman.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0109",
+      "name": "Evanston Ave N & N 36th St",
+      "lat": 47.651485,
+      "lon": -122.351356,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Evanston_N_36_EW.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Evanston_N_36_EW.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0114",
+      "name": "Fremont Ave N & N 36th St",
+      "lat": 47.651349,
+      "lon": -122.349934,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Fremont_N_36_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Fremont_N_36_NS.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0391",
+      "name": "Aurora Ave N & N 36th St",
+      "lat": 47.651237,
+      "lon": -122.347312,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Aurora_N_36.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Aurora_N_36.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0105",
+      "name": "Harvard Ave E & Eastlake Ave E",
+      "lat": 47.650519,
+      "lon": -122.322094,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Eastlake_E_Harvard_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Eastlake_E_Harvard_NS.stream/playlist.m3u8"
+    },
+    {
+      "id": "I5EastlakeRev",
+      "name": "I-5 @ Eastlake Ave, Rev",
+      "lat": 47.649819,
+      "lon": -122.322561,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/005vc16859.jpg"
+    },
+    {
+      "id": "CMR-0254",
+      "name": "Fremont Ave N & N 34th St EW",
+      "lat": 47.64959,
+      "lon": -122.349747,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Fremont_N_34_EW.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Fremont_N_34_EW.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0392",
+      "name": "Fremont Ave N & N 34th St NS",
+      "lat": 47.64959,
+      "lon": -122.349747,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Fremont_N_34_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Fremont_N_34_NS.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0131",
+      "name": "Montlake Blvd NE & NE Pacific St NWC",
+      "lat": 47.649291,
+      "lon": -122.304578,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Montlake_NE_Pacific_1.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Montlake_NE_Pacific_1.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0132",
+      "name": "Montlake Blvd NE & NE Pacific St SWC",
+      "lat": 47.649029,
+      "lon": -122.304602,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Montlake_NE_Pacific_2.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Montlake_NE_Pacific_2.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0012",
+      "name": "15th Ave W & W Dravus St",
+      "lat": 47.648586,
+      "lon": -122.376378,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/15_W_Dravus_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/15_W_Dravus_NS.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0403",
+      "name": "Montlake Blvd E & E Shelby St",
+      "lat": 47.646433,
+      "lon": -122.304614,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Montlake_E_Shelby_SWC.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Montlake_E_Shelby_SWC.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0041",
+      "name": "4th Ave N & Dexter Ave N",
+      "lat": 47.646194,
+      "lon": -122.349856,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/4_N_Dexter_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/4_N_Dexter_NS.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0445",
+      "name": "4th Ave N & Dexter Ave N 2",
+      "lat": 47.646194,
+      "lon": -122.349856,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/4_N_Dexter_2.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/4_N_Dexter_2.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0346",
+      "name": "Montlake Blvd E & E Hamlin St",
+      "lat": 47.64564,
+      "lon": -122.304583,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Montlake_E_Hamlin_NEC.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Montlake_E_Hamlin_NEC.stream/playlist.m3u8"
+    },
+    {
+      "id": "SR520Foster",
+      "name": "SR-520 @ Foster Island",
+      "lat": 47.644887,
+      "lon": -122.290239,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/520vc00158.jpg"
+    },
+    {
+      "id": "CMR-0408",
+      "name": "Montlake Blvd E & SR 520 WB Ramp",
+      "lat": 47.644724,
+      "lon": -122.304616,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Montlake_SR520_WB-Ramp.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Montlake_SR520_WB-Ramp.stream/playlist.m3u8"
+    },
+    {
+      "id": "SR52035",
+      "name": "SR-520 @ 35th Ave E",
+      "lat": 47.644608,
+      "lon": -122.286359,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/520vc00170.jpg"
+    },
+    {
+      "id": "SR520MontlakeB-N",
+      "name": "SR-520 @ Montlake Blvd. N",
+      "lat": 47.644358,
+      "lon": -122.30513,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/520vc00094.jpg"
+    },
+    {
+      "id": "I40539",
+      "name": "I-405 @ NE 39th St",
+      "lat": 47.644108,
+      "lon": -122.186902,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/405vc01575.jpg"
+    },
+    {
+      "id": "SR52025",
+      "name": "SR-520 @ 25th Ave E",
+      "lat": 47.644106,
+      "lon": -122.299993,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/520vc00116.jpg"
+    },
+    {
+      "id": "SR52041",
+      "name": "SR-520 @ 41st Ave E",
+      "lat": 47.644102,
+      "lon": -122.279481,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/520vc00213.jpg"
+    },
+    {
+      "id": "SR52020",
+      "name": "SR-520 @ 20th Ave E",
+      "lat": 47.644048,
+      "lon": -122.305512,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/520vc00083.jpg"
+    },
+    {
+      "id": "CMR-0129",
+      "name": "Montlake Blvd NE & NE Lake Washington Blvd",
+      "lat": 47.644014,
+      "lon": -122.304148,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Montlake_E_LakeWash_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Montlake_E_LakeWash_NS.stream/playlist.m3u8"
+    },
+    {
+      "id": "SR520MontlakeB-S",
+      "name": "SR-520 @ Montlake Blvd. S",
+      "lat": 47.643989,
+      "lon": -122.304921,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/520vc00088.jpg"
+    },
+    {
+      "id": "SR99Raye",
+      "name": "SR-99 @ Raye St",
+      "lat": 47.642997,
+      "lon": -122.347158,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/099vc03415.jpg"
+    },
+    {
+      "id": "I5Roanoke",
+      "name": "I-5 @ Roanoke St",
+      "lat": 47.642603,
+      "lon": -122.322798,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/005vc16811.jpg"
+    },
+    {
+      "id": "SR520BellevueWay",
+      "name": "SR-520 @ Bellevue Way NE",
+      "lat": 47.642543,
+      "lon": -122.20243,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/520vc00593.jpg"
+    },
+    {
+      "id": "SR520WHighrise",
+      "name": "SR-520 West Highrise",
+      "lat": 47.64211,
+      "lon": -122.269162,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/520vc00241.jpg"
+    },
+    {
+      "id": "SR52092",
+      "name": "SR-520 @ 92nd Ave NE",
+      "lat": 47.640622,
+      "lon": -122.217734,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/520vc00522.jpg"
+    },
+    {
+      "id": "SR520108S",
+      "name": "SR-520 @ 108th Ave NE, S",
+      "lat": 47.640335,
+      "lon": -122.196667,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/520vc00624.jpg"
+    },
+    {
+      "id": "SR520108N",
+      "name": "SR-520 @ 108th Ave NE, N",
+      "lat": 47.640122,
+      "lon": -122.196234,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/520vc00620.jpg"
+    },
+    {
+      "id": "SR520MidBr",
+      "name": "SR-520 @ Mid Bridge",
+      "lat": 47.640073,
+      "lon": -122.25479,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/520vc00293.jpg"
+    },
+    {
+      "id": "SR520EastBr",
+      "name": "SR-520 @ East Bridge",
+      "lat": 47.63888,
+      "lon": -122.248402,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/520vc00341.jpg"
+    },
+    {
+      "id": "CMR-0292",
+      "name": "15th Ave W & W Armory Way",
+      "lat": 47.637661,
+      "lon": -122.376143,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/15_W_Armory_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/15_W_Armory_NS.stream/playlist.m3u8"
+    },
+    {
+      "id": "SR52088",
+      "name": "SR-520 @ 88th Ave NE",
+      "lat": 47.63766,
+      "lon": -122.223096,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/520vc00492.jpg"
+    },
+    {
+      "id": "SR520EHighrise",
+      "name": "SR-520 East Highrise",
+      "lat": 47.637594,
+      "lon": -122.241775,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/520vc00400.jpg"
+    },
+    {
+      "id": "SR520148EBrab",
+      "name": "SR-520 @ 148th, EB RAB",
+      "lat": 47.636857,
+      "lon": -122.142934,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/520vc00919"
+    },
+    {
+      "id": "SR52084",
+      "name": "SR-520 @ 84th Ave NE",
+      "lat": 47.63616,
+      "lon": -122.229013,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/520vc00455.jpg"
+    },
+    {
+      "id": "CMR-0068",
+      "name": "Aurora Ave N & Howe St",
+      "lat": 47.635753,
+      "lon": -122.343483,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Aurora_N_Howe_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Aurora_N_Howe_NS.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-T04",
+      "name": "24th Ave E & Boyer Ave E",
+      "lat": 47.635224,
+      "lon": -122.301491,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/SDOT_Portable_4.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/SDOT_Portable_4.stream/playlist.m3u8"
+    },
+    {
+      "id": "I405SR520",
+      "name": "I-405 @ SR-520",
+      "lat": 47.63396,
+      "lon": -122.189599,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/405vc01483.jpg"
+    },
+    {
+      "id": "SR520148",
+      "name": "SR-520 @ 148th Ave NE",
+      "lat": 47.633737,
+      "lon": -122.144422,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/520vc00918.jpg"
+    },
+    {
+      "id": "CMR-0298",
+      "name": "15th Ave W & W Garfield St",
+      "lat": 47.633499,
+      "lon": -122.376195,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/15_W_Garfield_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/15_W_Garfield_NS.stream/playlist.m3u8"
+    },
+    {
+      "id": "SR520148EBramp",
+      "name": "SR-520 @ 148th, EB Ramps",
+      "lat": 47.63312,
+      "lon": -122.143085,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/520vc00912.jpg"
+    },
+    {
+      "id": "I5Galer",
+      "name": "I-5 @ E Galer St",
+      "lat": 47.632262,
+      "lon": -122.32472,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/005vc16732.jpg"
+    },
+    {
+      "id": "CMR-0296",
+      "name": "Elliott & Galer Flyover",
+      "lat": 47.632252,
+      "lon": -122.375652,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Elliott_W_Galer-Flyover_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Elliott_W_Galer-Flyover_NS.stream/playlist.m3u8"
+    },
+    {
+      "id": "SR520I405",
+      "name": "SR-520 @ I-405 SE Quad",
+      "lat": 47.632123,
+      "lon": -122.186934,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/520vc00701.jpg"
+    },
+    {
+      "id": "CMR-0297",
+      "name": "Alaskan Way W & W Galer Flyover",
+      "lat": 47.631673,
+      "lon": -122.376778,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Alaskan_W_Galer_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Alaskan_W_Galer_NS.stream/playlist.m3u8"
+    },
+    {
+      "id": "I40522",
+      "name": "I-405 @ NE 22nd St",
+      "lat": 47.630822,
+      "lon": -122.189535,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/405vc01469.jpg"
+    },
+    {
+      "id": "SR99Comstock",
+      "name": "SR-99 @ Comstock St",
+      "lat": 47.630586,
+      "lon": -122.343521,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/099vc03329.jpg"
+    },
+    {
+      "id": "SR520130",
+      "name": "SR-520 @ 130th Ave NE",
+      "lat": 47.63012,
+      "lon": -122.167135,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/520vc00800.jpg"
+    },
+    {
+      "id": "I40520",
+      "name": "I-405 @ NE 20th St",
+      "lat": 47.626622,
+      "lon": -122.188734,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/405vc01458.jpg"
+    },
+    {
+      "id": "CMR-0108",
+      "name": "Elliott Ave W & W Mercer Pl",
+      "lat": 47.626585,
+      "lon": -122.368357,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Elliott_W_Mercer_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Elliott_W_Mercer_NS.stream/playlist.m3u8"
+    },
+    {
+      "id": "SR99Valley",
+      "name": "SR-99 @ Valley St",
+      "lat": 47.626268,
+      "lon": -122.3436,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/099vc03298.jpg"
+    },
+    {
+      "id": "I5MercerSBExit",
+      "name": "I-5 @ Mercer, SB Exit",
+      "lat": 47.626243,
+      "lon": -122.329195,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/005vc16695.jpg"
+    },
+    {
+      "id": "I5MercerNBRamps",
+      "name": "I-5 @ Mercer St NB Ramps",
+      "lat": 47.625899,
+      "lon": -122.329358,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/005vc16687.jpg"
+    },
+    {
+      "id": "I5Mercer",
+      "name": "I-5 @ Mercer St",
+      "lat": 47.625561,
+      "lon": -122.328509,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/005vc16702.jpg"
+    },
+    {
+      "id": "CMR-0234",
+      "name": "Queen Anne Ave N & Roy St",
+      "lat": 47.625454,
+      "lon": -122.356703,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/QAnne_N_Roy_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/QAnne_N_Roy_NS.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0092",
+      "name": "Broadway & E Roy St",
+      "lat": 47.625049,
+      "lon": -122.320893,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Broadway_E_Roy_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Broadway_E_Roy_NS.stream/playlist.m3u8"
+    },
+    {
+      "id": "I5MercerFairview",
+      "name": "I-5 @ Mercer/Fairview",
+      "lat": 47.625036,
+      "lon": -122.332756,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/005vc16678.jpg"
+    },
+    {
+      "id": "I5MercerRamp",
+      "name": "I-5 @ Mercer St, Ramps",
+      "lat": 47.624947,
+      "lon": -122.332118,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/005vc16680.jpg"
+    },
+    {
+      "id": "CMR-0135",
+      "name": "Queen Anne Ave N & Mercer St",
+      "lat": 47.624583,
+      "lon": -122.356709,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/QAnne_N_Mercer_EW.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/QAnne_N_Mercer_EW.stream/playlist.m3u8"
+    },
+    {
+      "id": "I5MercerRev",
+      "name": "I-5 @ Mercer St, REV",
+      "lat": 47.624278,
+      "lon": -122.328506,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/005vc16675.jpg"
+    },
+    {
+      "id": "CMR-0387",
+      "name": "MLK Jr Way E & E Madison St",
+      "lat": 47.623313,
+      "lon": -122.296426,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/MLK_E_Madison.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/MLK_E_Madison.stream/playlist.m3u8"
+    },
+    {
+      "id": "SR99Republican",
+      "name": "SR-99 @ Republican St",
+      "lat": 47.62323,
+      "lon": -122.343666,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/099vc03275.jpg"
+    },
+    {
+      "id": "SR99Harrison",
+      "name": "SR-99 @ Harrson St",
+      "lat": 47.622065,
+      "lon": -122.345031,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/099vc03266.jpg"
+    },
+    {
+      "id": "CMR-0374",
+      "name": "1st Ave N & Thomas St NWC",
+      "lat": 47.620999,
+      "lon": -122.355435,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/1_N_Thomas_NWC.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/1_N_Thomas_NWC.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0375",
+      "name": "1st Ave N & Thomas St SEC",
+      "lat": 47.620999,
+      "lon": -122.355435,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/1_N_Thomas_SEC.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/1_N_Thomas_SEC.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0377",
+      "name": "Queen Anne Ave N & Thomas St SWC",
+      "lat": 47.620896,
+      "lon": -122.356828,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/QAnne_N_Thomas_SWC.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/QAnne_N_Thomas_SWC.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0376",
+      "name": "Queen Anne Ave N & Thomas St NWC",
+      "lat": 47.620896,
+      "lon": -122.356828,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/QAnne_N_Thomas_NWC.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/QAnne_N_Thomas_NWC.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0145",
+      "name": "Western Ave & Elliott St",
+      "lat": 47.620664,
+      "lon": -122.360928,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Western_Elliott_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Western_Elliott_NS.stream/playlist.m3u8"
+    },
+    {
+      "id": "I5DennyWay",
+      "name": "I-5 @ Denny Way",
+      "lat": 47.620554,
+      "lon": -122.328646,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/005vc16645.jpg"
+    },
+    {
+      "id": "CMR-0313",
+      "name": "Broadway & E John St",
+      "lat": 47.619908,
+      "lon": -122.320873,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Broadway_E_John_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Broadway_E_John_NS.stream/playlist.m3u8"
+    },
+    {
+      "id": "I40514",
+      "name": "I-405 @ NE 14th St",
+      "lat": 47.619748,
+      "lon": -122.188536,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/405vc01427.jpg"
+    },
+    {
+      "id": "I5JohnRev",
+      "name": "I-5 @ John St, REV",
+      "lat": 47.619723,
+      "lon": -122.328487,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/005vc16644.jpg"
+    },
+    {
+      "id": "CMR-0395",
+      "name": "23rd Ave E & E Madison St NS",
+      "lat": 47.619171,
+      "lon": -122.302547,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/23_E_Madison_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/23_E_Madison_NS.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0017",
+      "name": "1st Ave & Denny Way",
+      "lat": 47.618602,
+      "lon": -122.355453,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/1_N_Denny_EW.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/1_N_Denny_EW.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0394",
+      "name": "23rd Ave E & E Madison St EW",
+      "lat": 47.61842,
+      "lon": -122.30365,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/23_E_Madison_EW.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/23_E_Madison_EW.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0171",
+      "name": "1st Ave & Broad St",
+      "lat": 47.616918,
+      "lon": -122.352507,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/1_Broad.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/1_Broad.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0412",
+      "name": "19th Ave & E Madison St",
+      "lat": 47.61675,
+      "lon": -122.307422,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/19_E_Madison.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/19_E_Madison.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0182",
+      "name": "Western Ave & Broad St",
+      "lat": 47.616253,
+      "lon": -122.353366,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Western_Broad_SWC.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Western_Broad_SWC.stream/playlist.m3u8"
+    },
+    {
+      "id": "I5Olive",
+      "name": "I-5 @ Olive Way",
+      "lat": 47.616222,
+      "lon": -122.328822,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/005vc16631.jpg"
+    },
+    {
+      "id": "I4058",
+      "name": "I-405 @ NE 8th St",
+      "lat": 47.61598,
+      "lon": -122.188536,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/405vc01383.jpg"
+    },
+    {
+      "id": "CMR-0106",
+      "name": "Elliott Ave & Broad St",
+      "lat": 47.615588,
+      "lon": -122.354224,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Elliott_Broad_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Elliott_Broad_NS.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0411",
+      "name": "16th Ave E & E Madison St",
+      "lat": 47.615045,
+      "lon": -122.311459,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/16_E_Madison.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/16_E_Madison.stream/playlist.m3u8"
+    },
+    {
+      "id": "I5Pine",
+      "name": "I-5 @ Pine St",
+      "lat": 47.614527,
+      "lon": -122.329658,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/005vc16607.jpg"
+    },
+    {
+      "id": "CMR-0090",
+      "name": "Broadway & E Pike St EW",
+      "lat": 47.614077,
+      "lon": -122.320578,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Broadway_E_Pike_EW.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Broadway_E_Pike_EW.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0091",
+      "name": "Broadway & E Pike St NS",
+      "lat": 47.613779,
+      "lon": -122.320776,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Broadway_E_Pike_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Broadway_E_Pike_NS.stream/playlist.m3u8"
+    },
+    {
+      "id": "I5PikeNB",
+      "name": "I-5 @ Pike St, NB",
+      "lat": 47.613081,
+      "lon": -122.330102,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/005vc16598.jpg"
+    },
+    {
+      "id": "I5PikeSB",
+      "name": "I-5 @ Pike St, SB",
+      "lat": 47.613062,
+      "lon": -122.330452,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/005vc16597.jpg"
+    },
+    {
+      "id": "CMR-0418",
+      "name": "12th Ave & E Madison St NS",
+      "lat": 47.612986,
+      "lon": -122.316738,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/12_E_Madison_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/12_E_Madison_NS.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0410",
+      "name": "12th Ave & E Madison St EW",
+      "lat": 47.612986,
+      "lon": -122.316738,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/12_E_Madison_EW.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/12_E_Madison_EW.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0263",
+      "name": "23rd Ave & E Union St NS",
+      "lat": 47.612941,
+      "lon": -122.30271,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/23_Union.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/23_Union.stream/playlist.m3u8"
+    },
+    {
+      "id": "I5PikeRev",
+      "name": "I-5 @ Pike St REV",
+      "lat": 47.61285,
+      "lon": -122.330376,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/005vc16602.jpg"
+    },
+    {
+      "id": "I4054",
+      "name": "I-405 @ NE 4th St",
+      "lat": 47.612631,
+      "lon": -122.188536,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/405vc01355.jpg"
+    },
+    {
+      "id": "I5UnionRev",
+      "name": "I-5 @ Union St, REV",
+      "lat": 47.611327,
+      "lon": -122.331192,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/005vc16588.jpg"
+    },
+    {
+      "id": "CMR-0416",
+      "name": "Broadway & Madison St EW",
+      "lat": 47.611154,
+      "lon": -122.320806,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Broadway_E_Madison_EW.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Broadway_E_Madison_EW.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0417",
+      "name": "Broadway & Madison St NS",
+      "lat": 47.611154,
+      "lon": -122.320806,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Broadway_E_Madison_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Broadway_E_Madison_NS.stream/playlist.m3u8"
+    },
+    {
+      "id": "I5UniversityNB",
+      "name": "I-5 @ University St, NB",
+      "lat": 47.610682,
+      "lon": -122.331065,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/005vc16580.jpg"
+    },
+    {
+      "id": "I5UniversityRamp",
+      "name": "I-5 @ University St Ramp",
+      "lat": 47.61023,
+      "lon": -122.331225,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/005vc16574.jpg"
+    },
+    {
+      "id": "I5UniversitySB",
+      "name": "I-5 @ University St, SB",
+      "lat": 47.609994,
+      "lon": -122.33144,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/005vc16571.jpg"
+    },
+    {
+      "id": "CMR-0378",
+      "name": "Boren Ave & Madison St NS",
+      "lat": 47.609338,
+      "lon": -122.325139,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Boren_Madison_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Boren_Madison_NS.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0088",
+      "name": "Boren Ave & Madison St EW",
+      "lat": 47.609338,
+      "lon": -122.325139,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Boren_Madison_EW.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Boren_Madison_EW.stream/playlist.m3u8"
+    },
+    {
+      "id": "I5Seneca",
+      "name": "I-5 @ Seneca St",
+      "lat": 47.608771,
+      "lon": -122.331213,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/005vc16563.jpg"
+    },
+    {
+      "id": "I405Main",
+      "name": "I-405 @ Main St",
+      "lat": 47.608521,
+      "lon": -122.188032,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/405vc01331.jpg"
+    },
+    {
+      "id": "I5SenecaNBExit",
+      "name": "I-5 @ SenecaSt,NB Exit",
+      "lat": 47.608334,
+      "lon": -122.330813,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/005vc16562"
+    },
+    {
+      "id": "CMR-0024",
+      "name": "23rd Ave E & E Cherry St NS",
+      "lat": 47.608266,
+      "lon": -122.302768,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/23_E_Cherry_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/23_E_Cherry_NS.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0023",
+      "name": "23rd Ave E & E Cherry St EW",
+      "lat": 47.608008,
+      "lon": -122.302511,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/23_E_Cherry_EW.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/23_E_Cherry_EW.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0268",
+      "name": "MLK Jr Way & E Cherry St",
+      "lat": 47.607997,
+      "lon": -122.296254,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/MLK_E_Cherry_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/MLK_E_Cherry_NS.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0307",
+      "name": "Broadway & James St",
+      "lat": 47.607218,
+      "lon": -122.320752,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Broadway_E_James_EW.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Broadway_E_James_EW.stream/playlist.m3u8"
+    },
+    {
+      "id": "I5MarionRev",
+      "name": "I-5 @ Marion St Rev",
+      "lat": 47.606969,
+      "lon": -122.329695,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/005vc16556.jpg"
+    },
+    {
+      "id": "I5Marion",
+      "name": "I-5 @ Marion St",
+      "lat": 47.606624,
+      "lon": -122.329265,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/005vc16551.jpg"
+    },
+    {
+      "id": "CMR-0060",
+      "name": "9th Ave & James St",
+      "lat": 47.605555,
+      "lon": -122.324749,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/9_James_EW.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/9_James_EW.stream/playlist.m3u8"
+    },
+    {
+      "id": "I5CherryRamp",
+      "name": "I-5 @ Cherry St, Ramp",
+      "lat": 47.605297,
+      "lon": -122.32775,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/005vc16544.jpg"
+    },
+    {
+      "id": "CMR-0242",
+      "name": "23rd Ave & E Alder St",
+      "lat": 47.604327,
+      "lon": -122.302427,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/23_Alder_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/23_Alder_NS.stream/playlist.m3u8"
+    },
+    {
+      "id": "I5Jefferson",
+      "name": "I-5 @ S Jefferson St",
+      "lat": 47.603744,
+      "lon": -122.326823,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/005vc16527.jpg"
+    },
+    {
+      "id": "I5Yesler",
+      "name": "I-5 @ Yesler St",
+      "lat": 47.601756,
+      "lon": -122.325412,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/005vc16511.jpg"
+    },
+    {
+      "id": "CMR-0369",
+      "name": "Boren Ave & Yesler Way",
+      "lat": 47.601702,
+      "lon": -122.317823,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Boren_Yesler_NWC.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Boren_Yesler_NWC.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0269",
+      "name": "MLK Jr Way & E Yesler Way",
+      "lat": 47.601656,
+      "lon": -122.296768,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/MLK_E_Yesler_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/MLK_E_Yesler_NS.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0002",
+      "name": "12th Ave S & Boren Ave S",
+      "lat": 47.600853,
+      "lon": -122.316965,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/12_S_Boren.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/12_S_Boren.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0028",
+      "name": "23rd Ave S & S Jackson St NS",
+      "lat": 47.599559,
+      "lon": -122.302234,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/23_S_Jackson_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/23_S_Jackson_NS.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0027",
+      "name": "23rd Ave S & S Jackson St",
+      "lat": 47.599284,
+      "lon": -122.301823,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/23_S_Jackson_EW.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/23_S_Jackson_EW.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0004",
+      "name": "14th Ave S & S Jackson St",
+      "lat": 47.599237,
+      "lon": -122.314174,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/14_S_Jackson.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/14_S_Jackson.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0270",
+      "name": "MLK Jr Way S & S Jackson St",
+      "lat": 47.599233,
+      "lon": -122.297415,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/MLK_S_Jackson_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/MLK_S_Jackson_NS.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0306",
+      "name": "S Jackson St & Maynard Ave S",
+      "lat": 47.599191,
+      "lon": -122.325055,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Maynard_S_Jackson_EW.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Maynard_S_Jackson_EW.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0193",
+      "name": "12th Ave S & S Jackson St",
+      "lat": 47.599189,
+      "lon": -122.317223,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/12_S_Jackson.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/12_S_Jackson.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0362",
+      "name": "1st Ave S & S Dearborn St",
+      "lat": 47.596508,
+      "lon": -122.33419,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/1_S_Dearborn.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/1_S_Dearborn.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0294",
+      "name": "Alaskan Way S & S Dearborn St",
+      "lat": 47.596479,
+      "lon": -122.335535,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Alaskan_S_Dearborn_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Alaskan_S_Dearborn_NS.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0136",
+      "name": "Rainier Ave S & S Dearborn St",
+      "lat": 47.595874,
+      "lon": -122.31153,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Rainier_S_Dearborn_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Rainier_S_Dearborn_NS.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0053",
+      "name": "5th Ave S/S Dearborn St/Seattle Blvd S",
+      "lat": 47.595794,
+      "lon": -122.327683,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/5_S_Dearborn.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/5_S_Dearborn.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0363",
+      "name": "1st Ave S & S Charles St",
+      "lat": 47.595677,
+      "lon": -122.334187,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/1_S_Charles.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/1_S_Charles.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0299",
+      "name": "23rd Ave S & S Dearborn St",
+      "lat": 47.595571,
+      "lon": -122.302222,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/23_S_Dearborn_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/23_S_Dearborn_NS.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-T08",
+      "name": "Occidental Ave S & S Charles St",
+      "lat": 47.595506,
+      "lon": -122.333252,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/SDOT_Portable_8.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/SDOT_Portable_8.stream/playlist.m3u8"
+    },
+    {
+      "id": "I90CorwinPl",
+      "name": "I-90 @ Corwin Pl",
+      "lat": 47.595083,
+      "lon": -122.314532,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/090vc00292.jpg"
+    },
+    {
+      "id": "I9012EB",
+      "name": "I-90 @ 12th Ave S, EB",
+      "lat": 47.594718,
+      "lon": -122.317107,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/090vc00271"
+    },
+    {
+      "id": "CMR-0045",
+      "name": "4th Ave S s/o I-90 TD",
+      "lat": 47.594296,
+      "lon": -122.329056,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/4_S_I90_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/4_S_I90_NS.stream/playlist.m3u8"
+    },
+    {
+      "id": "I5I90",
+      "name": "I-5 & I-90 Interchange",
+      "lat": 47.59366,
+      "lon": -122.320353,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/090vc00245.jpg"
+    },
+    {
+      "id": "I40520NB",
+      "name": "I-405 @ SE 20th St, NB",
+      "lat": 47.593491,
+      "lon": -122.179838,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/405vc01199.jpg"
+    },
+    {
+      "id": "I90AirportWayWB",
+      "name": "I-90 @ Airport Way WB",
+      "lat": 47.59293,
+      "lon": -122.323885,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/090vc00237.jpg"
+    },
+    {
+      "id": "I40520SB",
+      "name": "I-405 @ SE 20th St, SB",
+      "lat": 47.59271,
+      "lon": -122.180638,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/405vc01194.jpg"
+    },
+    {
+      "id": "SR99RoyalBrWay",
+      "name": "SR-99 @ S Royal Brougham Way",
+      "lat": 47.59253,
+      "lon": -122.335896,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/099vc03037.jpg"
+    },
+    {
+      "id": "I90NBtoEBramp",
+      "name": "I-90 @ I-5 NB to EB Ramp",
+      "lat": 47.592515,
+      "lon": -122.320138,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/090vc00255.jpg"
+    },
+    {
+      "id": "CMR-0429",
+      "name": "5th Ave S & S Royal Brougham Way",
+      "lat": 47.5924,
+      "lon": -122.327403,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/5_S_RoyalB.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/5_S_RoyalB.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0293",
+      "name": "Colorado Ave S & S Royal Brougham Way",
+      "lat": 47.592399,
+      "lon": -122.335492,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Colorado_S_RoyalB_S_Portal.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Colorado_S_RoyalB_S_Portal.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0022",
+      "name": "1st Ave S & S Royal Brougham Way",
+      "lat": 47.592396,
+      "lon": -122.334195,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/1_S_RoyalB_EW.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/1_S_RoyalB_EW.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0314",
+      "name": "4th Ave S & S Royal Brougham Way",
+      "lat": 47.592394,
+      "lon": -122.329122,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/4_S_RoyalB_EW.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/4_S_RoyalB_EW.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0300",
+      "name": "23rd Ave S & S Judkins St",
+      "lat": 47.591893,
+      "lon": -122.3025,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/23_S_Judkins_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/23_S_Judkins_NS.stream/playlist.m3u8"
+    },
+    {
+      "id": "SR99AtlanticE",
+      "name": "SR-99 @ S Atlantic St E",
+      "lat": 47.590807,
+      "lon": -122.336773,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/099vc03022.jpg"
+    },
+    {
+      "id": "SR99AtlanticW",
+      "name": "SR-99 @ S Atlantic St W",
+      "lat": 47.590716,
+      "lon": -122.337059,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/099vc03015.jpg"
+    },
+    {
+      "id": "CMR-0360",
+      "name": "23rd Ave S & S I-90 Lid",
+      "lat": 47.590657,
+      "lon": -122.302148,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/23_S_I-90_NWC.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/23_S_I-90_NWC.stream/playlist.m3u8"
+    },
+    {
+      "id": "I90Rainier",
+      "name": "I-90 @ Rainier Ave S",
+      "lat": 47.59056,
+      "lon": -122.307469,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/090vc00329.jpg"
+    },
+    {
+      "id": "I90EastPortalMBT",
+      "name": "I-90 @ East Portal MBT",
+      "lat": 47.590385,
+      "lon": -122.288521,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/090vc00422.jpg"
+    },
+    {
+      "id": "CMR-0157",
+      "name": "SR 99 & S Atlantic St",
+      "lat": 47.590369,
+      "lon": -122.337103,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/SR-99_S_Atlantic.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/SR-99_S_Atlantic.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0158",
+      "name": "Alaskan Way S & S Atlantic St",
+      "lat": 47.590319,
+      "lon": -122.337417,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Alaskan_S_Atlantic.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Alaskan_S_Atlantic.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0020",
+      "name": "1st Ave S & S Atlantic St",
+      "lat": 47.590312,
+      "lon": -122.334195,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/1_S_Atlantic_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/1_S_Atlantic_NS.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0042",
+      "name": "4th Ave S & S Atlantic St",
+      "lat": 47.590311,
+      "lon": -122.32905,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/4_S_Atlantic_EW.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/4_S_Atlantic_EW.stream/playlist.m3u8"
+    },
+    {
+      "id": "I904",
+      "name": "I-90 @ 4th Ave S",
+      "lat": 47.590311,
+      "lon": -122.32905,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/090vc00207.jpg"
+    },
+    {
+      "id": "I903",
+      "name": "I-90 @ 3rd Ave S",
+      "lat": 47.59029,
+      "lon": -122.329908,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/090vc00202.jpg"
+    },
+    {
+      "id": "I90WMercerWay",
+      "name": "I-90 @ W Mercer Way",
+      "lat": 47.590259,
+      "lon": -122.249742,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/090vc00604.jpg"
+    },
+    {
+      "id": "I9018",
+      "name": "I-90 @ 18th Ave S",
+      "lat": 47.590218,
+      "lon": -122.300324,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/090vc00318.jpg"
+    },
+    {
+      "id": "I90WHighrise",
+      "name": "I-90 @ W Highrise, EB",
+      "lat": 47.590167,
+      "lon": -122.2836,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/090vc00440.jpg"
+    },
+    {
+      "id": "I9076",
+      "name": "I-90 @ 76th Ave SE",
+      "lat": 47.589976,
+      "lon": -122.237874,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/090vc00670.jpg"
+    },
+    {
+      "id": "I90Midspan",
+      "name": "I-90 Midspan",
+      "lat": 47.589883,
+      "lon": -122.270241,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/090vc00508.jpg"
+    },
+    {
+      "id": "I90EHighrise",
+      "name": "I-90 @ E Highrise",
+      "lat": 47.589637,
+      "lon": -122.252256,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/090vc00579.jpg"
+    },
+    {
+      "id": "CMR-0279",
+      "name": "Rainier Ave S & S Massachusetts St",
+      "lat": 47.588411,
+      "lon": -122.305827,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Rainier_S_Massachusetts_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Rainier_S_Massachusetts_NS.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0301",
+      "name": "23rd Ave S & S Massachusetts St NS",
+      "lat": 47.588375,
+      "lon": -122.302594,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/23_S_Massachusetts_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/23_S_Massachusetts_NS.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0406",
+      "name": "MLK Jr Way S & S Massachusetts St",
+      "lat": 47.588313,
+      "lon": -122.298031,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/MLK_S_Massachusetts.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/MLK_S_Massachusetts.stream/playlist.m3u8"
+    },
+    {
+      "id": "I90-80WB",
+      "name": "I-90 @ 80th Ave SE, WB",
+      "lat": 47.588,
+      "lon": -122.231689,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/090vc00696.jpg"
+    },
+    {
+      "id": "CMR-0262",
+      "name": "4th Ave S & S Holgate St",
+      "lat": 47.58617,
+      "lon": -122.329062,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/4_S_Holgate_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/4_S_Holgate_NS.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0021",
+      "name": "1st Ave S & S Holgate St",
+      "lat": 47.586109,
+      "lon": -122.334192,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/1_S_Holgate.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/1_S_Holgate.stream/playlist.m3u8"
+    },
+    {
+      "id": "I5Holgate",
+      "name": "I-5 @ S Holgate St",
+      "lat": 47.586009,
+      "lon": -122.319652,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/005vc16396.jpg"
+    },
+    {
+      "id": "CMR-0213",
+      "name": "Rainier Ave S & S Hill St",
+      "lat": 47.584542,
+      "lon": -122.30291,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Rainier_S_Hill_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Rainier_S_Hill_NS.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0446",
+      "name": "E Marginal Way S & S Walker St",
+      "lat": 47.583908,
+      "lon": -122.34,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/EMarg_S_Walker.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/EMarg_S_Walker.stream/playlist.m3u8"
+    },
+    {
+      "id": "SR99Walker",
+      "name": "SR-99 @ S Walker St",
+      "lat": 47.583859,
+      "lon": -122.339552,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/099vc02969.jpg"
+    },
+    {
+      "id": "I5Walker",
+      "name": "I-5 @ S Walker St",
+      "lat": 47.583736,
+      "lon": -122.319976,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/005vc16377.jpg"
+    },
+    {
+      "id": "I90ShorewoodW",
+      "name": "I-90 @ Shorewood, West",
+      "lat": 47.58212,
+      "lon": -122.219732,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/090vc00756.jpg"
+    },
+    {
+      "id": "CMR-0251",
+      "name": "California Ave SW & SW Admiral Way",
+      "lat": 47.581195,
+      "lon": -122.386546,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/California_SW_Admiral_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/California_SW_Admiral_NS.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0250",
+      "name": "41st Ave SW & SW Admiral Way",
+      "lat": 47.581176,
+      "lon": -122.383889,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/41_SW_Admiral.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/41_SW_Admiral.stream/playlist.m3u8"
+    },
+    {
+      "id": "I405Factoria",
+      "name": "I-405 @ Factoria",
+      "lat": 47.580522,
+      "lon": -122.174436,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/405vc01106.jpg"
+    },
+    {
+      "id": "I90133",
+      "name": "I-90 @ 133rd Ave SE",
+      "lat": 47.580323,
+      "lon": -122.166532,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/090vc01049.jpg"
+    },
+    {
+      "id": "CMR-0066",
+      "name": "SR 99 @ S Lander St",
+      "lat": 47.579941,
+      "lon": -122.339339,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/SR-99_S_Lander.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/SR-99_S_Lander.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0335",
+      "name": "Lander St & S Overpass",
+      "lat": 47.579812,
+      "lon": -122.331473,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/S_Lander_OP.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/S_Lander_OP.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0334",
+      "name": "1st Ave S & S Lander St",
+      "lat": 47.579811,
+      "lon": -122.334201,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/1_S_Lander_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/1_S_Lander_NS.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0062",
+      "name": "Airport Way S & S Lander St",
+      "lat": 47.579808,
+      "lon": -122.321398,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Airport_S_Lander_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Airport_S_Lander_NS.stream/playlist.m3u8"
+    },
+    {
+      "id": "I90150",
+      "name": "I-90 @ 150th Ave SE",
+      "lat": 47.579721,
+      "lon": -122.14153,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/090vc01154.jpg"
+    },
+    {
+      "id": "I90BellevueWay",
+      "name": "I-90 @ Bellevue Way",
+      "lat": 47.579361,
+      "lon": -122.1906,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/090vc00921.jpg"
+    },
+    {
+      "id": "I90161",
+      "name": "I-90 @ 161st Ave SE",
+      "lat": 47.579165,
+      "lon": -122.134918,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/090vc01190.jpg"
+    },
+    {
+      "id": "SR99Lander",
+      "name": "SR-99 @ S Lander St",
+      "lat": 47.579018,
+      "lon": -122.339125,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/099vc02946.jpg"
+    },
+    {
+      "id": "CMR-0280",
+      "name": "Rainier Ave S & S McClellan St",
+      "lat": 47.57835,
+      "lon": -122.298151,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Rainier_S_McClellan_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Rainier_S_McClellan_NS.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0405",
+      "name": "MLK Jr Way S & S McClellan St",
+      "lat": 47.578347,
+      "lon": -122.296185,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/MLK_S_McClellan.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/MLK_S_McClellan.stream/playlist.m3u8"
+    },
+    {
+      "id": "I5Forest",
+      "name": "I-5 @ S Forest St",
+      "lat": 47.577809,
+      "lon": -122.319215,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/005vc16342.jpg"
+    },
+    {
+      "id": "CMR-0123",
+      "name": "MLK Way S at Rainier Ave S",
+      "lat": 47.577537,
+      "lon": -122.296191,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Rainier_S_MLK_1.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Rainier_S_MLK_1.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0124",
+      "name": "Rainier Ave S at MLK Way S",
+      "lat": 47.577526,
+      "lon": -122.297522,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Rainier_S_MLK_2.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Rainier_S_MLK_2.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0436",
+      "name": "Rainier Ave S  & MLK Jr Way S  - 3",
+      "lat": 47.576394,
+      "lon": -122.296644,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Rainier_S_MLK_3.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Rainier_S_MLK_3.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0252",
+      "name": "California Ave SW & SW Hanford St",
+      "lat": 47.575626,
+      "lon": -122.386761,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/California_SW_Hanford_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/California_SW_Hanford_NS.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0100",
+      "name": "E Marginal Way S & S Hanford St",
+      "lat": 47.57558,
+      "lon": -122.33999,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/EMarg_S_Hanford_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/EMarg_S_Hanford_NS.stream/playlist.m3u8"
+    },
+    {
+      "id": "I40540",
+      "name": "I-405 @ SE 40th St",
+      "lat": 47.575344,
+      "lon": -122.175696,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/405vc01066.jpg"
+    },
+    {
+      "id": "CMR-0281",
+      "name": "Rainier Ave S & S Walden St",
+      "lat": 47.572919,
+      "lon": -122.294006,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Rainier_S_Walden_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Rainier_S_Walden_NS.stream/playlist.m3u8"
+    },
+    {
+      "id": "I5Spokane",
+      "name": "I-5 @ S Spokane St",
+      "lat": 47.572785,
+      "lon": -122.318564,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/005vc16297.jpg"
+    },
+    {
+      "id": "CMR-0331",
+      "name": "Chelan Ave SW & W Marginal Way 2",
+      "lat": 47.57216,
+      "lon": -122.360093,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Chelan_SW_WMarg_2.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Chelan_SW_WMarg_2.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0094",
+      "name": "Chelan Ave SW & W Marginal Way 1",
+      "lat": 47.571955,
+      "lon": -122.360048,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Chelan_SW_WMarg_1.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Chelan_SW_WMarg_1.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0230",
+      "name": "Harbor Ave SW & S Spokane St",
+      "lat": 47.571789,
+      "lon": -122.370655,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Harbor_SW_Spokane_EW.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Harbor_SW_Spokane_EW.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0474",
+      "name": "E Marginal Way S & S Spokane St 2",
+      "lat": 47.5717,
+      "lon": -122.33968,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/EMarg_S_Spokane_2.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/EMarg_S_Spokane_2.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0233",
+      "name": "E Marginal Way S & S Spokane St",
+      "lat": 47.5717,
+      "lon": -122.33968,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/EMarg_S_Spokane_EW.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/EMarg_S_Spokane_EW.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0330",
+      "name": "Chelan Ave SW & SW Spokane St",
+      "lat": 47.571694,
+      "lon": -122.3614,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Chelan_SW_Spokane.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Chelan_SW_Spokane.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0407",
+      "name": "Columbian Way & S Spokane St",
+      "lat": 47.571629,
+      "lon": -122.314528,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Columbian_Spokane.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Columbian_Spokane.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0001",
+      "name": "11th Ave SW & SW Spokane St",
+      "lat": 47.57159,
+      "lon": -122.348507,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/11_SW_Spokane_1.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/11_SW_Spokane_1.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0160",
+      "name": "4th Ave S & Spokane Viaduct",
+      "lat": 47.571576,
+      "lon": -122.329104,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/4_S_Spokane_EW.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/4_S_Spokane_EW.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0159",
+      "name": "1st Ave S & Spokane Viaduct",
+      "lat": 47.571574,
+      "lon": -122.334195,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/1_S_Spokane_EW.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/1_S_Spokane_EW.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0329",
+      "name": "11th Ave SW & SW Spokane St NS",
+      "lat": 47.571455,
+      "lon": -122.347644,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/11_SW_Spokane_2.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/11_SW_Spokane_2.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0232",
+      "name": "4th Ave S & S Spokane St NS",
+      "lat": 47.571421,
+      "lon": -122.329077,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/4_S_Spokane_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/4_S_Spokane_NS.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0231",
+      "name": "1st Ave S & S Spokane St NS",
+      "lat": 47.571393,
+      "lon": -122.334194,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/1_S_Spokane_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/1_S_Spokane_NS.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0057",
+      "name": "6th Ave S & S Spokane St",
+      "lat": 47.571381,
+      "lon": -122.32596,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/6_S_Spokane_EW.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/6_S_Spokane_EW.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0143",
+      "name": "W Seattle Bridge @ Delridge Way Exit",
+      "lat": 47.57109,
+      "lon": -122.356157,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/WSB_Delridge.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/WSB_Delridge.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0142",
+      "name": "W Seattle Bridge Mid-Span",
+      "lat": 47.571076,
+      "lon": -122.34796,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/WSB_Midspan_EW.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/WSB_Midspan_EW.stream/playlist.m3u8"
+    },
+    {
+      "id": "I5Court",
+      "name": "I-5 @ S Court St",
+      "lat": 47.570767,
+      "lon": -122.319948,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/005vc16287.jpg"
+    },
+    {
+      "id": "I405CoalCreek",
+      "name": "I-405 @ Coal Creek Pkwy",
+      "lat": 47.570123,
+      "lon": -122.178235,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/405vc01016.jpg"
+    },
+    {
+      "id": "CMR-0144",
+      "name": "W Seattle Bridge near SW Charlestown St",
+      "lat": 47.570099,
+      "lon": -122.372999,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/WSea_FwyPullOut_EW.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/WSea_FwyPullOut_EW.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0282",
+      "name": "Rainier Ave S & S Charlestown St",
+      "lat": 47.569771,
+      "lon": -122.290699,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Rainier_S_Charlestown_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Rainier_S_Charlestown_NS.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0271",
+      "name": "MLK Jr Way S & S Dakota St",
+      "lat": 47.566292,
+      "lon": -122.296689,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/MLK_S_Dakota_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/MLK_S_Dakota_NS.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0032",
+      "name": "35th Ave SW @ Fauntleroy Way SW",
+      "lat": 47.565124,
+      "lon": -122.376185,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/35_SW_Fauntleroy_SWC.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/35_SW_Fauntleroy_SWC.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0061",
+      "name": "Airport Way S & S Industrial Way",
+      "lat": 47.564886,
+      "lon": -122.322774,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Airport_S_Industrial_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Airport_S_Industrial_NS.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0351",
+      "name": "Delridge Way SW & SW Genesee St",
+      "lat": 47.564736,
+      "lon": -122.363337,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Delridge_SW_Genesee.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Delridge_SW_Genesee.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0102",
+      "name": "E Marginal Way S & S Idaho St",
+      "lat": 47.5645,
+      "lon": -122.339439,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/EMarg_S_Idaho_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/EMarg_S_Idaho_NS.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0283",
+      "name": "Rainier Ave S & S Genesee St",
+      "lat": 47.564095,
+      "lon": -122.288186,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Rainier_S_Genesee_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Rainier_S_Genesee_NS.stream/playlist.m3u8"
+    },
+    {
+      "id": "I5Oregon",
+      "name": "I-5 @ S Oregon St",
+      "lat": 47.563457,
+      "lon": -122.321125,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/005vc16237.jpg"
+    },
+    {
+      "id": "CMR-0353",
+      "name": "Delridge Wy SW & SW Oregon St",
+      "lat": 47.562908,
+      "lon": -122.363349,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Delridge_SW_Oregon_SWC.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Delridge_SW_Oregon_SWC.stream/playlist.m3u8"
+    },
+    {
+      "id": "I40545",
+      "name": "I-405 @ SE 45th St",
+      "lat": 47.562196,
+      "lon": -122.186437,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/405vc00986.jpg"
+    },
+    {
+      "id": "CMR-0113",
+      "name": "Fauntleroy Way SW & SW Alaska St",
+      "lat": 47.561125,
+      "lon": -122.381481,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Fauntleroy_SW_Alaska_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Fauntleroy_SW_Alaska_NS.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0093",
+      "name": "California Ave SW & SW Alaska St",
+      "lat": 47.561106,
+      "lon": -122.386778,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/California_SW_Alaska_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/California_SW_Alaska_NS.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0038",
+      "name": "42nd Ave SW & SW Alaska St",
+      "lat": 47.561101,
+      "lon": -122.385457,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/42_SW_Alaska.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/42_SW_Alaska.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0126",
+      "name": "MLK Way S & S Alaska St NS",
+      "lat": 47.560808,
+      "lon": -122.29324,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/MLK_S_Alaska_2.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/MLK_S_Alaska_2.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0125",
+      "name": "MLK Way S & S Alaska St EW",
+      "lat": 47.560794,
+      "lon": -122.29258,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/MLK_S_Alaska_1.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/MLK_S_Alaska_1.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0284",
+      "name": "Rainier Ave S & S Alaska St",
+      "lat": 47.560748,
+      "lon": -122.287027,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Rainier_S_Alaska_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Rainier_S_Alaska_NS.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0447",
+      "name": "E Marginal Wy S & S Alaska St",
+      "lat": 47.560279,
+      "lon": -122.339415,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/EMarg_S_Alaska.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/EMarg_S_Alaska.stream/playlist.m3u8"
+    },
+    {
+      "id": "I90192",
+      "name": "I-90 @ 192nd Ave SE",
+      "lat": 47.559324,
+      "lon": -122.088535,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/090vc01446.jpg"
+    },
+    {
+      "id": "I5Ferdinand",
+      "name": "I-5 @ S Ferdinand St",
+      "lat": 47.558536,
+      "lon": -122.321539,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/005vc16204.jpg"
+    },
+    {
+      "id": "CMR-0101",
+      "name": "E Marginal Way S @ Hudson St",
+      "lat": 47.557413,
+      "lon": -122.339111,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/EMarg_S_Hudson_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/EMarg_S_Hudson_NS.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0243",
+      "name": "1st Ave S & S Hudson St",
+      "lat": 47.557412,
+      "lon": -122.334214,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/1_S_Hudson_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/1_S_Hudson_NS.stream/playlist.m3u8"
+    },
+    {
+      "id": "I5Hudson",
+      "name": "I-5 @ S Hudson St",
+      "lat": 47.557083,
+      "lon": -122.320112,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/005vc16195.jpg"
+    },
+    {
+      "id": "CMR-0138",
+      "name": "Rainier Ave S & S Hudson St",
+      "lat": 47.557041,
+      "lon": -122.28463,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Rainier_S_Hudson_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Rainier_S_Hudson_NS.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0349",
+      "name": "Airport Way S & S Lucile St",
+      "lat": 47.553397,
+      "lon": -122.321075,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Airport_S_Lucile.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Airport_S_Lucile.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0272",
+      "name": "MLK Jr Way S & S Orcas St",
+      "lat": 47.55123,
+      "lon": -122.288096,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/MLK_S_Orcas_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/MLK_S_Orcas_NS.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0285",
+      "name": "Rainier Ave S & S Orcas St",
+      "lat": 47.551176,
+      "lon": -122.277664,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Rainier_S_Orcas_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Rainier_S_Orcas_NS.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0388",
+      "name": "Airport Way S & S Doris St",
+      "lat": 47.550131,
+      "lon": -122.317772,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Airport_S_Doris.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Airport_S_Doris.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0355",
+      "name": "Delridge_SW_Juneau_NEC",
+      "lat": 47.550109,
+      "lon": -122.363003,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Delridge_SW_Juneau_NEC.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Delridge_SW_Juneau_NEC.stream/playlist.m3u8"
+    },
+    {
+      "id": "I90SR900",
+      "name": "I-90 @ SR-900",
+      "lat": 47.549021,
+      "lon": -122.062434,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/090vc01581.jpg"
+    },
+    {
+      "id": "I5Albro/Swift",
+      "name": "I-5 @ Albro Pl/Swift Ave",
+      "lat": 47.548886,
+      "lon": -122.311131,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/005vc16122.jpg"
+    },
+    {
+      "id": "I5Albro",
+      "name": "I-5 @ S Albro St",
+      "lat": 47.548567,
+      "lon": -122.311731,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/005vc16123.jpg"
+    },
+    {
+      "id": "CMR-0019",
+      "name": "1st Ave S & E Marginal Way S",
+      "lat": 47.548005,
+      "lon": -122.334168,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/1_S_EMarg_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/1_S_EMarg_NS.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0095",
+      "name": "Corson Ave S & S Bailey St / S Michigan St",
+      "lat": 47.547503,
+      "lon": -122.321439,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Corson_S_Bailey_EW.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Corson_S_Bailey_EW.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0249",
+      "name": "Carleton Ave S & S Bailey St",
+      "lat": 47.54734,
+      "lon": -122.32025,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Carleton_S_Bailey_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Carleton_S_Bailey_NS.stream/playlist.m3u8"
+    },
+    {
+      "id": "I5SwiftRamp",
+      "name": "I-5 @ Swift Ave, NB Ramp",
+      "lat": 47.546981,
+      "lon": -122.307937,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/005vc16103.jpg"
+    },
+    {
+      "id": "I5Graham",
+      "name": "I-5 @ S Graham St",
+      "lat": 47.546263,
+      "lon": -122.30828,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/005vc16097.jpg"
+    },
+    {
+      "id": "CMR-0244",
+      "name": "6th Ave S & S Michigan St",
+      "lat": 47.54625,
+      "lon": -122.326153,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/6_S_Michigan_EW.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/6_S_Michigan_EW.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0273",
+      "name": "MLK Jr Way S & S Graham St",
+      "lat": 47.546058,
+      "lon": -122.285452,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/MLK_S_Graham_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/MLK_S_Graham_NS.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0286",
+      "name": "Rainier Ave S & S Graham St",
+      "lat": 47.546027,
+      "lon": -122.275989,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Rainier_S_Graham_EW.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Rainier_S_Graham_EW.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0044",
+      "name": "4th Ave S & Michigan St",
+      "lat": 47.545337,
+      "lon": -122.329588,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/4_S_Michigan_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/4_S_Michigan_NS.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0103",
+      "name": "E Marginal Way S & S Michigan St",
+      "lat": 47.544881,
+      "lon": -122.331306,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/EMarg_S_Michigan_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/EMarg_S_Michigan_NS.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0323",
+      "name": "35th Ave SW & SW Morgan St",
+      "lat": 47.544683,
+      "lon": -122.376445,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/35_SW_Morgan_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/35_SW_Morgan_NS.stream/playlist.m3u8"
+    },
+    {
+      "id": "SR99Michigan",
+      "name": "SR-99 @ S Michigan St",
+      "lat": 47.544571,
+      "lon": -122.334134,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/099vc02701.jpg"
+    },
+    {
+      "id": "I40564",
+      "name": "I-405 @ SE 64th St",
+      "lat": 47.544139,
+      "lon": -122.195558,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/405vc00840.jpg"
+    },
+    {
+      "id": "I90FrontSt",
+      "name": "I-90 @ Front St",
+      "lat": 47.540707,
+      "lon": -122.037733,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/090vc01702.jpg"
+    },
+    {
+      "id": "CMR-0338",
+      "name": "W Marginal Way SW & Highland Pk Way SW - NEC",
+      "lat": 47.540353,
+      "lon": -122.342181,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/W_Marg_SW_Highland_NEC.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/W_Marg_SW_Highland_NEC.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0339",
+      "name": "W Marginal Way SW & Highland Pk Way SW - SEC",
+      "lat": 47.540353,
+      "lon": -122.342181,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/W_Marg_SW_Highland_SEC.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/W_Marg_SW_Highland_SEC.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0336",
+      "name": "2nd Ave SW & Highland Pk Way SW EW",
+      "lat": 47.539813,
+      "lon": -122.337111,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/2_SW_Highland_EW.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/2_SW_Highland_EW.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0337",
+      "name": "2nd Ave SW & Highland Pk Way SW NS",
+      "lat": 47.539813,
+      "lon": -122.337111,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/2_SW_Highland_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/2_SW_Highland_NS.stream/playlist.m3u8"
+    },
+    {
+      "id": "I5MidBoeing",
+      "name": "I-5 @ Mid Boeing Field",
+      "lat": 47.538573,
+      "lon": -122.300284,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/005vc15970.jpg"
+    },
+    {
+      "id": "CMR-0352",
+      "name": "Delridge Wy SW & SW Orchard St",
+      "lat": 47.537955,
+      "lon": -122.361097,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Delridge_SW_Orchard_NEC.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Delridge_SW_Orchard_NEC.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0128",
+      "name": "MLK Way S & S Othello St NS",
+      "lat": 47.537185,
+      "lon": -122.281168,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/MLK_S_Othello_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/MLK_S_Othello_NS.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0127",
+      "name": "MLK Way & S Othello St EW",
+      "lat": 47.537049,
+      "lon": -122.280735,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/MLK_S_Othello_EW.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/MLK_S_Othello_EW.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0287",
+      "name": "Rainier Ave S & S Othello St",
+      "lat": 47.536958,
+      "lon": -122.270274,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Rainier_S_Othello_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Rainier_S_Othello_NS.stream/playlist.m3u8"
+    },
+    {
+      "id": "SR99WMarg",
+      "name": "SR-99 @ West Marginal Way",
+      "lat": 47.536871,
+      "lon": -122.333839,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/099vc02671.jpg"
+    },
+    {
+      "id": "I5Webster",
+      "name": "I-5 @ S Webster St",
+      "lat": 47.535146,
+      "lon": -122.297008,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/005vc16006.jpg"
+    },
+    {
+      "id": "CMR-0064",
+      "name": "Airport Way S & King County Airport",
+      "lat": 47.534481,
+      "lon": -122.29885,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Airport_S_Othello_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Airport_S_Othello_NS.stream/playlist.m3u8"
+    },
+    {
+      "id": "I5Austin",
+      "name": "I-5 @ S Austin St",
+      "lat": 47.534411,
+      "lon": -122.295696,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/005vc16000.jpg"
+    },
+    {
+      "id": "CMR-0099",
+      "name": "E Marginal Way S & 16th Ave S",
+      "lat": 47.534267,
+      "lon": -122.313198,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/EMarg_S_16_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/EMarg_S_16_NS.stream/playlist.m3u8"
+    },
+    {
+      "id": "SR99Holden",
+      "name": "SR-99 @ S Holden St",
+      "lat": 47.534148,
+      "lon": -122.332133,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/099vc02605.jpg"
+    },
+    {
+      "id": "CMR-0383",
+      "name": "Highland Park Way SW & SW Holden St NWC",
+      "lat": 47.534125,
+      "lon": -122.347185,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Highland_SW_Holden_NWC.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Highland_SW_Holden_NWC.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0384",
+      "name": "Highland Park Way SW & SW Holden St NEC",
+      "lat": 47.534125,
+      "lon": -122.347185,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Highland_SW_Holden_NEC.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Highland_SW_Holden_NEC.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0326",
+      "name": "35th Ave SW & SW Holden St",
+      "lat": 47.533742,
+      "lon": -122.376619,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/35_SW_Holden_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/35_SW_Holden_NS.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0356",
+      "name": "Delridge Wy SW & SW Holden St",
+      "lat": 47.533717,
+      "lon": -122.360449,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Delridge_SW_Holden_NEC.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Delridge_SW_Holden_NEC.stream/playlist.m3u8"
+    },
+    {
+      "id": "I40544",
+      "name": "I-405 @ NE 44th St",
+      "lat": 47.531522,
+      "lon": -122.197636,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/405vc00747.jpg"
+    },
+    {
+      "id": "CMR-0288",
+      "name": "Rainier Ave S & S Rose St",
+      "lat": 47.52913,
+      "lon": -122.269987,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Rainier_S_Rose_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Rainier_S_Rose_NS.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0357",
+      "name": "Delridge Wy SW & SW Thistle St",
+      "lat": 47.528285,
+      "lon": -122.360467,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Delridge_SW_Thistle_SWC.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Delridge_SW_Thistle_SWC.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0112",
+      "name": "Fauntleroy Way SW & SW Cloverdale St",
+      "lat": 47.526783,
+      "lon": -122.392756,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Fauntleroy_SW_Cloverdale_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Fauntleroy_SW_Cloverdale_NS.stream/playlist.m3u8"
+    },
+    {
+      "id": "SR509Cloverdale",
+      "name": "SR-509 @ S Cloverdale St",
+      "lat": 47.526673,
+      "lon": -122.333752,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/509vc02956.jpg"
+    },
+    {
+      "id": "SR99Cloverdale",
+      "name": "SR-99 @ S Cloverdale St",
+      "lat": 47.526471,
+      "lon": -122.324293,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/099vc02545.jpg"
+    },
+    {
+      "id": "CMR-0003",
+      "name": "14th Ave S & S Cloverdale St",
+      "lat": 47.526433,
+      "lon": -122.315019,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/14_S_Cloverdale.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/14_S_Cloverdale.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0274",
+      "name": "MLK Jr Way S & S Cloverdale St",
+      "lat": 47.526117,
+      "lon": -122.279013,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/MLK_S_Cloverdale_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/MLK_S_Cloverdale_NS.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0137",
+      "name": "Rainier Ave S & S Henderson St",
+      "lat": 47.523307,
+      "lon": -122.269986,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Rainier_S_Henderson_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Rainier_S_Henderson_NS.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0275",
+      "name": "MLK Jr Way S & S Henderson St",
+      "lat": 47.523271,
+      "lon": -122.278982,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/MLK_S_Henderson.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/MLK_S_Henderson.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0354",
+      "name": "Delridge Wy SW & SW Henderson St",
+      "lat": 47.522867,
+      "lon": -122.360091,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Delridge_SW_Henderson_NEC.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Delridge_SW_Henderson_NEC.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0325",
+      "name": "35th Ave SW & SW Barton St",
+      "lat": 47.52107,
+      "lon": -122.376761,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/35_SW_Barton_EW.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/35_SW_Barton_EW.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0290",
+      "name": "Rainier Ave S & 57th Ave S",
+      "lat": 47.520264,
+      "lon": -122.261582,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Rainier_S_57_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Rainier_S_57_NS.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0289",
+      "name": "Rainier Ave S & 51st Ave S",
+      "lat": 47.520147,
+      "lon": -122.269719,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Rainier_S_51_EW.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Rainier_S_51_EW.stream/playlist.m3u8"
+    },
+    {
+      "id": "I5Benefit",
+      "name": "I-5 @ S Benefit St",
+      "lat": 47.519826,
+      "lon": -122.289611,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/005vc15887.jpg"
+    },
+    {
+      "id": "SR99DesMoines",
+      "name": "SR-99 @ Des Moines Mem Drive",
+      "lat": 47.51982,
+      "lon": -122.316447,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/099vc02481.jpg"
+    },
+    {
+      "id": "CMR-0324",
+      "name": "35th Ave SW & SW Roxbury St",
+      "lat": 47.517488,
+      "lon": -122.376885,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/35_SW_Roxbury_EW.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/35_SW_Roxbury_EW.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0327",
+      "name": "16th Ave SW & SW Roxbury St",
+      "lat": 47.51736,
+      "lon": -122.355165,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/16_SW_Roxbury.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/16_SW_Roxbury.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0328",
+      "name": "15th Ave SW & SW Roxbury St",
+      "lat": 47.517343,
+      "lon": -122.354026,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/15_SW_Roxbury.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/15_SW_Roxbury.stream/playlist.m3u8"
+    },
+    {
+      "id": "SR50996",
+      "name": "SR-509 @ S 96th St",
+      "lat": 47.516746,
+      "lon": -122.330107,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/509vc02893.jpg"
+    },
+    {
+      "id": "CMR-0063",
+      "name": "Airport Way S & S Norfolk St",
+      "lat": 47.513608,
+      "lon": -122.288112,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/Airport_S_Norfolk_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Airport_S_Norfolk_NS.stream/playlist.m3u8"
+    },
+    {
+      "id": "CMR-0276",
+      "name": "MLK Jr Way S & S Norfolk St",
+      "lat": 47.513429,
+      "lon": -122.278671,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/MLK_S_Norfolk_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/MLK_S_Norfolk_NS.stream/playlist.m3u8"
+    },
+    {
+      "id": "I40524th",
+      "name": "I-405 @ NE 24th St",
+      "lat": 47.512048,
+      "lon": -122.198628,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/405vc00602.jpg"
+    },
+    {
+      "id": "SR99102",
+      "name": "SR-99 @ S102nd St",
+      "lat": 47.508682,
+      "lon": -122.301994,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/099vc02375.jpg"
+    },
+    {
+      "id": "I5BoeingAccRdN",
+      "name": "I-5 @ Boeing Access Rd, North",
+      "lat": 47.508415,
+      "lon": -122.282193,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/005vc15805.jpg"
+    },
+    {
+      "id": "SR900BoeingAccRd",
+      "name": "SR-900 @ S Boeing Access Rd",
+      "lat": 47.507991,
+      "lon": -122.278367,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/900vc00592.jpg"
+    },
+    {
+      "id": "I5BoeingAccRdS",
+      "name": "I-5 @ Boeing Access Rd, South",
+      "lat": 47.505555,
+      "lon": -122.279552,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/005vc15785.jpg"
+    },
+    {
+      "id": "I405ParkDr",
+      "name": "I-405 @ NE Park Dr",
+      "lat": 47.500822,
+      "lon": -122.19653,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/405vc00537.jpg"
+    },
+    {
+      "id": "SR99SR599",
+      "name": "SR-99 @ SR-599",
+      "lat": 47.50002,
+      "lon": -122.297332,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/099vc02308.jpg"
+    },
+    {
+      "id": "I5MLKJrWayNorth",
+      "name": "I-5 @ MLK Jr Way, North",
+      "lat": 47.499231,
+      "lon": -122.273437,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/005vc15735.jpg"
+    },
+    {
+      "id": "I5MLKJrWaySouth",
+      "name": "I-5 @ MLK Jr Way, South",
+      "lat": 47.498183,
+      "lon": -122.272641,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/005vc15718.jpg"
+    },
+    {
+      "id": "SR599EMarg",
+      "name": "SR-599 @ Marginal Way",
+      "lat": 47.497599,
+      "lon": -122.287018,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/599vc00141.jpg"
+    },
+    {
+      "id": "CMR-0277",
+      "name": "MLK Jr Way S & S Juniper St",
+      "lat": 47.496098,
+      "lon": -122.269075,
+      "kind": "sdot",
+      "alive": true,
+      "image": "https://www.seattle.gov/trafficcams/images/MLK_S_Juniper_NS.jpg",
+      "stream": "https://61e0c5d388c2e.streamlock.net:443/live/MLK_S_Juniper_NS.stream/playlist.m3u8"
+    },
+    {
+      "id": "I405SunsetBlvd",
+      "name": "I-405 @ Sunset Blvd",
+      "lat": 47.492521,
+      "lon": -122.192135,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/405vc00475.jpg"
+    },
+    {
+      "id": "SR599MetroBusBrn",
+      "name": "SR-599 @ Metro Bus Barn",
+      "lat": 47.491851,
+      "lon": -122.28219,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/599vc00116.jpg"
+    },
+    {
+      "id": "I5DuwamishRiver",
+      "name": "I-5 @ Duwamish River",
+      "lat": 47.491527,
+      "lon": -122.264705,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/005vc15664.jpg"
+    },
+    {
+      "id": "SR599133",
+      "name": "SR-599 @ S 133rd St",
+      "lat": 47.48602,
+      "lon": -122.275831,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/599vc00041.jpg"
+    },
+    {
+      "id": "I405SR169",
+      "name": "I-405 @ SR-169",
+      "lat": 47.485092,
+      "lon": -122.195775,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/405vc00417.jpg"
+    },
+    {
+      "id": "I5SR599",
+      "name": "I-5 @ SR-599",
+      "lat": 47.4831,
+      "lon": -122.271,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/005vc15591.jpg"
+    },
+    {
+      "id": "I5144",
+      "name": "I-5 @ S 144th St",
+      "lat": 47.4745,
+      "lon": -122.27,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/005vc15531.jpg"
+    },
+    {
+      "id": "I405TalbotRd",
+      "name": "I-405 @ Talbot Rd S",
+      "lat": 47.469324,
+      "lon": -122.207829,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/405vc00277.jpg"
+    },
+    {
+      "id": "I405SR167",
+      "name": "I-405 @ SR-167",
+      "lat": 47.467622,
+      "lon": -122.219334,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/405vc00229.jpg"
+    },
+    {
+      "id": "I405Oaksdale",
+      "name": "I-405 @ Oaksdale Ave",
+      "lat": 47.466722,
+      "lon": -122.235631,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/405vc00163.jpg"
+    },
+    {
+      "id": "SR99154",
+      "name": "SR-99 @ S 154th St",
+      "lat": 47.465825,
+      "lon": -122.288861,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/099vc02054.jpg"
+    },
+    {
+      "id": "SR51846",
+      "name": "SR-518 @ 46th Ave S",
+      "lat": 47.465623,
+      "lon": -122.276632,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/518vc00322.jpg"
+    },
+    {
+      "id": "SR518154",
+      "name": "SR-518 @ S 154th St",
+      "lat": 47.465402,
+      "lon": -122.300173,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/518vc00162.jpg"
+    },
+    {
+      "id": "I405LongacresDr",
+      "name": "I-405 @ Longacres Dr SW",
+      "lat": 47.465223,
+      "lon": -122.241429,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/405vc00140.jpg"
+    },
+    {
+      "id": "I5Southcenter",
+      "name": "I-5 @ Southcenter",
+      "lat": 47.4649,
+      "lon": -122.266,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/005vc15453.jpg"
+    },
+    {
+      "id": "SR181GradyWay",
+      "name": "SR-181 @ Grady Way",
+      "lat": 47.463823,
+      "lon": -122.245732,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/181vc01142.jpg"
+    },
+    {
+      "id": "SR518Airport",
+      "name": "SR-518 @ Airport Drive",
+      "lat": 47.463723,
+      "lon": -122.295134,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/518vc00228.jpg"
+    },
+    {
+      "id": "SR51851",
+      "name": "SR-518 @ 51st Ave S",
+      "lat": 47.463323,
+      "lon": -122.270132,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/518vc00349.jpg"
+    },
+    {
+      "id": "I405WValleyHwy",
+      "name": "I-405 @ W Valley Hwy",
+      "lat": 47.463121,
+      "lon": -122.24783,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/405vc00088.jpg"
+    },
+    {
+      "id": "SR518SR99",
+      "name": "SR-518 @ SR-99",
+      "lat": 47.463021,
+      "lon": -122.285132,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/518vc00252.jpg"
+    },
+    {
+      "id": "I405Southcenter",
+      "name": "I-405 @ Southcenter",
+      "lat": 47.462323,
+      "lon": -122.259931,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/405vc00034.jpg"
+    },
+    {
+      "id": "I5SR518",
+      "name": "I-5 @ SR-518",
+      "lat": 47.461721,
+      "lon": -122.264631,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/005vc15452.jpg"
+    },
+    {
+      "id": "I5Klickitat",
+      "name": "I-5 @ Klickitat Drive",
+      "lat": 47.4571,
+      "lon": -122.264,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/005vc15410.jpg"
+    },
+    {
+      "id": "I5178",
+      "name": "I-5 @ S 178th St",
+      "lat": 47.443624,
+      "lon": -122.268133,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/005vc15315.jpg"
+    },
+    {
+      "id": "I5188",
+      "name": "I-5 @ S 188th St",
+      "lat": 47.432222,
+      "lon": -122.271131,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/005vc15230.jpg"
+    },
+    {
+      "id": "SR167194",
+      "name": "SR-167 @ S 194th St",
+      "lat": 47.427583,
+      "lon": -122.221514,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/167vc02352.jpg"
+    },
+    {
+      "id": "I5200",
+      "name": "I-5 @ S 200th St",
+      "lat": 47.420621,
+      "lon": -122.287435,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/005vc15128.jpg"
+    },
+    {
+      "id": "SR167212",
+      "name": "SR-167 @ S 212th St",
+      "lat": 47.414217,
+      "lon": -122.221394,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/167vc02241.jpg"
+    },
+    {
+      "id": "I5216",
+      "name": "I-5 @ S 216th St",
+      "lat": 47.408323,
+      "lon": -122.292631,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/005vc15036.jpg"
+    },
+    {
+      "id": "SR99216",
+      "name": "SR-99 @ S 216th St",
+      "lat": 47.408241,
+      "lon": -122.298235,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/099vc01651"
+    },
+    {
+      "id": "SR509216",
+      "name": "SR-509 @ S 216th/7th Ave",
+      "lat": 47.407545,
+      "lon": -122.32506,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/509vc02033.jpg"
+    },
+    {
+      "id": "SR167222",
+      "name": "SR-167 @ S 222nd St",
+      "lat": 47.401486,
+      "lon": -122.224346,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/167vc02189.jpg"
+    },
+    {
+      "id": "SR99SR516",
+      "name": "SR-99 @ SR-516",
+      "lat": 47.393823,
+      "lon": -122.295034,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/099vc01549.jpg"
+    },
+    {
+      "id": "I5SR516",
+      "name": "I-5 & SR-516",
+      "lat": 47.391424,
+      "lon": -122.290937,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/005vc14918.jpg"
+    },
+    {
+      "id": "I5248",
+      "name": "I-5 @ S 248th St",
+      "lat": 47.380691,
+      "lon": -122.291569,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/005vc14844.jpg"
+    },
+    {
+      "id": "SR167SR516",
+      "name": "SR-167 @ SR-516",
+      "lat": 47.377924,
+      "lon": -122.244434,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/167vc01964.jpg"
+    },
+    {
+      "id": "I5260",
+      "name": "I-5 @ S 260th St",
+      "lat": 47.36942,
+      "lon": -122.293836,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/005vc14772.jpg"
+    },
+    {
+      "id": "I5272NBramp",
+      "name": "I-5 @ S 272nd, NB Ramp",
+      "lat": 47.358714,
+      "lon": -122.295021,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/005vc14685.jpg"
+    },
+    {
+      "id": "SR516204SE",
+      "name": "SR-516 @ 204th Ave SE",
+      "lat": 47.358124,
+      "lon": -122.06981,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/516vc01386.jpg"
+    },
+    {
+      "id": "I5272",
+      "name": "I-5 @ S 272nd St",
+      "lat": 47.357721,
+      "lon": -122.296834,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/005vc14683.jpg"
+    },
+    {
+      "id": "I5288",
+      "name": "I-5 @ S 288th St",
+      "lat": 47.34332,
+      "lon": -122.292935,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/005vc14605.jpg"
+    },
+    {
+      "id": "SR16737",
+      "name": "SR-167 @ 37th St NW",
+      "lat": 47.341223,
+      "lon": -122.243831,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/167vc01710.jpg"
+    },
+    {
+      "id": "I5308",
+      "name": "I-5 @ S 308th St",
+      "lat": 47.325934,
+      "lon": -122.294163,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/005vc14460.jpg"
+    },
+    {
+      "id": "SR16715",
+      "name": "SR-167 @ 15th St NW",
+      "lat": 47.321524,
+      "lon": -122.241428,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/167vc01580.jpg"
+    },
+    {
+      "id": "I5317",
+      "name": "I-5 @ S 317th St",
+      "lat": 47.317922,
+      "lon": -122.295636,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/005vc14400.jpg"
+    },
+    {
+      "id": "I5320",
+      "name": "I-5 @ S 320th St",
+      "lat": 47.313809,
+      "lon": -122.29709,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/005vc14379.jpg"
+    },
+    {
+      "id": "I5333",
+      "name": "I-5 @ S 333rd St",
+      "lat": 47.302154,
+      "lon": -122.301715,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/005vc14300.jpg"
+    },
+    {
+      "id": "I5SR18West",
+      "name": "I-5 @ SR-18, West",
+      "lat": 47.289823,
+      "lon": -122.310132,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/005vc14196.jpg"
+    },
+    {
+      "id": "I5SR18",
+      "name": "I-5 & SR-18",
+      "lat": 47.289823,
+      "lon": -122.306035,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/005vc14205.jpg"
+    },
+    {
+      "id": "I5SR18South",
+      "name": "I-5 @ SR 18, South",
+      "lat": 47.286123,
+      "lon": -122.307232,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/005vc14188.jpg"
+    },
+    {
+      "id": "SR167353",
+      "name": "SR-167 @ 353rd St",
+      "lat": 47.281732,
+      "lon": -122.258497,
+      "kind": "wsdot",
+      "alive": true,
+      "image": "https://images.wsdot.wa.gov/nw/167vc01311.jpg"
     }
   ],
   "tracks": [

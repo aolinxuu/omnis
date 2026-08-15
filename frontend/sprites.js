@@ -79,11 +79,17 @@ export function cluster(s = 3) {
   return { data: ctx.getImageData(0, 0, N*s, N*s), pixelRatio: s };
 }
 
-export function camIcon(alive, s = 3) {
-  const N = 12; const cv = document.createElement("canvas"); cv.width = cv.height = N * s;
+export function camIcon(alive, kind = "sdot", s = 3) {
+  // 16x16 logical px: dark outline, bright body, glyph. Bigger + brighter than before so 600+ cams read on the navy map.
+  const N = 16; const cv = document.createElement("canvas"); cv.width = cv.height = N * s;
   const ctx = cv.getContext("2d");
-  ctx.fillStyle = alive ? "#143B6E" : "#3A1E1E"; ctx.fillRect(0, 0, N*s, N*s);
-  glyph(ctx, alive ? CAM : CAM_DEAD, 2, 2, s, alive ? "#9ED0FF" : "#F0645A");
+  const wsdot = kind === "wsdot";
+  const body = !alive ? "#F0645A" : wsdot ? "#F5E6C4" : "#6FB6F0";
+  const ink  = !alive ? "#3A0E0A" : wsdot ? "#3A2600" : "#0B2247";
+  ctx.fillStyle = "#0B1220"; ctx.fillRect(0, 0, N*s, N*s);                 // outline
+  ctx.fillStyle = body; ctx.fillRect(2*s, 2*s, (N-4)*s, (N-4)*s);           // body
+  ctx.fillStyle = "rgba(255,255,255,.35)"; ctx.fillRect(2*s, 2*s, (N-4)*s, s); // top highlight
+  glyph(ctx, alive ? CAM : CAM_DEAD, 4, 4, s, ink);
   return { data: ctx.getImageData(0, 0, N*s, N*s), pixelRatio: s };
 }
 
