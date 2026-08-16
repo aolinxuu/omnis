@@ -3,7 +3,7 @@
 // Consumers only ever see: {type:"camera"|"sighting"|"event"|"prediction", ...payload}
 
 export class Feed extends EventTarget {
-  constructor() { super(); this.speed = 6; this.playing = true; this.freezeAtSplit = false; this._timer = null; }
+  constructor(opts = {}) { super(); this.speed = 6; this.playing = false; this.autoplay = !!opts.autoplay; this.armed = false; this.freezeAtSplit = false; this._timer = null; }
 
   emit(msg) { this.dispatchEvent(new CustomEvent("msg", { detail: msg })); }
 
@@ -16,8 +16,14 @@ export class Feed extends EventTarget {
       ...d.events.map(e => ({ type: "event", ...e })),
       ...d.predictions.map(p => ({ type: "prediction", ...p })),
     ].sort((a, b) => new Date(a.t) - new Date(b.t));
-    this.items = items; this.restart();
+    this.items = items;
+    // Do NOT auto-play the demo ride: emit the roster, then wait for start() (R.1/R.2 chips or ?demo=1).
+    this.i = 0; this.playing = false; this.armed = false;
+    this.emit({ type: "ready", cameras: d.cameras.length, sightings: d.sightings.length });
+    if (this.autoplay) this.restart();
   }
+
+  start() { if (!this.armed) this.restart(); else { this.playing = true; } this.armed = true; }
 
   restart() {
     clearTimeout(this._timer); this.i = 0;
@@ -25,7 +31,7 @@ export class Feed extends EventTarget {
     this.clock = this.t0; this.playing = true;
     this.emit({ type: "reset" });
     this.data.cameras.forEach(c => this.emit({ type: "camera", ...c }));
-    this._lastReal = performance.now();
+    this._lastReal = performance.now(); this.armed = true;
     this._tick();
   }
 

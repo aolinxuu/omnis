@@ -135,6 +135,7 @@ const readyPoll = setInterval(() => { if (layersReady) return clearInterval(read
 map.once("styledata", () => setTimeout(() => { if (!layersReady && map.isStyleLoaded()) initLayers(); }, 0));
 const HUD_PAD = { top: 90, left: 300, right: 330, bottom: 150 };
 function frameCurrent() {
+  if (!state.target && !state.demoSubject) { const ids = feed.data?.meta?.corridor_cameras || []; const pts = ids.map(id => state.cameras.get(id)).filter(Boolean).map(c => [c.lon, c.lat]); return frame(pts.length > 1 ? pts : undefined); }
   const tid = state.lastSubject?.track_id;
   const ride = (feed.data?.meta?.rides || []).find(r => r.track === tid);
   const ids = ride?.cameras || feed.data?.meta?.corridor_cameras || [];
@@ -231,8 +232,9 @@ function hud() {
   const alive = [...state.cameras.values()].filter(c => c.alive).length;
   $("lcdCams").textContent = `${alive}/${state.cameras.size}`;
   $("lcdCams").style.color = healthMeta && alive < state.cameras.size * 0.6 ? "#F0645A" : "";
-  $("lcdFeed").textContent = feed.ws ? "LIVE" : (feed.playing ? `REPLAY ×${feed.speed}` : "PAUSED");
-  if (state.clock) $("lcdClock").textContent = new Date(state.clock).toLocaleTimeString("en-US", { hour12: false });
+  $("lcdFeed").textContent = feed.ws ? "LIVE" : feed.armed ? (feed.playing ? `DEMO ×${feed.speed}` : "PAUSED") : (API ? "LIVE · IDLE" : "IDLE");
+  const showT = (feed.armed && state.clock) ? new Date(state.clock) : new Date();
+  $("lcdClock").textContent = showT.toLocaleTimeString("en-US", { hour12: false });
   const s = state.lastSubject;
   if (s) {
     $("subjCam").textContent = (state.cameras.get(s.camera_id)?.name || s.camera_id).replace("2nd Ave & ", "2nd & ").replace("Westlake Ave N & ", "Westlake & ").replace("Westlake Ave & ", "Westlake & ");
@@ -275,7 +277,8 @@ function callout(eyebrow, text, color = "#F0645A") {
 const tickerEl = $("ticker");
 function tickerAdd(ev) {
   const el = document.createElement("span"); el.className = `tk ${ev.kind}${/lost|dead|closed/i.test(ev.text) ? " warn" : ""}`;
-  el.innerHTML = `<span class="kind">${ev.kind.toUpperCase()}</span>${ev.text}`;
+  const text = ev.kind === "vss" ? String(ev.text).replace(/^\s*VSS:\s*/i, "") : ev.text;
+  el.innerHTML = `<span class="kind">${ev.kind.toUpperCase()}</span>${text}`;
   tickerEl.prepend(el);
   while (tickerEl.children.length > 4) tickerEl.lastElementChild.remove();
   [...tickerEl.children].forEach((c, i) => c.style.opacity = String(1 - i * 0.22));
@@ -314,7 +317,7 @@ function camsPanel() {
 }
 
 // ---------- feed wiring ----------
-const feed = new Feed();
+const feed = new Feed({ autoplay: new URLSearchParams(location.search).get("demo") === "1" });
 feed.loadReplay("data/sightings.json");
 feed.addEventListener("msg", ({ detail: m }) => handleMsg(m));
 function handleMsg(m) {
@@ -323,6 +326,8 @@ function handleMsg(m) {
       Object.assign(state, { sightings: [], subject: [], subjectByTrack: new Map(), lastSubject: null, tracks: new Set(), lostCount: 0, prediction: null });
       if (!state.target && !state.demoSubject) $("subjHdr").textContent = "NO TARGET · ⌘K TO DESCRIBE WHO TO FOLLOW";
       tickerEl.innerHTML = ""; $("predictPanel").hidden = true; $("dispatchPanel").hidden = true; $("resultsPanel").hidden = true; map.getSource("dispatch")?.setData({ type: "FeatureCollection", features: [] }); camSighting = null; refresh(); break;
+    case "ready": $("btnPlay").textContent = "PLAY DEMO"; $("lcdFeed").textContent = API ? "LIVE" : "IDLE";
+      tickerAdd({ kind: "system", text: `${m.cameras} cameras loaded · idle · ⌘K to describe who to follow, R.1/R.2 to play a demo ride` }); break;
     case "camera": state.cameras.set(m.id, m); map.getSource("cameras")?.setData(camerasGeo()); clearTimeout(window.__frameT); window.__frameT = setTimeout(() => frameCurrent(), 50); break;
     case "clock": state.clock = m.t; hud(); if (!$("evalPanel").hidden && (tick % 10 === 0)) evalPanel(); if (!$("camsPanel").hidden && (tick % 10 === 0)) camsPanel(); break;
     case "sighting": {
@@ -570,7 +575,8 @@ function showDispatch(force = false) {
 }
 
 // ---------- controls ----------
-$("btnPlay").onclick = () => { if (feed.i >= feed.items?.length) return feed.restart(); feed.playing = !feed.playing; $("btnPlay").textContent = feed.playing ? "PAUSE" : "PLAY"; };
+$("btnPlay").onclick = () => { if (!feed.armed) { state.demoSubject = true; $("subjHdr").textContent = "DEMO RIDE · PRESENTER · CONSENTED"; feed.start(); $("btnPlay").textContent = "PAUSE"; return; }
+  if (feed.i >= feed.items?.length) return feed.restart(); feed.playing = !feed.playing; $("btnPlay").textContent = feed.playing ? "PAUSE" : "PLAY"; };
 $("btnFreeze").onclick = e => { feed.freezeAtSplit = !feed.freezeAtSplit; e.currentTarget.classList.toggle("on", feed.freezeAtSplit); };
 $("btnCenter").onclick = () => { const cur = state.lastSubject && state.subjectByTrack.get(state.lastSubject.track_id); cur && cur.length > 1 ? frame(cur.map(s => [s.lon, s.lat])) : frame(); };
 $("btnCluster").onclick = e => { const on = e.currentTarget.classList.toggle("on");
@@ -587,6 +593,7 @@ document.querySelectorAll(".chip-btn[data-ride]").forEach(b => b.onclick = () =>
   const ride = (feed.data?.meta?.rides || [])[+b.dataset.ride]; if (!ride) return;
   document.querySelectorAll(".chip-btn[data-ride]").forEach(x => x.classList.toggle("on", x === b));
   stopFollow(); state.target = null; state.demoSubject = true; $("subjHdr").textContent = "DEMO RIDE · PRESENTER · CONSENTED";
+  if (!feed.armed) { feed.start(); $("btnPlay").textContent = "PAUSE"; }
   const ids = ride.cameras || []; frame(ids.map(id => state.cameras.get(id)).filter(Boolean).map(c => [c.lon, c.lat]));
   callout("DEMO RIDE " + (+b.dataset.ride + 1), ride.label.split(":")[0], "#3A0E0A");
 });
@@ -596,7 +603,7 @@ $("subjHdr").textContent = "NO TARGET · ⌘K TO DESCRIBE WHO TO FOLLOW";
 setTimeout(() => tickerAdd({ kind: "system", text: "press ⌘K / Ctrl+K to describe a suspect or vehicle · /dispatch for unit positions" }), 1500);
 { const q0 = new URLSearchParams(location.search).get("q"); if (q0) setTimeout(() => { openPalette(); $("paletteInput").value = q0; runPalette(q0); }, 1200); }
 $("badgeBtn").onclick = () => $("btnCams").click();
-$("btnRestart").onclick = () => { feed.restart(); $("btnPlay").textContent = "PAUSE"; };
+$("btnRestart").onclick = () => { if (!state.demoSubject && !state.target) return callout("IDLE", "nothing to restart · ⌘K to set a target or R.1/R.2 for a demo ride", "#2C6BB0"); feed.restart(); $("btnPlay").textContent = "PAUSE"; };
 $("btnSpeed").onclick = e => { const speeds = [1, 3, 6, 12, 30]; feed.speed = speeds[(speeds.indexOf(feed.speed) + 1) % speeds.length]; e.currentTarget.textContent = `×${feed.speed}`; };
 document.addEventListener("keydown", e => {
   // no single-key shortcuts while typing (palette input etc.) or while the palette is open
