@@ -167,13 +167,59 @@ def do_captions(client: VSSClient, files: dict[str, Any], model: str,
     return captions
 
 
+# ---- camera health: SDOT serves a fixed "CAMERA UNDER MAINTENANCE" JPEG for offline cameras ----
+PLACEHOLDER_MD5 = {"1c2dbf6b9e1018d3eb13b6f26a33dbfa"}   # 352x240 maintenance card, seen 2026-08-15
+HEALTH_EVERY_S = 180
+FRONTEND_ROSTER = ROOT / "frontend" / "data" / "sightings.json"   # read-only: the 646-camera roster with image URLs
+
+
+def probe_camera(url: str, timeout: float = 8.0) -> str:
+    """'alive' | 'placeholder' | 'error'"""
+    import hashlib
+    import requests
+    try:
+        r = requests.get(url, timeout=timeout, headers={"Cache-Control": "no-cache"})
+        if r.status_code != 200 or len(r.content) < 1000:
+            return "error"
+        return "placeholder" if hashlib.md5(r.content).hexdigest() in PLACEHOLDER_MD5 else "alive"
+    except Exception:
+        return "error"
+
+
+def health_loop(state: dict[str, Any]) -> None:
+    """Background: probe every camera still; state['health'] = {camera_id: {status, checked}}."""
+    import time as _t
+    from concurrent.futures import ThreadPoolExecutor
+    roster = []
+    try:
+        roster = [c for c in load_json(FRONTEND_ROSTER)["cameras"] if c.get("image")]
+    except Exception as exc:  # no roster: nothing to probe
+        print(f"health: no roster ({exc})", file=sys.stderr)
+        return
+    while True:
+        started = _t.time()
+        with ThreadPoolExecutor(24) as ex:
+            statuses = list(ex.map(lambda c: (c["id"], probe_camera(c["image"])), roster))
+        now = datetime.now().isoformat(timespec="seconds")
+        state["health"] = {cid: {"status": st, "checked": now} for cid, st in statuses}
+        alive = sum(1 for _, st in statuses if st == "alive")
+        state["health_meta"] = {"checked": now, "total": len(statuses), "alive": alive,
+                                "placeholder": sum(1 for _, st in statuses if st == "placeholder"),
+                                "error": sum(1 for _, st in statuses if st == "error"),
+                                "took_s": round(_t.time() - started, 1)}
+        print(f"  health: {alive}/{len(statuses)} cameras alive ({state['health_meta']['placeholder']} placeholder, "
+              f"{state['health_meta']['error']} error) in {state['health_meta']['took_s']}s", file=sys.stderr)
+        _t.sleep(HEALTH_EVERY_S)
+
+
 def serve(client: VSSClient, files: dict[str, Any], model: str, t0: datetime,
           cams: dict[str, dict[str, Any]], port: int, host: str = "0.0.0.0") -> None:
     """GET /query?q=...            -> {"query", "results":[...]}
        GET /query?q=...&stream=1   -> NDJSON, one line per camera as it is answered:
                                        {"camera_id", "done": n, "total": N, "hit": {...}|null}
                                        then a final {"query", "results":[...], "complete": true}
-       GET /cameras                -> the ingested camera ids (what a search will cover)"""
+       GET /cameras                -> the ingested camera ids (what a search will cover)
+       GET /health/cameras         -> {meta, cameras:{id:{status: alive|placeholder|error, checked}}} from the probe thread"""
     from http.server import BaseHTTPRequestHandler, HTTPServer
     from socketserver import ThreadingMixIn
     from urllib.parse import parse_qs, urlparse
@@ -181,6 +227,9 @@ def serve(client: VSSClient, files: dict[str, Any], model: str, t0: datetime,
     graph = RoadGraph.load() if ROAD_GRAPH.exists() else None
     if graph is None:
         print(f"note: {ROAD_GRAPH.name} missing - /predict disabled", file=sys.stderr)
+    shared: dict[str, Any] = {"health": {}, "health_meta": {}}
+    import threading
+    threading.Thread(target=health_loop, args=(shared,), daemon=True, name="cam-health").start()
 
     class Handler(BaseHTTPRequestHandler):
         def do_OPTIONS(self):  # noqa: N802  (CORS preflight for POST /predict)
@@ -220,6 +269,9 @@ def serve(client: VSSClient, files: dict[str, Any], model: str, t0: datetime,
 
         def do_GET(self):  # noqa: N802
             u = urlparse(self.path); qs = parse_qs(u.query)
+            if u.path == "/health/cameras":
+                body = json.dumps({"meta": shared["health_meta"], "cameras": shared["health"]}).encode()
+                self._head(200, "application/json"); self.send_header("Content-Length", str(len(body))); self.end_headers(); self.wfile.write(body); return
             if u.path == "/cameras":
                 body = json.dumps({"cameras": [{"camera_id": c, "video": i.get("video"), **{k: cams.get(c, {}).get(k) for k in ("name", "lat", "lon")}} for c, i in files.items()]}).encode()
                 self._head(200, "application/json"); self.send_header("Content-Length", str(len(body))); self.end_headers(); self.wfile.write(body); return

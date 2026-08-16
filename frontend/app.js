@@ -7,7 +7,9 @@ drawGlyph(document.getElementById("riderGlyph"), GLYPHS.RIDER, GLYPHS.RIDER_COLO
 
 const $ = id => document.getElementById(id);
 const TARGET_TRACK = "T-QUERY";
-const isSubject = id => !!id && (state.target ? id === TARGET_TRACK : id.startsWith("T-SUBJ"));
+// Who is "the subject": the ⌘K target if one is set; the replay's demo rides only if explicitly enabled (R.1/R.2);
+// otherwise nobody — the tracker sits idle until you tell it who to follow.
+const isSubject = id => !!id && (state.target ? id === TARGET_TRACK : (state.demoSubject && id.startsWith("T-SUBJ")));
 const CENTER = [-122.3393, 47.6072]; // 2nd Ave corridor, downtown Seattle
 const SPEED_M_PER_S = 233 / 60;   // ~14 km/h scooter, from the prototype
 const UNCERT_S = 30;              // sighting-time uncertainty added to the radius
@@ -42,6 +44,7 @@ const state = {
   cameras: new Map(), sightings: [], subject: [], subjectByTrack: new Map(), lastSubject: null, lostSince: null,
   tracks: new Set(), lostCount: 0, prediction: null, clock: null,
   target: null,            // {query, since, follow, timer} once a search has been run
+  demoSubject: false,      // follow the replay's fake rides (R.1 / R.2 chips) — off by default
 };
 const sightingsGeo = () => ({ type: "FeatureCollection", features: state.sightings.map(s => ({
   type: "Feature", geometry: { type: "Point", coordinates: [s.lon, s.lat] },
@@ -227,6 +230,7 @@ function hud() {
   $("cntLost").textContent = state.lostCount;
   const alive = [...state.cameras.values()].filter(c => c.alive).length;
   $("lcdCams").textContent = `${alive}/${state.cameras.size}`;
+  $("lcdCams").style.color = healthMeta && alive < state.cameras.size * 0.6 ? "#F0645A" : "";
   $("lcdFeed").textContent = feed.ws ? "LIVE" : (feed.playing ? `REPLAY ×${feed.speed}` : "PAUSED");
   if (state.clock) $("lcdClock").textContent = new Date(state.clock).toLocaleTimeString("en-US", { hour12: false });
   const s = state.lastSubject;
@@ -317,6 +321,7 @@ function handleMsg(m) {
   switch (m.type) {
     case "reset":
       Object.assign(state, { sightings: [], subject: [], subjectByTrack: new Map(), lastSubject: null, tracks: new Set(), lostCount: 0, prediction: null });
+      if (!state.target && !state.demoSubject) $("subjHdr").textContent = "NO TARGET · ⌘K TO DESCRIBE WHO TO FOLLOW";
       tickerEl.innerHTML = ""; $("predictPanel").hidden = true; $("dispatchPanel").hidden = true; $("resultsPanel").hidden = true; map.getSource("dispatch")?.setData({ type: "FeatureCollection", features: [] }); camSighting = null; refresh(); break;
     case "camera": state.cameras.set(m.id, m); map.getSource("cameras")?.setData(camerasGeo()); clearTimeout(window.__frameT); window.__frameT = setTimeout(() => frameCurrent(), 50); break;
     case "clock": state.clock = m.t; hud(); if (!$("evalPanel").hidden && (tick % 10 === 0)) evalPanel(); if (!$("camsPanel").hidden && (tick % 10 === 0)) camsPanel(); break;
@@ -337,13 +342,13 @@ function handleMsg(m) {
           if (p?.actual) { state.prediction = { ...state.prediction, actual: p.actual }; showPrediction(state.prediction); if (!$("dispatchPanel").hidden) showDispatch(); }
         }
       }
-      camSighting = m; camCamera = state.cameras.get(m.camera_id); tileFeed(camCamera);
+      if (isSubject(m.track_id) || (!state.target && !state.demoSubject && !healthMeta)) { camSighting = m; camCamera = state.cameras.get(m.camera_id); tileFeed(camCamera); }
       $("camId").textContent = m.camera_id; $("camName").textContent = camCamera?.name || "";
       $("camClass").textContent = `${m.class} · ${m.state}`; $("camConf").textContent = `conf ${m.conf.toFixed(2)}`;
       refresh(); break;
     }
     case "event": tickerAdd(m); break;
-    case "prediction": if (state.target && m.track_id !== TARGET_TRACK) break;   // in target mode only the target's splits count
+    case "prediction": if (!isSubject(m.track_id)) break;   // only the current subject's splits count (none when idle)
       state.prediction = { ...m, actual: undefined }; showPrediction(state.prediction); refresh(); if (!$("dispatchPanel").hidden) showDispatch(); break;
     case "frozen": callout("FROZEN AT SPLIT", "which way did the ride go? — press PAUSE to resume", "#2C6BB0"); $("btnPlay").textContent = "PLAY"; break;
     case "done": $("btnPlay").textContent = "REPLAY"; break;
@@ -429,7 +434,7 @@ async function runPalette(q) {
   if (q === "/dispatch") { closePalette(); showDispatch(true); return; }
   if (q === "/api off") { localStorage.setItem("omnisApiOff", "1"); setApi(""); $("paletteResults").innerHTML = `<div class="pr empty">live search disabled — demo match</div>`; return; }
   if (q.startsWith("/api")) { localStorage.removeItem("omnisApiOff"); setApi(q.slice(4)); $("paletteResults").innerHTML = `<div class="pr empty">${API ? "query server set to " + API : "query server cleared — demo match"}</div>`; return; }
-  if (q === "/clear") { stopFollow(); state.target = null; $("subjHdr").textContent = "SUBJECT · PRESENTER · CONSENTED"; $("dispatchPanel").hidden = true; $("resultsPanel").hidden = true; map.getSource("dispatch")?.setData({ type: "FeatureCollection", features: [] }); state.prediction = null; $("predictPanel").hidden = true; refresh(); closePalette(); return; }
+  if (q === "/clear") { stopFollow(); state.target = null; state.demoSubject = false; document.querySelectorAll(".chip-btn[data-ride]").forEach(x => x.classList.remove("on")); $("subjHdr").textContent = "NO TARGET · ⌘K TO DESCRIBE WHO TO FOLLOW"; $("dispatchPanel").hidden = true; $("resultsPanel").hidden = true; map.getSource("dispatch")?.setData({ type: "FeatureCollection", features: [] }); state.prediction = null; $("predictPanel").hidden = true; refresh(); closePalette(); return; }
   if (q === "/stop") { stopFollow(); closePalette(); callout("FOLLOW STOPPED", "target kept · /clear to drop it", "#2C6BB0"); return; }
   closePalette();
   const panel = $("resultsPanel"), list = $("resultsList"), prog = $("resultsProgress");
@@ -456,7 +461,8 @@ async function runPalette(q) {
 // ---------- target mode: the search defines who we follow ----------
 function setTarget(q) {
   const first = !state.target || state.target.query !== q;
-  if (first) { stopFollow(); state.target = { query: q, since: Date.now(), follow: false, timer: null, seen: new Set() };
+  if (first) { stopFollow(); state.demoSubject = false; document.querySelectorAll(".chip-btn[data-ride]").forEach(x => x.classList.remove("on"));
+    state.target = { query: q, since: Date.now(), follow: false, timer: null, seen: new Set() };
     state.subjectByTrack.set(TARGET_TRACK, []); state.prediction = null; $("predictPanel").hidden = true; $("dispatchPanel").hidden = true;
     map.getSource("dispatch")?.setData({ type: "FeatureCollection", features: [] }); }
   $("subjHdr").textContent = `TARGET · ${q.toUpperCase().slice(0, 30)}`;
@@ -519,6 +525,30 @@ async function requestPrediction(trackId) {
   finally { predictBusy = false; }
 }
 
+// ---------- camera health from the Spark (SDOT's "under maintenance" placeholder = offline) ----------
+let healthMeta = null;
+async function pullHealth() {
+  if (!API) return;
+  try {
+    const j = await (await fetch(`${API.replace(/\/$/, "")}/health/cameras`, { signal: AbortSignal.timeout(6000) })).json();
+    if (!j.meta || !j.meta.checked) return;   // probe hasn't finished its first pass yet
+    let changed = 0;
+    for (const [id, h] of Object.entries(j.cameras || {})) { const c = state.cameras.get(id); if (!c) continue;
+      const alive = h.status === "alive"; if (c.alive !== alive) { c.alive = alive; changed++; } c.health = h.status; }
+    healthMeta = j.meta;
+    if (changed) { map.getSource("cameras")?.setData(camerasGeo()); tickerAdd({ kind: "system", text: `camera health · ${j.meta.alive}/${j.meta.total} alive · ${j.meta.placeholder} under maintenance · ${j.meta.error} unreachable · checked ${j.meta.checked.slice(11, 16)}` }); }
+    idleTile();
+  } catch (e) { /* server not there or probe not ready */ }
+}
+setInterval(pullHealth, 60000); setTimeout(pullHealth, 4000);
+function idleTile() {
+  // when nobody is being followed, show a camera that is actually alive (venue first)
+  if (state.target || state.demoSubject) return;
+  const pref = ["CMR-0260", "CMR-0184", "CMR-0267", "CMR-0146", "CMR-0302"];
+  const alive = [...pref.map(id => state.cameras.get(id)), ...state.cameras.values()].filter(c => c && c.alive !== false && c.health === "alive");
+  if (alive.length) { camSighting = null; camCamera = alive[0]; tileFeed(camCamera); $("camId").textContent = camCamera.id; $("camName").textContent = camCamera.name; $("camClass").textContent = "idle · live camera"; $("camConf").textContent = healthMeta ? `${healthMeta.alive}/${healthMeta.total} cams alive` : ""; }
+}
+
 // ---------- dispatch: where units should be, from the current prediction ----------
 function showDispatch(force = false) {
   const p = state.prediction; const panel = $("dispatchPanel");
@@ -554,11 +584,13 @@ $("btnCams").onclick = e => { const p = $("camsPanel"); p.hidden = !p.hidden; e.
 document.querySelectorAll(".chip-btn[data-ride]").forEach(b => b.onclick = () => {
   const ride = (feed.data?.meta?.rides || [])[+b.dataset.ride]; if (!ride) return;
   document.querySelectorAll(".chip-btn[data-ride]").forEach(x => x.classList.toggle("on", x === b));
+  stopFollow(); state.target = null; state.demoSubject = true; $("subjHdr").textContent = "DEMO RIDE · PRESENTER · CONSENTED";
   const ids = ride.cameras || []; frame(ids.map(id => state.cameras.get(id)).filter(Boolean).map(c => [c.lon, c.lat]));
-  callout("RIDE " + (+b.dataset.ride + 1), ride.label.split(":")[0], "#3A0E0A");
+  callout("DEMO RIDE " + (+b.dataset.ride + 1), ride.label.split(":")[0], "#3A0E0A");
 });
 $("btnMore").onclick = e => { document.body.classList.toggle("hud-lite"); e.currentTarget.classList.toggle("on", !document.body.classList.contains("hud-lite")); };
 $("btnMore").classList.add("on");
+$("subjHdr").textContent = "NO TARGET · ⌘K TO DESCRIBE WHO TO FOLLOW";
 setTimeout(() => tickerAdd({ kind: "system", text: "press ⌘K / Ctrl+K to describe a suspect or vehicle · /dispatch for unit positions" }), 1500);
 { const q0 = new URLSearchParams(location.search).get("q"); if (q0) setTimeout(() => { openPalette(); $("paletteInput").value = q0; runPalette(q0); }, 1200); }
 $("badgeBtn").onclick = () => $("btnCams").click();
