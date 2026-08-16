@@ -845,6 +845,70 @@
       "lon": -122.329591,
       "kind": "sdot",
       "alive": true
+    },
+    {
+      "id": "CMR-0260",
+      "name": "Westlake Ave N & Harrison St",
+      "lat": 47.622041,
+      "lon": -122.338456,
+      "kind": "sdot",
+      "alive": true
+    },
+    {
+      "id": "CMR-0146",
+      "name": "Westlake Ave & Valley St",
+      "lat": 47.625796,
+      "lon": -122.338635,
+      "kind": "sdot",
+      "alive": true
+    },
+    {
+      "id": "CMR-0154",
+      "name": "9th Ave N & Mercer St",
+      "lat": 47.624687,
+      "lon": -122.339741,
+      "kind": "sdot",
+      "alive": true
+    },
+    {
+      "id": "CMR-0266",
+      "name": "9th Ave N & Thomas St",
+      "lat": 47.620879,
+      "lon": -122.339769,
+      "kind": "sdot",
+      "alive": true
+    },
+    {
+      "id": "CMR-0202",
+      "name": "Terry Ave N & Mercer St",
+      "lat": 47.624685,
+      "lon": -122.33713,
+      "kind": "sdot",
+      "alive": true
+    },
+    {
+      "id": "CMR-0259",
+      "name": "Fairview Ave N & Republican St",
+      "lat": 47.623162,
+      "lon": -122.334279,
+      "kind": "sdot",
+      "alive": true
+    },
+    {
+      "id": "CMR-0211",
+      "name": "Dexter Ave N & Mercer St",
+      "lat": 47.62455,
+      "lon": -122.34235,
+      "kind": "sdot",
+      "alive": true
+    },
+    {
+      "id": "CMR-0203",
+      "name": "9th Ave N & Roy St",
+      "lat": 47.625393,
+      "lon": -122.339735,
+      "kind": "sdot",
+      "alive": true
     }
   ]
 }

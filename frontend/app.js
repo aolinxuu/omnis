@@ -347,9 +347,11 @@ feed.addEventListener("msg", ({ detail: m }) => {
 });
 
 // ---------- ⌘K palette: describe suspect / vehicle → search ----------
-const API = new URLSearchParams(location.search).get("api") || localStorage.getItem("omnisApi") || "";
-$("paletteMode").textContent = API ? `LIVE · ${API}` : "DEMO MATCH · no query server (add ?api=http://spark:8765)";
-$("paletteMode").classList.toggle("live", !!API);
+let API = new URLSearchParams(location.search).get("api") || localStorage.getItem("omnisApi") || "";
+function setApi(url) { API = (url || "").trim(); if (API) localStorage.setItem("omnisApi", API); else localStorage.removeItem("omnisApi");
+  $("paletteMode").textContent = API ? `LIVE · ${API}` : "DEMO MATCH · no query server (/api http://spark:8765)";
+  $("paletteMode").classList.toggle("live", !!API); }
+setApi(API);
 let paletteOpen = false;
 function openPalette() { paletteOpen = true; $("palette").hidden = false; $("paletteInput").focus(); $("paletteInput").select(); }
 function closePalette() { paletteOpen = false; $("palette").hidden = true; }
@@ -379,17 +381,30 @@ function demoMatch(q) {
     t: r.s.t, detail: r.detail, score: r.score, image: r.cam?.image, sighting_id: r.s.id }));
 }
 
-async function liveQuery(q) {
-  const r = await fetch(`${API.replace(/\/$/, "")}/query?q=${encodeURIComponent(q)}`);
-  const j = await r.json(); if (j.error) throw new Error(j.error);
-  return (j.results || []).map(h => ({ ...h, score: 1, image: state.cameras.get(h.camera_id)?.image }));
+async function liveQuery(q, onProgress) {
+  // NDJSON stream: one line per camera as the VLM answers, then a final {complete:true}
+  const r = await fetch(`${API.replace(/\/$/, "")}/query?q=${encodeURIComponent(q)}&stream=1`);
+  if (!r.ok || !r.body) throw new Error(`HTTP ${r.status}`);
+  const reader = r.body.getReader(), dec = new TextDecoder(); let buf = "", final = null;
+  while (true) {
+    const { value, done } = await reader.read(); if (done) break;
+    buf += dec.decode(value, { stream: true });
+    let i; while ((i = buf.indexOf("\n")) >= 0) {
+      const line = buf.slice(0, i).trim(); buf = buf.slice(i + 1); if (!line) continue;
+      const j = JSON.parse(line);
+      if (j.complete) { final = j; if (j.error) throw new Error(j.error); }
+      else if (onProgress) onProgress(j);
+    }
+  }
+  return ((final && final.results) || []).map(h => ({ ...h, score: 1, image: state.cameras.get(h.camera_id)?.image }));
 }
 
+function collect(box) { return [...box.querySelectorAll(".pr[data-hit]")].map(el => JSON.parse(el.dataset.hit)); }
 function renderResults(q, hits, mode) {
   const box = $("paletteResults"); box.innerHTML = "";
   if (!hits.length) { box.innerHTML = `<div class="pr empty">no matching sightings for "${q}"${mode === "demo" ? " (demo matcher searches notes + VSS captions of the loaded replay)" : ""}</div>`; return; }
   hits.forEach(h => {
-    const el = document.createElement("div"); el.className = "pr";
+    const el = document.createElement("div"); el.className = "pr"; el.dataset.hit = JSON.stringify(h);
     el.innerHTML = `${h.image ? `<img src="${h.image}?t=${Date.now() >> 12}" alt="">` : "<span></span>"}<div><div class="t">${h.t.slice(11, 19)} · ${h.camera_name}</div><div class="d">${h.detail}</div></div><span class="s">${Math.round((h.score ?? 1) * 100)}%</span>`;
     el.onclick = () => { closePalette(); map.easeTo({ center: [h.lon, h.lat], zoom: 16 }); callout("QUERY HIT", `${h.camera_name} · ${h.t.slice(11, 19)}`, "#2C6BB0"); };
     box.appendChild(el);
@@ -399,10 +414,16 @@ function renderResults(q, hits, mode) {
 async function runPalette(q) {
   if (!q) return;
   if (q === "/dispatch") { closePalette(); showDispatch(true); return; }
+  if (q.startsWith("/api")) { setApi(q.slice(4)); $("paletteResults").innerHTML = `<div class="pr empty">${API ? "query server set to " + API : "query server cleared — demo match"}</div>`; return; }
   if (q === "/clear") { $("dispatchPanel").hidden = true; map.getSource("dispatch")?.setData({ type: "FeatureCollection", features: [] }); closePalette(); return; }
   $("paletteResults").innerHTML = `<div class="pr empty">searching ${API ? "VSS on the Spark" : "the loaded replay"} for "${q}"…</div>`;
   let hits = [], mode = API ? "live" : "demo";
-  try { hits = API ? await liveQuery(q) : demoMatch(q); }
+  const progress = j => { const box = $("paletteResults");
+    if (j.done === 1) box.innerHTML = "";
+    if (j.hit) { const h = { ...j.hit, score: 1, image: state.cameras.get(j.hit.camera_id)?.image }; renderResults(q, [...collect(box), h], "live"); }
+    box.insertAdjacentHTML("beforeend", `<div class="pr empty progress">${j.done}/${j.total} cameras asked · ${j.camera_id} ${j.hit ? "✔ hit" : "— no match"}</div>`);
+    box.querySelectorAll(".progress").forEach((el, i, all) => { if (i < all.length - 1) el.remove(); }); };
+  try { hits = API ? await liveQuery(q, progress) : demoMatch(q); }
   catch (e) { $("paletteResults").innerHTML = `<div class="pr empty">query server error: ${e.message}</div>`; return; }
   renderResults(q, hits, mode);
   tickerAdd({ kind: "system", text: `query "${q}" → ${hits.length} hit${hits.length === 1 ? "" : "s"}${mode === "demo" ? " (demo match)" : ""}` });

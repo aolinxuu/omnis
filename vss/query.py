@@ -92,8 +92,11 @@ def parse(text: str) -> dict[str, Any]:
 
 def search(client: VSSClient, files: dict[str, Any], question: str, model: str,
            t0: datetime, cams: dict[str, dict[str, Any]],
-           only: set[str] | None = None) -> list[dict[str, Any]]:
-    """Ask every ingested clip, return the hits ranked by clip order."""
+           only: set[str] | None = None, on_result=None) -> list[dict[str, Any]]:
+    """Ask every ingested clip, return the hits ranked by clip order.
+
+    `on_result(cam_id, hit_or_None)` is called after each camera so a server can
+    stream progress instead of making the operator wait for the whole sweep."""
     results = []
     for cam_id, info in files.items():
         if only is not None and cam_id not in only:
@@ -108,6 +111,8 @@ def search(client: VSSClient, files: dict[str, Any], question: str, model: str,
         # the constrained VERDICT/TIME/DETAIL format survives better there.
         parsed = parse(reply["tool_result"] or reply["answer"])
         if not parsed["hit"]:
+            if on_result:
+                on_result(cam_id, None)
             continue
 
         t_clip = parsed["t_clip"]
@@ -123,6 +128,8 @@ def search(client: VSSClient, files: dict[str, Any], question: str, model: str,
             "detail": parsed["detail"],
             "approximate_time": t_clip is None,
         })
+        if on_result:
+            on_result(cam_id, results[-1])
 
     results.sort(key=lambda r: r["seed_rel_s"])
     return results
@@ -158,35 +165,64 @@ def do_captions(client: VSSClient, files: dict[str, Any], model: str,
 
 
 def serve(client: VSSClient, files: dict[str, Any], model: str, t0: datetime,
-          cams: dict[str, dict[str, Any]], port: int) -> None:
+          cams: dict[str, dict[str, Any]], port: int, host: str = "0.0.0.0") -> None:
+    """GET /query?q=...            -> {"query", "results":[...]}
+       GET /query?q=...&stream=1   -> NDJSON, one line per camera as it is answered:
+                                       {"camera_id", "done": n, "total": N, "hit": {...}|null}
+                                       then a final {"query", "results":[...], "complete": true}
+       GET /cameras                -> the ingested camera ids (what a search will cover)"""
     from http.server import BaseHTTPRequestHandler, HTTPServer
+    from socketserver import ThreadingMixIn
     from urllib.parse import parse_qs, urlparse
 
     class Handler(BaseHTTPRequestHandler):
+        def _head(self, code, ctype):
+            self.send_response(code)
+            self.send_header("Content-Type", ctype)
+            self.send_header("Access-Control-Allow-Origin", "*")
+            self.send_header("Cache-Control", "no-store")
+
         def do_GET(self):  # noqa: N802
-            q = parse_qs(urlparse(self.path).query).get("q", [""])[0]
+            u = urlparse(self.path); qs = parse_qs(u.query)
+            if u.path == "/cameras":
+                body = json.dumps({"cameras": [{"camera_id": c, "video": i.get("video"), **{k: cams.get(c, {}).get(k) for k in ("name", "lat", "lon")}} for c, i in files.items()]}).encode()
+                self._head(200, "application/json"); self.send_header("Content-Length", str(len(body))); self.end_headers(); self.wfile.write(body); return
+            q = qs.get("q", [""])[0]
             if not q:
-                self.send_error(400, "missing q")
+                self.send_error(400, "missing q"); return
+            if qs.get("stream", ["0"])[0] in ("1", "true"):
+                self._head(200, "application/x-ndjson"); self.end_headers()
+                total = len(files); n = [0]
+                def emit(obj):
+                    try:
+                        self.wfile.write((json.dumps(obj) + "\n").encode()); self.wfile.flush()
+                    except (BrokenPipeError, ConnectionResetError):
+                        raise
+                def cb(cam_id, hit):
+                    n[0] += 1; emit({"camera_id": cam_id, "done": n[0], "total": total, "hit": hit})
+                try:
+                    hits = search(client, files, q, model, t0, cams, on_result=cb)
+                    emit({"query": q, "results": hits, "complete": True})
+                except (BrokenPipeError, ConnectionResetError):
+                    return
+                except Exception as exc:
+                    emit({"query": q, "error": str(exc), "complete": True})
                 return
             try:
                 hits = search(client, files, q, model, t0, cams)
-                body = json.dumps({"query": q, "results": hits}).encode()
-                code = 200
+                body = json.dumps({"query": q, "results": hits}).encode(); code = 200
             except Exception as exc:  # keep the demo alive on a bad query
-                body = json.dumps({"query": q, "error": str(exc)}).encode()
-                code = 500
-            self.send_response(code)
-            self.send_header("Content-Type", "application/json")
-            self.send_header("Access-Control-Allow-Origin", "*")
-            self.send_header("Content-Length", str(len(body)))
-            self.end_headers()
-            self.wfile.write(body)
+                body = json.dumps({"query": q, "error": str(exc)}).encode(); code = 500
+            self._head(code, "application/json"); self.send_header("Content-Length", str(len(body))); self.end_headers(); self.wfile.write(body)
 
-        def log_message(self, *a):  # quieter console during a demo
-            pass
+        def log_message(self, fmt, *a):  # one line per request, quiet otherwise
+            sys.stderr.write("  %s %s\n" % (self.command, self.path[:120]))
 
-    print(f"query server on http://127.0.0.1:{port}/query?q=...")
-    HTTPServer(("127.0.0.1", port), Handler).serve_forever()
+    class Server(ThreadingMixIn, HTTPServer):
+        daemon_threads = True
+
+    print(f"query server on http://{host}:{port}/query?q=...   ({len(files)} camera clip(s) indexed)")
+    Server((host, port), Handler).serve_forever()
 
 
 def main() -> None:
@@ -202,6 +238,7 @@ def main() -> None:
     ap.add_argument("--repeat", type=int, default=1,
                     help="run the query N times and report whether it is stable")
     ap.add_argument("--serve", type=int, metavar="PORT", default=None)
+    ap.add_argument("--host", default="0.0.0.0", help="bind address for --serve (0.0.0.0 so the frontend on another box can reach it)")
     ap.add_argument("--json", action="store_true")
     args = ap.parse_args()
 
@@ -228,7 +265,7 @@ def main() -> None:
         return
 
     if args.serve is not None:
-        serve(client, files, args.model, t0, cams, args.serve)
+        serve(client, files, args.model, t0, cams, args.serve, args.host)
         return
 
     if not args.question:

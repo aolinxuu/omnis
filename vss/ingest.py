@@ -42,7 +42,27 @@ def main() -> None:
                     help="re-upload cameras already in the index")
     ap.add_argument("--smoke-test", action="store_true",
                     help="after ingest, ask one trivial question to prove the index works")
+    ap.add_argument("--register", nargs=2, metavar=("CAMERA_ID", "VIDEO_NAME"),
+                    help="index a video that is ALREADY in VST (e.g. uploaded by hand) under a camera id")
+    ap.add_argument("--offset", type=float, default=0.0, help="--register: seed-relative seconds of the clip's first frame")
+    ap.add_argument("--duration", type=float, default=None, help="--register: clip length in seconds")
     args = ap.parse_args()
+
+    if args.register:
+        cam, video = args.register
+        client = VSSClient(args.endpoint)
+        v = client.find_video(video)
+        if not v:
+            print(f"{video} is not in VST - upload it first (python -m vss.client / PUT videos-for-search)", file=sys.stderr)
+            sys.exit(1)
+        existing = load_json(INGEST_INDEX) if INGEST_INDEX.exists() else {"meta": {}, "files": {}}
+        existing["files"][cam] = {"sensor_id": v["sensorId"], "video": v["name"], "clip": None,
+                                  "clip_offset_s": args.offset, "duration_s": args.duration}
+        existing.setdefault("meta", {}).update({"endpoint": client.endpoint, "model": args.model,
+                                                "note": "camera_id -> VST sensor_id + upload name. query.py joins on this."})
+        write_json(INGEST_INDEX, existing)
+        print(f"registered {cam} -> {v['name']} ({v['sensorId']})  in {INGEST_INDEX.relative_to(ROOT)}")
+        return
 
     if not CLIP_INDEX.exists():
         print(f"missing {CLIP_INDEX.relative_to(ROOT)} - run prep_clips.py first",
