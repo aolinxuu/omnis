@@ -37,6 +37,7 @@ html, body { height:100%; margin:0; background:var(--navy); color:var(--cream); 
 .brand-sub { font-family:var(--font-px); font-size:7px; color:#9EC1F0; margin-top:5px; }
 /* camera tile */
 .cam { left:16px; top:78px; width:288px; }
+/* bigger tile pass (2026-08-16): 480px wide so the recorded subject is legible from the back of the room */
 .cam .cam-name { color:var(--hud-ink); opacity:.75; font-family:var(--font-lcd); font-size:16px; margin-left:auto; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:150px; }
 .cam .cam-view { position:relative; width:272px; height:187px; background:#111; box-shadow:0 0 0 var(--px) var(--hud-dark); overflow:hidden; }
 .cam .cam-view img, .cam .cam-view video, .cam .cam-view canvas { position:absolute; inset:0; width:100%; height:100%; display:block; }
@@ -270,3 +271,14 @@ html, body { height:100%; margin:0; background:var(--navy); color:var(--cream); 
 .results .palette-results { max-height:none; overflow:auto; }
 .chip-btn.pink { background:#F06AA8; color:#3A0A22; box-shadow:0 0 0 3px #8E2C5E, inset 0 0 0 3px #FFB3D6, inset -3px -3px 0 0 #C74A86; }
 .chip-btn.pink.on { background:#FFB3D6; }
+
+/* ===== larger camera tile ===== */
+.cam { width:492px; }
+.cam .cam-view { width:476px; height:298px; }
+.cam .cam-name { max-width:330px; }
+.rail { top:436px; }
+.rail .legend { left:104px; top:0; width:200px; }
+.rail .avatars { position:absolute; left:104px; top:78px; flex-direction:row; align-items:flex-end; }
+.subject { left:330px; }
+.dispatch { left:640px; }
+@media (max-height: 860px) { .rail .avatars { display:none; } }
