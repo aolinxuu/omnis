@@ -3,7 +3,8 @@
 // Consumers only ever see: {type:"camera"|"sighting"|"event"|"prediction", ...payload}
 
 export class Feed extends EventTarget {
-  constructor(opts = {}) { super(); this.speed = 6; this.playing = false; this.autoplay = !!opts.autoplay; this.armed = false; this.freezeAtSplit = false; this._timer = null; }
+  constructor(opts = {}) { super(); this.speed = 6; this.playing = false; this.autoplay = !!opts.autoplay; this.armed = false; this.freezeAtSplit = false; this._timer = null;
+    this.maxGapS = opts.maxGapS || 0; }   // >0: fast-forward idle stretches so no more than this many replay-seconds pass before the next event
 
   emit(msg) { this.dispatchEvent(new CustomEvent("msg", { detail: msg })); }
 
@@ -51,6 +52,10 @@ export class Feed extends EventTarget {
       const m = this.items[this.i++];
       if (m.type === "prediction" && this.freezeAtSplit) { this.playing = false; this.emit({ type: "frozen", prediction: m }); }
       this.emit(m);
+    }
+    if (this.playing && this.maxGapS && this.i < this.items.length) {
+      const nextT = new Date(this.items[this.i].t).getTime();
+      if (nextT - this.clock > this.maxGapS * 1000) { this.clock = nextT - this.maxGapS * 1000; this.emit({ type: "skip", to: this.clock }); }
     }
     this.emit({ type: "clock", t: this.clock });
     if (this.i >= this.items.length && this.playing) { this.playing = false; this.emit({ type: "done" }); }

@@ -331,7 +331,10 @@ function camsPanel() {
 }
 
 // ---------- feed wiring ----------
-const feed = new Feed({ autoplay: new URLSearchParams(location.search).get("demo") === "1" });
+const REPLAY_PARAMS = new URLSearchParams(location.search);
+const feed = new Feed({ autoplay: REPLAY_PARAMS.get("demo") === "1",
+  // real-run replays have minutes of nothing between cameras: fast-forward those (override with ?gap=seconds)
+  maxGapS: REPLAY_PARAMS.get("gap") !== null ? +REPLAY_PARAMS.get("gap") : (REPLAY_PARAMS.get("replay") ? 20 : 0) });
 const REPLAY = new URLSearchParams(location.search).get("replay");   // e.g. ?replay=pink-sweep
 feed.loadReplay("data/sightings.json", REPLAY ? `data/${REPLAY}.json` : null);
 feed.addEventListener("msg", ({ detail: m }) => handleMsg(m));
@@ -366,7 +369,7 @@ function handleMsg(m) {
         }
       }
       if (isSubject(m.track_id) || (!state.target && !state.demoSubject && !healthMeta)) { camSighting = m; camCamera = state.cameras.get(m.camera_id);
-        if (m.clip_url) tileRecorded(m, camCamera); else tileFeed(camCamera); }
+        if (m.clip_url) tileRecorded(m, camCamera); else if (!(tileClip && m.state === "lost")) tileFeed(camCamera); }
       $("camId").textContent = m.camera_id; $("camName").textContent = camCamera?.name || "";
       $("camClass").textContent = `${m.class} · ${m.state}`; $("camConf").textContent = `conf ${m.conf.toFixed(2)}`;
       refresh(); break;
@@ -375,6 +378,7 @@ function handleMsg(m) {
     case "prediction": if (!isSubject(m.track_id)) break;   // only the current subject's splits count (none when idle)
       state.prediction = { ...m, actual: undefined }; showPrediction(state.prediction); refresh(); if (!$("dispatchPanel").hidden) showDispatch(); break;
     case "frozen": callout("FROZEN AT SPLIT", "which way did the ride go? — press PAUSE to resume", "#2C6BB0"); $("btnPlay").textContent = "PLAY"; break;
+    case "skip": tickerAdd({ kind: "system", text: `⏩ fast-forward to ${new Date(m.to).toLocaleTimeString("en-US", { hour12: false })} · nothing on the corridor in between` }); break;
     case "done": $("btnPlay").textContent = "REPLAY"; break;
   }
 }
