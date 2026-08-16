@@ -211,6 +211,37 @@ function tileRecorded(sighting, cam) {
   video.classList.add("on"); badge.hidden = false; badge.classList.remove("live");
   badge.textContent = `RECORDED · ${sighting.t.slice(11, 19)} · ${(sighting.clip_url.split("/").pop() || "").replace(".mp4", "")}`;
   $("camId").textContent = sighting.camera_id; $("camName").textContent = cam?.name || "";
+  // give the audience time to actually see him: hold the replay clock for the clip's key window
+  const dwellS = Math.min(Math.max(8, ((sighting.clip_len_s || 0) - seek) * 0.6), 14);
+  feed.hold(dwellS * 1000);
+  // per-frame person boxes for this clip, if the detector produced them
+  tileBoxes = null; tileBoxesFor = sighting.clip_url;
+  fetch(sighting.clip_url.replace(/\.mp4$/, ".boxes.json")).then(r => r.ok ? r.json() : null).then(j => { if (tileBoxesFor === sighting.clip_url) tileBoxes = j; }).catch(() => {});
+}
+let tileBoxes = null, tileBoxesFor = null, lastBox = null;
+function drawTrackBox() {
+  const video = $("camVideo"), cv = $("camCanvas");
+  if (!tileClip || !tileBoxes || !video.classList.contains("on")) return;
+  const ctx = cv.getContext("2d"); ctx.clearRect(0, 0, cv.width, cv.height);
+  const t = video.currentTime; const bs = tileBoxes.boxes; if (!bs.length) return;
+  // nearest sampled frame within 0.35 s
+  let lo = 0, hi = bs.length - 1;
+  while (lo < hi) { const mid = (lo + hi) >> 1; if (bs[mid].t < t) lo = mid + 1; else hi = mid; }
+  const cand = [bs[lo], bs[lo - 1]].filter(Boolean).sort((p, q) => Math.abs(p.t - t) - Math.abs(q.t - t))[0];
+  if (!cand || Math.abs(cand.t - t) > 0.35) return;
+  // pink-scored, or continuous with the last drawn box (he gets small and desaturated when far away)
+  const cont = lastBox && Math.abs(cand.t - lastBox.t) < 1.2 && Math.hypot(cand.x - lastBox.x, cand.y - lastBox.y) < 60;
+  if (cand.hue < 0.12 && !cont) return;
+  lastBox = cand;
+  const sx = cv.width / tileBoxes.w, sy = cv.height / tileBoxes.h;
+  const x = cand.x * sx, y = cand.y * sy, w = cand.w * sx, h = cand.h * sy;
+  ctx.strokeStyle = "#F06AA8"; ctx.lineWidth = 2; ctx.strokeRect(x - 2, y - 2, w + 4, h + 4);
+  ctx.fillStyle = "#F06AA8"; ctx.fillRect(x - 2, y - 13, 62, 11);
+  ctx.fillStyle = "#2A0E1A"; ctx.font = "8px monospace"; ctx.fillText(`person ${cand.conf.toFixed(2)}`, x, y - 5);
+  // corner ticks so it reads as a target lock, not a UI box
+  ctx.strokeStyle = "#FFF"; ctx.lineWidth = 1;
+  for (const [cx, cy, dx, dy] of [[x-4, y-4, 1, 1], [x+w+4, y-4, -1, 1], [x-4, y+h+4, 1, -1], [x+w+4, y+h+4, -1, -1]]) {
+    ctx.beginPath(); ctx.moveTo(cx, cy + dy * 6); ctx.lineTo(cx, cy); ctx.lineTo(cx + dx * 6, cy); ctx.stroke(); }
 }
 function tileFeed(cam) {
   if (!cam || (cam.id === tileCam?.id && !tileClip)) return;
@@ -267,7 +298,7 @@ function hud() {
     map.getSource("subject-now")?.setData({ type: "FeatureCollection", features: [{ type: "Feature", geometry: { type: "Point", coordinates: [s.lon, s.lat] }, properties: {} }] });
     if (map.getLayer("subject-now")) map.setPaintProperty("subject-now", "icon-opacity", Math.max(0.25, conf));
   }
-  if (camCamera?.image) drawDetectionOverlay($("camCanvas"), camSighting); else drawCameraFrame($("camCanvas"), camSighting, camCamera, tick);
+  if (tileClip) drawTrackBox(); else if (camCamera?.image) drawDetectionOverlay($("camCanvas"), camSighting); else drawCameraFrame($("camCanvas"), camSighting, camCamera, tick);
   tick++;
   // radar + reticle follow the subject
   const sub = state.lastSubject;
@@ -459,6 +490,7 @@ function renderResults(q, hits, mode) {
 }
 
 $("resultsClose").onclick = () => { $("resultsPanel").hidden = true; };
+$("camVideo").addEventListener("timeupdate", () => { if (tileClip) drawTrackBox(); });
 async function runPalette(q) {
   if (!q) return;
   if (q === "/dispatch") { closePalette(); showDispatch(true); return; }

@@ -4,7 +4,8 @@
 
 export class Feed extends EventTarget {
   constructor(opts = {}) { super(); this.speed = 6; this.playing = false; this.autoplay = !!opts.autoplay; this.armed = false; this.freezeAtSplit = false; this._timer = null;
-    this.maxGapS = opts.maxGapS || 0; }   // >0: fast-forward idle stretches so no more than this many replay-seconds pass before the next event
+    this.maxGapS = opts.maxGapS || 0; this.holdUntil = 0; }
+  hold(ms) { this.holdUntil = Math.max(this.holdUntil, performance.now() + ms); }   // pause the replay clock (real ms) e.g. while a recording plays   // >0: fast-forward idle stretches so no more than this many replay-seconds pass before the next event
 
   emit(msg) { this.dispatchEvent(new CustomEvent("msg", { detail: msg })); }
 
@@ -46,7 +47,7 @@ export class Feed extends EventTarget {
 
   _tick() {
     const now = performance.now();
-    if (this.playing) this.clock += (now - this._lastReal) * this.speed;
+    if (this.playing && now >= this.holdUntil) this.clock += (now - this._lastReal) * this.speed;
     this._lastReal = now;
     while (this.playing && this.i < this.items.length && new Date(this.items[this.i].t).getTime() <= this.clock) {
       const m = this.items[this.i++];
