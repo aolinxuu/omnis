@@ -6,7 +6,8 @@ drawGlyph(document.getElementById("riderGlyph"), GLYPHS.RIDER, GLYPHS.RIDER_COLO
 { const f = document.createElement("link"); f.rel = "icon"; f.href = "static/spider-mask-transparent.png"; document.head.appendChild(f); }
 
 const $ = id => document.getElementById(id);
-const isSubject = id => !!id && id.startsWith("T-SUBJ");
+const TARGET_TRACK = "T-QUERY";
+const isSubject = id => !!id && (state.target ? id === TARGET_TRACK : id.startsWith("T-SUBJ"));
 const CENTER = [-122.3393, 47.6072]; // 2nd Ave corridor, downtown Seattle
 const SPEED_M_PER_S = 233 / 60;   // ~14 km/h scooter, from the prototype
 const UNCERT_S = 30;              // sighting-time uncertainty added to the radius
@@ -40,6 +41,7 @@ function recolor() {
 const state = {
   cameras: new Map(), sightings: [], subject: [], subjectByTrack: new Map(), lastSubject: null, lostSince: null,
   tracks: new Set(), lostCount: 0, prediction: null, clock: null,
+  target: null,            // {query, since, follow, timer} once a search has been run
 };
 const sightingsGeo = () => ({ type: "FeatureCollection", features: state.sightings.map(s => ({
   type: "Feature", geometry: { type: "Point", coordinates: [s.lon, s.lat] },
@@ -237,7 +239,7 @@ function hud() {
     $("subjConf").textContent = conf.toFixed(2);
     $("subjConfBar").style.width = `${conf * 100}%`;
     $("subjConfBar").style.background = conf < 0.4 ? "#F0645A" : "#F6B53A";
-    $("subjGap").textContent = age > 8 ? `${Math.round(age)} s since last cam` : "in view";
+    if (!(state.target && state.target.follow)) $("subjGap").textContent = age > 8 ? `${Math.round(age)} s since last cam` : "in view";
     const r = searchRadius(); $("subjRadius").textContent = r ? (r >= 1000 ? (r/1000).toFixed(1) + " km" : Math.round(r) + " m") : "—";
     if (map.getSource("reach")) { map.getSource("reach").setData(reachGeo()); const cg = camerasGeo(); map.getSource("cameras").setData(cg);
       $("subjReach").textContent = r ? String(cg.features.filter(f => f.properties.reach).length) : "—"; }
@@ -310,11 +312,12 @@ function camsPanel() {
 // ---------- feed wiring ----------
 const feed = new Feed();
 feed.loadReplay("data/sightings.json");
-feed.addEventListener("msg", ({ detail: m }) => {
+feed.addEventListener("msg", ({ detail: m }) => handleMsg(m));
+function handleMsg(m) {
   switch (m.type) {
     case "reset":
       Object.assign(state, { sightings: [], subject: [], subjectByTrack: new Map(), lastSubject: null, tracks: new Set(), lostCount: 0, prediction: null });
-      tickerEl.innerHTML = ""; $("predictPanel").hidden = true; $("dispatchPanel").hidden = true; map.getSource("dispatch")?.setData({ type: "FeatureCollection", features: [] }); camSighting = null; refresh(); break;
+      tickerEl.innerHTML = ""; $("predictPanel").hidden = true; $("dispatchPanel").hidden = true; $("resultsPanel").hidden = true; map.getSource("dispatch")?.setData({ type: "FeatureCollection", features: [] }); camSighting = null; refresh(); break;
     case "camera": state.cameras.set(m.id, m); map.getSource("cameras")?.setData(camerasGeo()); clearTimeout(window.__frameT); window.__frameT = setTimeout(() => frameCurrent(), 50); break;
     case "clock": state.clock = m.t; hud(); if (!$("evalPanel").hidden && (tick % 10 === 0)) evalPanel(); if (!$("camsPanel").hidden && (tick % 10 === 0)) camsPanel(); break;
     case "sighting": {
@@ -340,11 +343,12 @@ feed.addEventListener("msg", ({ detail: m }) => {
       refresh(); break;
     }
     case "event": tickerAdd(m); break;
-    case "prediction": state.prediction = { ...m, actual: undefined }; showPrediction(state.prediction); refresh(); if (!$("dispatchPanel").hidden) showDispatch(); break;
+    case "prediction": if (state.target && m.track_id !== TARGET_TRACK) break;   // in target mode only the target's splits count
+      state.prediction = { ...m, actual: undefined }; showPrediction(state.prediction); refresh(); if (!$("dispatchPanel").hidden) showDispatch(); break;
     case "frozen": callout("FROZEN AT SPLIT", "which way did the ride go? — press PAUSE to resume", "#2C6BB0"); $("btnPlay").textContent = "PLAY"; break;
     case "done": $("btnPlay").textContent = "REPLAY"; break;
   }
-});
+}
 
 // ---------- ⌘K palette: describe suspect / vehicle → search ----------
 let API = new URLSearchParams(location.search).get("api") || localStorage.getItem("omnisApi") || "";
@@ -388,9 +392,10 @@ function demoMatch(q) {
     t: r.s.t, detail: r.detail, score: r.score, image: r.cam?.image, sighting_id: r.s.id }));
 }
 
-async function liveQuery(q, onProgress) {
+async function liveQuery(q, onProgress, cams) {
   // NDJSON stream: one line per camera as the VLM answers, then a final {complete:true}
-  const r = await fetch(`${API.replace(/\/$/, "")}/query?q=${encodeURIComponent(q)}&stream=1`);
+  const extra = cams && cams.length ? `&cams=${encodeURIComponent(cams.join(","))}` : "";
+  const r = await fetch(`${API.replace(/\/$/, "")}/query?q=${encodeURIComponent(q)}&stream=1${extra}`);
   if (!r.ok || !r.body) throw new Error(`HTTP ${r.status}`);
   const reader = r.body.getReader(), dec = new TextDecoder(); let buf = "", final = null;
   while (true) {
@@ -408,7 +413,7 @@ async function liveQuery(q, onProgress) {
 
 function collect(box) { return [...box.querySelectorAll(".pr[data-hit]")].map(el => JSON.parse(el.dataset.hit)); }
 function renderResults(q, hits, mode) {
-  const box = $("paletteResults"); box.innerHTML = "";
+  const box = $("resultsList"); box.innerHTML = "";
   if (!hits.length) { box.innerHTML = `<div class="pr empty">no matching sightings for "${q}"${mode === "demo" ? " (demo matcher searches notes + VSS captions of the loaded replay)" : ""}</div>`; return; }
   hits.forEach(h => {
     const el = document.createElement("div"); el.className = "pr"; el.dataset.hit = JSON.stringify(h);
@@ -418,30 +423,81 @@ function renderResults(q, hits, mode) {
   });
 }
 
+$("resultsClose").onclick = () => { $("resultsPanel").hidden = true; };
 async function runPalette(q) {
   if (!q) return;
   if (q === "/dispatch") { closePalette(); showDispatch(true); return; }
   if (q === "/api off") { localStorage.setItem("omnisApiOff", "1"); setApi(""); $("paletteResults").innerHTML = `<div class="pr empty">live search disabled — demo match</div>`; return; }
   if (q.startsWith("/api")) { localStorage.removeItem("omnisApiOff"); setApi(q.slice(4)); $("paletteResults").innerHTML = `<div class="pr empty">${API ? "query server set to " + API : "query server cleared — demo match"}</div>`; return; }
-  if (q === "/clear") { $("dispatchPanel").hidden = true; map.getSource("dispatch")?.setData({ type: "FeatureCollection", features: [] }); closePalette(); return; }
-  $("paletteResults").innerHTML = `<div class="pr empty">searching ${API ? "VSS on the Spark" : "the loaded replay"} for "${q}"…</div>`;
+  if (q === "/clear") { stopFollow(); state.target = null; $("subjHdr").textContent = "SUBJECT · PRESENTER · CONSENTED"; $("dispatchPanel").hidden = true; $("resultsPanel").hidden = true; map.getSource("dispatch")?.setData({ type: "FeatureCollection", features: [] }); state.prediction = null; $("predictPanel").hidden = true; refresh(); closePalette(); return; }
+  if (q === "/stop") { stopFollow(); closePalette(); callout("FOLLOW STOPPED", "target kept · /clear to drop it", "#2C6BB0"); return; }
+  closePalette();
+  const panel = $("resultsPanel"), list = $("resultsList"), prog = $("resultsProgress");
+  panel.hidden = false; $("evalPanel").hidden = true; $("camsPanel").hidden = true;
+  $("resultsTitle").textContent = `SEARCH · "${q.length > 34 ? q.slice(0, 33) + "…" : q}"`;
+  prog.textContent = API ? "asking the Spark…" : "demo match";
+  list.innerHTML = `<div class="pr empty">searching ${API ? "VSS on the Spark" : "the loaded replay"} for "${q}"…</div>`;
   let hits = [], mode = API ? "live" : "demo";
-  const progress = j => { const box = $("paletteResults");
-    if (j.done === 1) box.innerHTML = "";
-    if (j.hit) { const h = { ...j.hit, score: 1, image: state.cameras.get(j.hit.camera_id)?.image }; renderResults(q, [...collect(box), h], "live"); }
-    box.insertAdjacentHTML("beforeend", `<div class="pr empty progress">${j.done}/${j.total} cameras asked · ${j.camera_id} ${j.hit ? "✔ hit" : "— no match"}</div>`);
-    box.querySelectorAll(".progress").forEach((el, i, all) => { if (i < all.length - 1) el.remove(); }); };
+  const progress = j => {
+    if (j.done === 1) list.innerHTML = "";
+    if (j.hit) { const h = { ...j.hit, score: 1, image: state.cameras.get(j.hit.camera_id)?.image }; renderResults(q, [...collect(list), h], "live"); }
+    prog.textContent = `${j.done}/${j.total} cameras · ${j.camera_id} ${j.hit ? "✔" : "—"}`;
+    if (!collect(list).length) list.innerHTML = `<div class="pr empty">${j.done}/${j.total} cameras asked, no match yet…</div>`; };
   try { hits = API ? await liveQuery(q, progress) : demoMatch(q); }
-  catch (e) { $("paletteResults").innerHTML = `<div class="pr empty">query server error: ${e.message}</div>`; return; }
+  catch (e) { list.innerHTML = `<div class="pr empty">query server error: ${e.message}</div>`; prog.textContent = "error"; return; }
+  prog.textContent = `${hits.length} hit${hits.length === 1 ? "" : "s"}${mode === "demo" ? " · demo" : ""}`;
   renderResults(q, hits, mode);
   tickerAdd({ kind: "system", text: `query "${q}" → ${hits.length} hit${hits.length === 1 ? "" : "s"}${mode === "demo" ? " (demo match)" : ""}` });
-  // put the hits on the map as sightings of a query track
-  const src = map.getSource("sightings"); if (!src) return;
-  const now = new Date().toISOString();
-  hits.forEach((h, i) => { if (!state.sightings.some(s => s.id === `Q-${h.sighting_id || i}-${h.camera_id}`))
-    state.sightings.push({ id: `Q-${h.sighting_id || i}-${h.camera_id}`, t: h.t || now, camera_id: h.camera_id, lat: h.lat, lon: h.lon, class: "scooter", state: "confirmed", conf: h.score ?? 1, track_id: "T-QUERY", note: h.detail }); });
-  refresh();
+  setTarget(q);
+  ingestHits(hits);
+  if (hits.length && API) startFollow();
 }
+
+// ---------- target mode: the search defines who we follow ----------
+function setTarget(q) {
+  const first = !state.target || state.target.query !== q;
+  if (first) { stopFollow(); state.target = { query: q, since: Date.now(), follow: false, timer: null, seen: new Set() };
+    state.subjectByTrack.set(TARGET_TRACK, []); state.prediction = null; $("predictPanel").hidden = true; $("dispatchPanel").hidden = true;
+    map.getSource("dispatch")?.setData({ type: "FeatureCollection", features: [] }); }
+  $("subjHdr").textContent = `TARGET · ${q.toUpperCase().slice(0, 30)}`;
+  callout("TARGET SET", q, "#2C6BB0");
+}
+function ingestHits(hits) {
+  // hits become LINKED sightings of the target track and flow through the normal handler:
+  // subject panel, hearts, camera tile, cone request, dispatch all follow them.
+  const seen = state.target.seen;
+  const ordered = [...hits].sort((x, y) => new Date(x.t) - new Date(y.t));
+  let n = 0;
+  for (const h of ordered) {
+    const key = `${h.camera_id}|${h.t}`; if (seen.has(key)) continue; seen.add(key); n++;
+    handleMsg({ type: "sighting", id: `Q-${seen.size}-${h.camera_id}`, t: h.t || new Date().toISOString(), camera_id: h.camera_id, lat: h.lat, lon: h.lon,
+      class: "vehicle", state: "linked", conf: h.score ?? 1, track_id: TARGET_TRACK, note: h.detail, frame_url: h.image });
+  }
+  if (n) { const cur = state.subjectByTrack.get(TARGET_TRACK) || []; if (cur.length) frame(cur.length > 1 ? cur.map(s => [s.lon, s.lat]) : [[cur[0].lon - 0.004, cur[0].lat - 0.003], [cur[0].lon + 0.004, cur[0].lat + 0.003]]); }
+  return n;
+}
+const FOLLOW_EVERY_S = 45;
+function followCams() {
+  // where to look next: predicted branch cameras + where it was last seen
+  const cams = new Set(); const last = state.lastSubject;
+  if (last) cams.add(last.camera_id);
+  for (const b of (state.prediction?.branches || [])) { if (b.camera_id) cams.add(b.camera_id); for (const c of (b.also_cameras || [])) cams.add(c); }
+  return [...cams];
+}
+async function followTick() {
+  const t = state.target; if (!t || !t.follow || !API) return;
+  const cams = followCams();
+  $("subjGap").textContent = `following · asking ${cams.length || "all"} cam${cams.length === 1 ? "" : "s"}…`;
+  try {
+    const hits = await liveQuery(t.query, null, cams.length ? cams : undefined);
+    const n = ingestHits(hits);
+    tickerAdd({ kind: "system", text: `follow · asked ${cams.length || "all"} camera${cams.length === 1 ? "" : "s"} · ${n} new sighting${n === 1 ? "" : "s"}` });
+  } catch (e) { tickerAdd({ kind: "system", text: `follow · query error: ${e.message}` }); }
+  if (state.target === t && t.follow) t.timer = setTimeout(followTick, FOLLOW_EVERY_S * 1000);
+}
+function startFollow() { const t = state.target; if (!t || t.follow) return; t.follow = true; t.timer = setTimeout(followTick, FOLLOW_EVERY_S * 1000);
+  tickerAdd({ kind: "system", text: `FOLLOW on · re-asking the Spark every ${FOLLOW_EVERY_S} s where the target can be next · /stop to end` }); }
+function stopFollow() { const t = state.target; if (!t) return; t.follow = false; clearTimeout(t.timer); }
 
 // ---------- live prediction: ask the Spark's routing engine after each subject sighting ----------
 let predictBusy = false;
@@ -493,8 +549,8 @@ $("btnCluster").onclick = e => { const on = e.currentTarget.classList.toggle("on
     layout: { "icon-image": "cluster", "icon-allow-overlap": true, "text-field": ["get", "point_count_abbreviated"], "text-font": ["Open Sans Bold"], "text-size": 13, "text-allow-overlap": true }, paint: { "text-color": "#2A1E12" } }, "subject-now");
   map.addLayer({ id: "sightings", type: "symbol", source: "sightings", filter: ["!", ["has", "point_count"]],
     layout: { "icon-image": ["concat", "sight-", ["get", "state"]], "icon-allow-overlap": true, "icon-size": 1 }, paint: { "icon-opacity": ["get", "op"] } }, "subject-now"); };
-$("btnEval").onclick = e => { const p = $("evalPanel"); p.hidden = !p.hidden; e.currentTarget.classList.toggle("on", !p.hidden); if (!p.hidden) { $("camsPanel").hidden = true; $("btnCams").classList.remove("on"); evalPanel(); } };
-$("btnCams").onclick = e => { const p = $("camsPanel"); p.hidden = !p.hidden; e.currentTarget.classList.toggle("on", !p.hidden); if (!p.hidden) { $("evalPanel").hidden = true; $("btnEval").classList.remove("on"); camsPanel(); } };
+$("btnEval").onclick = e => { const p = $("evalPanel"); p.hidden = !p.hidden; e.currentTarget.classList.toggle("on", !p.hidden); if (!p.hidden) { $("camsPanel").hidden = true; $("resultsPanel").hidden = true; $("btnCams").classList.remove("on"); evalPanel(); } };
+$("btnCams").onclick = e => { const p = $("camsPanel"); p.hidden = !p.hidden; e.currentTarget.classList.toggle("on", !p.hidden); if (!p.hidden) { $("evalPanel").hidden = true; $("resultsPanel").hidden = true; $("btnEval").classList.remove("on"); camsPanel(); } };
 document.querySelectorAll(".chip-btn[data-ride]").forEach(b => b.onclick = () => {
   const ride = (feed.data?.meta?.rides || [])[+b.dataset.ride]; if (!ride) return;
   document.querySelectorAll(".chip-btn[data-ride]").forEach(x => x.classList.toggle("on", x === b));

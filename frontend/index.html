@@ -104,11 +104,17 @@
   <div class="palette" id="palette" hidden>
     <div class="palette-box">
       <div class="palette-hd"><span class="k">⌘K</span> DESCRIBE THE SUSPECT / VEHICLE <span class="mode" id="paletteMode">DEMO MATCH · no query server</span></div>
-      <input id="paletteInput" placeholder='e.g. "suspect wearing pink, driving a white SUV" · /dispatch · /clear · /api <url>' autocomplete="off" spellcheck="false">
-      <div class="palette-hints"><button data-q="person in orange on a kick scooter">orange scooter rider</button><button data-q="delivery van parked in bike lane">van in bike lane</button><button data-q="rider without helmet">no helmet</button><button data-q="/dispatch">/dispatch</button></div>
+      <input id="paletteInput" placeholder='follow the suspect: "white SUV, driver in pink" · /dispatch · /stop · /clear · /api <url>' autocomplete="off" spellcheck="false">
+      <div class="palette-hints"><button data-q="suspect in a white car">white car</button><button data-q="person waving at the camera">person waving</button><button data-q="person in orange on a kick scooter">orange scooter rider</button><button data-q="/dispatch">/dispatch</button><button data-q="/stop">/stop</button><button data-q="/clear">/clear</button></div>
       <div class="palette-results" id="paletteResults"></div>
     </div>
   </div>
+
+  <!-- search results card (palette closes on Enter; answers stream in here) -->
+  <section class="panel results" id="resultsPanel" hidden>
+    <header><span id="resultsTitle">SEARCH</span><span class="progress" id="resultsProgress"></span><button class="x" id="resultsClose" title="close">×</button></header>
+    <div class="palette-results" id="resultsList"></div>
+  </section>
 
   <!-- dispatch card -->
   <section class="panel dispatch" id="dispatchPanel" hidden>

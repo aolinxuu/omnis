@@ -226,9 +226,14 @@ def serve(client: VSSClient, files: dict[str, Any], model: str, t0: datetime,
             q = qs.get("q", [""])[0]
             if not q:
                 self.send_error(400, "missing q"); return
+            # optional restriction to some cameras (follow mode asks only where the subject can be next)
+            only = None
+            if qs.get("cams", [""])[0]:
+                only = {c for c in qs["cams"][0].split(",") if c}
+            sub_files = {c: i for c, i in files.items() if only is None or c in only}
             if qs.get("stream", ["0"])[0] in ("1", "true"):
                 self._head(200, "application/x-ndjson"); self.end_headers()
-                total = len(files); n = [0]
+                total = len(sub_files); n = [0]
                 def emit(obj):
                     try:
                         self.wfile.write((json.dumps(obj) + "\n").encode()); self.wfile.flush()
@@ -237,16 +242,16 @@ def serve(client: VSSClient, files: dict[str, Any], model: str, t0: datetime,
                 def cb(cam_id, hit):
                     n[0] += 1; emit({"camera_id": cam_id, "done": n[0], "total": total, "hit": hit})
                 try:
-                    hits = search(client, files, q, model, t0, cams, on_result=cb)
-                    emit({"query": q, "results": hits, "complete": True})
+                    hits = search(client, sub_files, q, model, t0, cams, on_result=cb)
+                    emit({"query": q, "results": hits, "complete": True, "asked": sorted(sub_files)})
                 except (BrokenPipeError, ConnectionResetError):
                     return
                 except Exception as exc:
                     emit({"query": q, "error": str(exc), "complete": True})
                 return
             try:
-                hits = search(client, files, q, model, t0, cams)
-                body = json.dumps({"query": q, "results": hits}).encode(); code = 200
+                hits = search(client, sub_files, q, model, t0, cams)
+                body = json.dumps({"query": q, "results": hits, "asked": sorted(sub_files)}).encode(); code = 200
             except Exception as exc:  # keep the demo alive on a bad query
                 body = json.dumps({"query": q, "error": str(exc)}).encode(); code = 500
             self._head(code, "application/json"); self.send_header("Content-Length", str(len(body))); self.end_headers(); self.wfile.write(body)
