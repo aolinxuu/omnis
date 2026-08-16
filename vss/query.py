@@ -75,6 +75,7 @@ def parse(text: str) -> dict[str, Any]:
     """Pull verdict / time / detail out of the constrained answer format."""
     verdict = re.search(r"VERDICT:\s*(YES|NO)", text, re.I)
     tm = re.search(r"TIME:\s*([0-9]+(?:\.[0-9]+)?)", text, re.I)
+    mmss = re.search(r"\b(\d{1,2}):(\d{2})\b", text)   # VLMs like to say 00:08 for "8 seconds in"
     detail = re.search(r"DETAIL:\s*(.+)", text, re.I)
 
     if verdict:
@@ -85,7 +86,7 @@ def parse(text: str) -> dict[str, Any]:
     d = detail.group(1).strip() if detail else text.strip()[:160]
     return {
         "hit": hit and d.upper() != "NONE",
-        "t_clip": float(tm.group(1)) if tm else None,
+        "t_clip": float(tm.group(1)) if tm else (int(mmss.group(1)) * 60 + int(mmss.group(2)) if mmss else None),
         "detail": d,
     }
 
