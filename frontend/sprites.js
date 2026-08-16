@@ -19,6 +19,24 @@ const SCOOTER = [
   "................",
   "................",
 ];
+const PERSON = [   // 16x16 pixel person: head, shoulders, body, legs
+  "................",
+  "......####......",
+  ".....######.....",
+  ".....######.....",
+  "......####......",
+  "....########....",
+  "...##########...",
+  "..###.####.###..",
+  "..##..####..##..",
+  ".##...####...##.",
+  "......####......",
+  ".....##..##.....",
+  ".....##..##.....",
+  ".....##..##.....",
+  "....###..###....",
+  "................",
+];
 const CAM = [
   "........",
   ".######.",
@@ -59,13 +77,13 @@ function glyph(ctx, rows, ox, oy, s, color) {
 }
 
 /** Badge sprite: 24x24 logical px at scale s. */
-export function badge(state, s = 3, big = false) {
+export function badge(state, s = 3, big = false, shape = "scooter") {
   const N = big ? 32 : 24, r = big ? 14 : 10, c = STATE_COLORS[state] || STATE_COLORS.detected;
   const cv = document.createElement("canvas"); cv.width = cv.height = N * s;
   const ctx = cv.getContext("2d");
   pixelCircle(ctx, N/2, N/2, r,   s, c.ring);
   pixelCircle(ctx, N/2, N/2, r-2, s, c.fill);
-  glyph(ctx, SCOOTER, N/2 - 8, N/2 - 8, s, c.ink);
+  glyph(ctx, shape === "person" ? PERSON : SCOOTER, N/2 - 8, N/2 - 8, s, c.ink);
   return { data: ctx.getImageData(0, 0, N*s, N*s), pixelRatio: s };
 }
 

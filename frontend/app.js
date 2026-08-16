@@ -65,8 +65,8 @@ let layersReady = false;
 function initLayers() {
   if (layersReady) return; layersReady = true;
   try { recolor();
-  for (const st of Object.keys(STATE_COLORS)) map.addImage(`sight-${st}`, badge(st).data, { pixelRatio: 3 });
-  map.addImage("subject-now", badge("linked", 3, true).data, { pixelRatio: 3 });
+  for (const st of Object.keys(STATE_COLORS)) { map.addImage(`sight-${st}`, badge(st).data, { pixelRatio: 3 }); map.addImage(`person-${st}`, badge(st, 3, false, "person").data, { pixelRatio: 3 }); }
+  map.addImage("subject-now", badge("linked", 3, true, "person").data, { pixelRatio: 3 });   // the tracked thing is a person
   map.addImage("cluster", cluster().data, { pixelRatio: 3 });
   map.addImage("cam-alive", camIcon(true).data, { pixelRatio: 3 });
   map.addImage("cam-dead", camIcon(false).data, { pixelRatio: 3 });
@@ -102,7 +102,8 @@ function initLayers() {
     layout: { "icon-image": "cluster", "icon-allow-overlap": true, "text-field": ["get", "point_count_abbreviated"], "text-font": ["Open Sans Bold"], "text-size": 13, "text-allow-overlap": true },
     paint: { "text-color": "#2A1E12" } });
   map.addLayer({ id: "sightings", type: "symbol", source: "sightings", filter: ["!", ["has", "point_count"]],
-    layout: { "icon-image": ["concat", "sight-", ["get", "state"]], "icon-allow-overlap": true, "icon-size": 1,
+    layout: { "icon-image": ["concat", ["case", ["any", ["==", ["get", "state"], "linked"], ["==", ["get", "state"], "lost"], ["in", ["get", "cls"], ["literal", ["runner", "person", "pedestrian", "vehicle"]]]], "person-", "sight-"], ["get", "state"]],
+              "icon-allow-overlap": true, "icon-size": 1,
               "symbol-sort-key": ["case", ["==", ["get", "state"], "linked"], 0, 1] },
     paint: { "icon-opacity": ["get", "op"] } });
 
@@ -609,7 +610,7 @@ $("btnCluster").onclick = e => { const on = e.currentTarget.classList.toggle("on
   map.addLayer({ id: "clusters", type: "symbol", source: "sightings", filter: ["has", "point_count"],
     layout: { "icon-image": "cluster", "icon-allow-overlap": true, "text-field": ["get", "point_count_abbreviated"], "text-font": ["Open Sans Bold"], "text-size": 13, "text-allow-overlap": true }, paint: { "text-color": "#2A1E12" } }, "subject-now");
   map.addLayer({ id: "sightings", type: "symbol", source: "sightings", filter: ["!", ["has", "point_count"]],
-    layout: { "icon-image": ["concat", "sight-", ["get", "state"]], "icon-allow-overlap": true, "icon-size": 1 }, paint: { "icon-opacity": ["get", "op"] } }, "subject-now"); };
+    layout: { "icon-image": ["concat", ["case", ["any", ["==", ["get", "state"], "linked"], ["==", ["get", "state"], "lost"], ["in", ["get", "cls"], ["literal", ["runner", "person", "pedestrian", "vehicle"]]]], "person-", "sight-"], ["get", "state"]], "icon-allow-overlap": true, "icon-size": 1 }, paint: { "icon-opacity": ["get", "op"] } }, "subject-now"); };
 $("btnEval").onclick = e => { const p = $("evalPanel"); p.hidden = !p.hidden; e.currentTarget.classList.toggle("on", !p.hidden); if (!p.hidden) { $("camsPanel").hidden = true; $("resultsPanel").hidden = true; $("btnCams").classList.remove("on"); evalPanel(); } };
 $("btnCams").onclick = e => { const p = $("camsPanel"); p.hidden = !p.hidden; e.currentTarget.classList.toggle("on", !p.hidden); if (!p.hidden) { $("evalPanel").hidden = true; $("resultsPanel").hidden = true; $("btnEval").classList.remove("on"); camsPanel(); } };
 $("chipPink").onclick = () => {
