@@ -326,6 +326,7 @@ feed.addEventListener("msg", ({ detail: m }) => {
         else if (m.state === "lost") callout("SUBJECT LOST", "no camera coverage · confidence decaying", "#F0645A");
         const newRide = !state.lastSubject || state.lastSubject.track_id !== m.track_id;
         state.lastSubject = m;
+        if (m.state === "linked") setTimeout(() => requestPrediction(m.track_id), 800);   // give a feed-supplied prediction first dibs
         if (newRide) setTimeout(frameCurrent, 300);
         // resolve pending prediction when subject reappears
         if (state.prediction && !state.prediction.actual && m.state === "linked" && m.t !== state.prediction.t) {
@@ -351,6 +352,13 @@ function setApi(url) { API = (url || "").trim(); if (API) localStorage.setItem("
   $("paletteMode").textContent = API ? `LIVE · ${API}` : "DEMO MATCH · no query server (/api http://spark:8765)";
   $("paletteMode").classList.toggle("live", !!API); }
 setApi(API);
+// auto-detect the Spark query server so nobody has to remember ?api=; /api off disables
+const DEFAULT_API = "http://gn100-223b:8765";
+if (!API && localStorage.getItem("omnisApiOff") !== "1") {
+  fetch(`${DEFAULT_API}/cameras`, { signal: AbortSignal.timeout(2500) }).then(r => r.ok ? r.json() : null)
+    .then(j => { if (j) { setApi(DEFAULT_API); tickerAdd({ kind: "system", text: `query server found at ${DEFAULT_API} · ${(j.cameras || []).length} clip(s) searchable · ⌘K` }); } })
+    .catch(() => {});
+}
 let paletteOpen = false;
 function openPalette() { paletteOpen = true; $("palette").hidden = false; $("paletteInput").focus(); $("paletteInput").select(); }
 function closePalette() { paletteOpen = false; $("palette").hidden = true; }
@@ -413,7 +421,8 @@ function renderResults(q, hits, mode) {
 async function runPalette(q) {
   if (!q) return;
   if (q === "/dispatch") { closePalette(); showDispatch(true); return; }
-  if (q.startsWith("/api")) { setApi(q.slice(4)); $("paletteResults").innerHTML = `<div class="pr empty">${API ? "query server set to " + API : "query server cleared — demo match"}</div>`; return; }
+  if (q === "/api off") { localStorage.setItem("omnisApiOff", "1"); setApi(""); $("paletteResults").innerHTML = `<div class="pr empty">live search disabled — demo match</div>`; return; }
+  if (q.startsWith("/api")) { localStorage.removeItem("omnisApiOff"); setApi(q.slice(4)); $("paletteResults").innerHTML = `<div class="pr empty">${API ? "query server set to " + API : "query server cleared — demo match"}</div>`; return; }
   if (q === "/clear") { $("dispatchPanel").hidden = true; map.getSource("dispatch")?.setData({ type: "FeatureCollection", features: [] }); closePalette(); return; }
   $("paletteResults").innerHTML = `<div class="pr empty">searching ${API ? "VSS on the Spark" : "the loaded replay"} for "${q}"…</div>`;
   let hits = [], mode = API ? "live" : "demo";
@@ -434,10 +443,31 @@ async function runPalette(q) {
   refresh();
 }
 
+// ---------- live prediction: ask the Spark's routing engine after each subject sighting ----------
+let predictBusy = false;
+async function requestPrediction(trackId) {
+  if (!API || predictBusy) return;
+  const seq = state.subjectByTrack.get(trackId) || []; if (seq.length < 2) return;
+  const last = seq[seq.length - 1];
+  if (state.prediction && state.prediction.at_camera === last.camera_id && state.prediction.track_id === trackId) return;
+  predictBusy = true;
+  try {
+    // send the roster the page knows (646 cams) so the server can predict anywhere in the city
+    const roster = [...state.cameras.values()].map(c => ({ id: c.id, name: c.name, lat: c.lat, lon: c.lon, alive: c.alive !== false }));
+    const r = await fetch(`${API.replace(/\/$/, "")}/predict`, { method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ sightings: seq.slice(-6), cameras: roster, horizon_s: 180 }) });
+    const j = await r.json();
+    if (j.prediction) { state.prediction = { ...j.prediction, actual: undefined }; showPrediction(state.prediction); refresh(); if (!$("dispatchPanel").hidden) showDispatch();
+      tickerAdd({ kind: "system", text: `route split from the Spark at ${state.cameras.get(j.prediction.at_camera)?.name || j.prediction.at_camera} · leading ${Math.round(j.prediction.branches[0].p * 100)}%` }); }
+  } catch (e) { console.warn("predict failed", e); }
+  finally { predictBusy = false; }
+}
+
 // ---------- dispatch: where units should be, from the current prediction ----------
 function showDispatch(force = false) {
   const p = state.prediction; const panel = $("dispatchPanel");
-  if (!p) { if (force) callout("NO PREDICTION YET", "dispatch needs a route split — wait for the next subject sighting", "#8E2C24"); return; }
+  if (!p) { if (force) { if (API && state.lastSubject) { requestPrediction(state.lastSubject.track_id).then(() => state.prediction && showDispatch(true)); callout("ASKING THE SPARK", "computing the route split for dispatch…", "#2C6BB0"); }
+      else callout("NO PREDICTION YET", "dispatch needs a route split — wait for the next subject sighting", "#8E2C24"); } return; }
   const v = p.speed_mps || 4.0;
   const rows = p.branches.map((b, i) => {
     const end = b.path[b.path.length - 1];
@@ -474,6 +504,7 @@ document.querySelectorAll(".chip-btn[data-ride]").forEach(b => b.onclick = () =>
 $("btnMore").onclick = e => { document.body.classList.toggle("hud-lite"); e.currentTarget.classList.toggle("on", !document.body.classList.contains("hud-lite")); };
 $("btnMore").classList.add("on");
 setTimeout(() => tickerAdd({ kind: "system", text: "press ⌘K / Ctrl+K to describe a suspect or vehicle · /dispatch for unit positions" }), 1500);
+{ const q0 = new URLSearchParams(location.search).get("q"); if (q0) setTimeout(() => { openPalette(); $("paletteInput").value = q0; runPalette(q0); }, 1200); }
 $("badgeBtn").onclick = () => $("btnCams").click();
 $("btnRestart").onclick = () => { feed.restart(); $("btnPlay").textContent = "PAUSE"; };
 $("btnSpeed").onclick = e => { const speeds = [1, 3, 6, 12, 30]; feed.speed = speeds[(speeds.indexOf(feed.speed) + 1) % speeds.length]; e.currentTarget.textContent = `×${feed.speed}`; };

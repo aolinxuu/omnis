@@ -32,6 +32,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from pipeline.common import (DATA, PIPELINE_OUT, ROOT, camera_index,  # noqa: E402
                              load_cameras, load_json, load_t0, to_iso, write_json)
 from pipeline.reachability import reachable  # noqa: E402
+from pipeline.roadgraph import ROAD_GRAPH, RoadGraph  # noqa: E402
+from pipeline.predict import predict as predict_next  # noqa: E402
 from vss.client import DEFAULT_ENDPOINT, VSSClient, VSSError  # noqa: E402
 from vss.ingest import DEFAULT_MODEL, INGEST_INDEX  # noqa: E402
 
@@ -176,7 +178,40 @@ def serve(client: VSSClient, files: dict[str, Any], model: str, t0: datetime,
     from socketserver import ThreadingMixIn
     from urllib.parse import parse_qs, urlparse
 
+    graph = RoadGraph.load() if ROAD_GRAPH.exists() else None
+    if graph is None:
+        print(f"note: {ROAD_GRAPH.name} missing - /predict disabled", file=sys.stderr)
+
     class Handler(BaseHTTPRequestHandler):
+        def do_OPTIONS(self):  # noqa: N802  (CORS preflight for POST /predict)
+            self.send_response(204)
+            self.send_header("Access-Control-Allow-Origin", "*")
+            self.send_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+            self.send_header("Access-Control-Allow-Headers", "Content-Type")
+            self.end_headers()
+
+        def do_POST(self):  # noqa: N802
+            """POST /predict  {"sightings":[...linked sightings of one track, oldest first...],
+                                "cameras":[...optional roster with id/name/lat/lon/alive...],
+                                "speed_mps": optional, "horizon_s": optional}
+               -> the contract's prediction object (branches with paths + p), or {"prediction": null}."""
+            u = urlparse(self.path)
+            if u.path != "/predict":
+                self.send_error(404); return
+            n = int(self.headers.get("Content-Length") or 0)
+            try:
+                body = json.loads(self.rfile.read(n) or b"{}")
+                if graph is None:
+                    raise RuntimeError("road graph not built on this box")
+                roster = body.get("cameras") or list(cams.values())
+                seq = sorted(body.get("sightings") or [], key=lambda x: x["t"])
+                pred = predict_next(roster, seq, graph, horizon_s=float(body.get("horizon_s") or 180),
+                                    speed_mps=body.get("speed_mps"))
+                out = json.dumps({"prediction": pred}).encode(); code = 200
+            except Exception as exc:
+                out = json.dumps({"prediction": None, "error": str(exc)}).encode(); code = 400
+            self._head(code, "application/json"); self.send_header("Content-Length", str(len(out))); self.end_headers(); self.wfile.write(out)
+
         def _head(self, code, ctype):
             self.send_response(code)
             self.send_header("Content-Type", ctype)
