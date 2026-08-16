@@ -18,6 +18,7 @@ Changes after the freeze require all three of us to agree. Expect zero.
 | `bbox` | `[x, y, w, h]` px, optional | in the source frame; drawn on the camera tile |
 | `frame_size` | `[w, h]` px, optional | frame the bbox is expressed in. If absent the UI infers 640×360 (hand-written fake data) or 1280×720 (detector clip frames). Additive, 2026-08-15. |
 | `frame_url` | string, optional | still of the frame with the box, if saved |
+| `clip_url`, `clip_t`, `clip_len_s` | optional | recorded clip (URL) the sighting came from and the offset (s) into it; the camera tile plays it at that moment during replay. Additive, 2026-08-16. |
 | `note` | string, optional | free text, debugging only, never shown |
 
 ## event  (slow lane — VSS, seconds late; goes to the ticker)

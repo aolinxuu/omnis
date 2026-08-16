@@ -1217,7 +1217,10 @@
    "conf": 0.84,
    "track_id": "T-SUBJ",
    "note": "At timestamp 00:00:00, a man wearing a bright pink or salmon-colored shirt is visible on the sidewalk in the lower-left corner of the frame. He is walking away from the camera, moving along the sidewa",
-   "source": "vss:CMR-0302-184917"
+   "source": "vss:CMR-0302-184917",
+   "clip_url": "data/clips/20260815-184917.mp4",
+   "clip_t": 0.0,
+   "clip_len_s": 12.4
   },
   {
    "id": "S-002",
@@ -1230,7 +1233,10 @@
    "conf": 0.95,
    "track_id": "T-SUBJ",
    "note": "At timestamp 00:00:04, a man wearing a bright pink or salmon-colored shirt enters the frame from the bottom left. He is jogging away from the camera, moving along the sidewalk on the left side of the ",
-   "source": "vss:CMR-0302-184958"
+   "source": "vss:CMR-0302-184958",
+   "clip_url": "data/clips/20260815-184958.mp4",
+   "clip_t": 4.0,
+   "clip_len_s": 20.3
   },
   {
    "id": "L-002",
@@ -1255,7 +1261,10 @@
    "conf": 0.95,
    "track_id": "T-SUBJ",
    "note": "At timestamp 00:00:22, a man wearing a bright pink shirt is visible on the right side of the street. He is running away from the camera, heading up the hill in the bike lane. His image is clear and di",
-   "source": "vss:CMR-0069-185645"
+   "source": "vss:CMR-0069-185645",
+   "clip_url": "data/clips/20260815-185645.mp4",
+   "clip_t": 22.0,
+   "clip_len_s": 45.4
   },
   {
    "id": "L-003",
@@ -1280,7 +1289,10 @@
    "conf": 0.95,
    "track_id": "T-SUBJ",
    "note": "At timestamp 00:38, a man wearing a bright pink shirt and white shorts is visible on the right-hand sidewalk. He is jogging away from the camera's viewpoint, moving down the sidewalk in the same direc",
-   "source": "vss:CMR-0415-190340"
+   "source": "vss:CMR-0415-190340",
+   "clip_url": "data/clips/20260815-190340.mp4",
+   "clip_t": 38.0,
+   "clip_len_s": 46.3
   },
   {
    "id": "L-004",
@@ -1305,7 +1317,10 @@
    "conf": 0.84,
    "track_id": "T-SUBJ",
    "note": "A man in a bright pink shirt is seen walking from the bottom left corner of the frame towards the right. He is clearly visible at timestamp 00:00:06.  - **Motion:** Walking - **Direction:** From the b (moving From the bottom-left towards the right side of the frame.)",
-   "source": "vss:CMR-0305-190806"
+   "source": "vss:CMR-0305-190806",
+   "clip_url": "data/clips/20260815-190806.mp4",
+   "clip_t": 6.0,
+   "clip_len_s": 67.8
   },
   {
    "id": "L-005",
@@ -1330,7 +1345,10 @@
    "conf": 0.84,
    "track_id": "T-SUBJ",
    "note": "At timestamp 00:31, a man wearing a bright pink or salmon-colored shirt appears on the sidewalk on the right side of the street. He is walking from right to left, moving along the sidewalk in front of",
-   "source": "vss:CMR-0191-191211"
+   "source": "vss:CMR-0191-191211",
+   "clip_url": "data/clips/20260815-191211.mp4",
+   "clip_t": 31.0,
+   "clip_len_s": 56.6
   },
   {
    "id": "L-006",
@@ -1355,7 +1373,10 @@
    "conf": 0.84,
    "track_id": "T-SUBJ",
    "note": "At timestamp 00:00:14, a man wearing a bright pink or salmon-colored shirt is visible on the right sidewalk. He is walking from right to left across the frame. The clearest moment of his appearance is",
-   "source": "vss:CMR-0035-191534"
+   "source": "vss:CMR-0035-191534",
+   "clip_url": "data/clips/20260815-191534.mp4",
+   "clip_t": 14.0,
+   "clip_len_s": 36.5
   }
  ],
  "predictions": [

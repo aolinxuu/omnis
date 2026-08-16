@@ -196,10 +196,23 @@ function refresh() {
 // ---------- HUD ----------
 let tick = 0, camSighting = null, camCamera = null;
 // ---- camera tile: live still (+HLS after dwell) of the current sighting's camera, bbox drawn on top ----
-let tileCam = null, tileHls = null, tileStillTimer = null, tileHlsTimer = null;
+let tileCam = null, tileHls = null, tileStillTimer = null, tileHlsTimer = null, tileClip = null;
+function tileRecorded(sighting, cam) {
+  // recorded evidence beats the live still: play the clip the sighting came from, at that moment
+  const img = $("camStill"), video = $("camVideo"), badge = $("camBadge"), cv = $("camCanvas");
+  if (tileHls) { tileHls.destroy(); tileHls = null; } clearInterval(tileStillTimer); clearTimeout(tileHlsTimer);
+  tileCam = null; tileClip = sighting.clip_url;
+  img.style.display = "none"; cv.classList.remove("synthetic");
+  video.removeAttribute("src"); video.src = sighting.clip_url; video.loop = false; video.muted = true;
+  const seek = Math.max(0, (sighting.clip_t || 0) - 2);
+  video.addEventListener("loadedmetadata", () => { try { video.currentTime = seek; } catch {} video.play().catch(() => {}); }, { once: true });
+  video.classList.add("on"); badge.hidden = false; badge.classList.remove("live");
+  badge.textContent = `RECORDED · ${sighting.t.slice(11, 19)} · ${(sighting.clip_url.split("/").pop() || "").replace(".mp4", "")}`;
+  $("camId").textContent = sighting.camera_id; $("camName").textContent = cam?.name || "";
+}
 function tileFeed(cam) {
-  if (!cam || cam.id === tileCam?.id) return;
-  tileCam = cam;
+  if (!cam || (cam.id === tileCam?.id && !tileClip)) return;
+  tileCam = cam; tileClip = null; $("camVideo").loop = false;
   const img = $("camStill"), video = $("camVideo"), badge = $("camBadge"), cv = $("camCanvas");
   if (tileHls) { tileHls.destroy(); tileHls = null; } clearInterval(tileStillTimer); clearTimeout(tileHlsTimer);
   video.classList.remove("on"); video.removeAttribute("src"); badge.classList.remove("live");
@@ -351,7 +364,8 @@ function handleMsg(m) {
           if (p?.actual) { state.prediction = { ...state.prediction, actual: p.actual }; showPrediction(state.prediction); if (!$("dispatchPanel").hidden) showDispatch(); }
         }
       }
-      if (isSubject(m.track_id) || (!state.target && !state.demoSubject && !healthMeta)) { camSighting = m; camCamera = state.cameras.get(m.camera_id); tileFeed(camCamera); }
+      if (isSubject(m.track_id) || (!state.target && !state.demoSubject && !healthMeta)) { camSighting = m; camCamera = state.cameras.get(m.camera_id);
+        if (m.clip_url) tileRecorded(m, camCamera); else tileFeed(camCamera); }
       $("camId").textContent = m.camera_id; $("camName").textContent = camCamera?.name || "";
       $("camClass").textContent = `${m.class} · ${m.state}`; $("camConf").textContent = `conf ${m.conf.toFixed(2)}`;
       refresh(); break;
