@@ -156,18 +156,16 @@ function openCamPopup(p, lngLat, pinned) {
   camTip.setLngLat(lngLat).setHTML(`<div class="cam-pop">
     <div class="hd"><span class="id">${cam.id}</span><span class="st ${alive ? "" : "dead"}">${alive ? "ALIVE" : "DEAD"}</span></div>
     <div class="name">${cam.name}</div>
-    <div class="view">${img}<video muted playsinline autoplay></video><span class="badge">${cam.image ? "STILL · refreshing" : "NO FEED"}</span></div>
+    <div class="view">${img}<video muted playsinline autoplay></video><span class="badge" ${cam.image ? "hidden" : ""}>${cam.image ? "" : "NO FEED"}</span></div>
     <div class="hint">${pinned ? "pinned · click map to close" : "click camera to pin"}</div></div>`).addTo(map);
   const el = camTip.getElement(), video = el.querySelector("video"), badge = el.querySelector(".badge"), still = el.querySelector("img");
   if (still) camStillTimer = setInterval(() => { if (!video.classList.contains("on")) still.src = stillUrl(); }, 4000);
-  if (cam.kind === "wsdot") { badge.textContent = "WSDOT · still ~1/min"; return; }
-  if (!alive || !cam.stream) return;
+  if (cam.kind === "wsdot" || !alive || !cam.stream) return;
   // dwell before starting HLS so sweeping across cameras doesn't hammer the stream server
   camHlsTimer = setTimeout(() => {
-    badge.textContent = "CONNECTING…";
-    const giveUp = () => { badge.textContent = "STREAM DOWN · still only"; badge.classList.add("live"); if (camHls) { camHls.destroy(); camHls = null; } };
+    const giveUp = () => { if (camHls) { camHls.destroy(); camHls = null; } };   // stay on the still, say nothing
     const deadline = setTimeout(() => { if (!video.classList.contains("on")) giveUp(); }, 6000);
-    const onPlaying = () => { clearTimeout(deadline); video.classList.add("on"); badge.textContent = "LIVE · HLS"; badge.classList.add("live"); };
+    const onPlaying = () => { clearTimeout(deadline); video.classList.add("on"); badge.hidden = false; badge.textContent = "LIVE · HLS"; badge.classList.add("live"); };
     video.addEventListener("playing", onPlaying, { once: true });
     if (window.Hls && Hls.isSupported()) {
       camHls = new Hls({ liveSyncDurationCount: 2, maxBufferLength: 10, manifestLoadingTimeOut: 4000, manifestLoadingMaxRetry: 0, levelLoadingTimeOut: 4000, levelLoadingMaxRetry: 0, fragLoadingTimeOut: 6000 });
@@ -199,17 +197,18 @@ function tileFeed(cam) {
   const img = $("camStill"), video = $("camVideo"), badge = $("camBadge"), cv = $("camCanvas");
   if (tileHls) { tileHls.destroy(); tileHls = null; } clearInterval(tileStillTimer); clearTimeout(tileHlsTimer);
   video.classList.remove("on"); video.removeAttribute("src"); badge.classList.remove("live");
-  if (!cam.image) { img.removeAttribute("src"); img.style.display = "none"; cv.classList.add("synthetic"); badge.textContent = "SYNTHETIC"; return; }
+  badge.hidden = true; badge.textContent = "";
+  if (!cam.image) { img.removeAttribute("src"); img.style.display = "none"; cv.classList.add("synthetic"); return; }
   img.style.display = ""; cv.classList.remove("synthetic");
   const stillUrl = () => `${cam.image}?t=${Date.now()}`;
-  img.src = stillUrl(); badge.textContent = cam.kind === "wsdot" ? "WSDOT · STILL" : "STILL · refreshing";
+  img.src = stillUrl();
   tileStillTimer = setInterval(() => { if (!video.classList.contains("on")) img.src = stillUrl(); }, 4000);
   if (cam.kind === "wsdot" || !cam.stream || cam.alive === false) return;
   tileHlsTimer = setTimeout(() => {
-    badge.textContent = "CONNECTING…";
-    const giveUp = () => { badge.textContent = "STREAM DOWN · still"; if (tileHls) { tileHls.destroy(); tileHls = null; } };
+    // silent while trying: the still is on screen; only announce once video is really playing
+    const giveUp = () => { if (tileHls) { tileHls.destroy(); tileHls = null; } };
     const deadline = setTimeout(() => { if (!video.classList.contains("on")) giveUp(); }, 6000);
-    video.addEventListener("playing", () => { clearTimeout(deadline); video.classList.add("on"); badge.textContent = "LIVE · HLS"; badge.classList.add("live"); }, { once: true });
+    video.addEventListener("playing", () => { clearTimeout(deadline); video.classList.add("on"); badge.hidden = false; badge.textContent = "LIVE · HLS"; badge.classList.add("live"); }, { once: true });
     if (window.Hls && Hls.isSupported()) {
       tileHls = new Hls({ liveSyncDurationCount: 2, maxBufferLength: 10, manifestLoadingTimeOut: 4000, manifestLoadingMaxRetry: 0, levelLoadingTimeOut: 4000, levelLoadingMaxRetry: 0 });
       tileHls.loadSource(cam.stream); tileHls.attachMedia(video);
@@ -478,7 +477,10 @@ setTimeout(() => tickerAdd({ kind: "system", text: "press ⌘K / Ctrl+K to descr
 $("badgeBtn").onclick = () => $("btnCams").click();
 $("btnRestart").onclick = () => { feed.restart(); $("btnPlay").textContent = "PAUSE"; };
 $("btnSpeed").onclick = e => { const speeds = [1, 3, 6, 12, 30]; feed.speed = speeds[(speeds.indexOf(feed.speed) + 1) % speeds.length]; e.currentTarget.textContent = `×${feed.speed}`; };
-document.addEventListener("keydown", e => { if (e.key === " ") { e.preventDefault(); $("btnPlay").click(); } if (e.key === "f") $("btnFreeze").click(); if (e.key === "c") $("btnCenter").click(); });
+document.addEventListener("keydown", e => {
+  // no single-key shortcuts while typing (palette input etc.) or while the palette is open
+  if (paletteOpen || ["INPUT", "TEXTAREA"].includes(document.activeElement?.tagName) || e.metaKey || e.ctrlKey || e.altKey) return;
+  if (e.key === " ") { e.preventDefault(); $("btnPlay").click(); } if (e.key === "f") $("btnFreeze").click(); if (e.key === "c") $("btnCenter").click(); });
 
 // live mode: ?ws=ws://gn100-223b:8765
 const wsUrl = new URLSearchParams(location.search).get("ws");
