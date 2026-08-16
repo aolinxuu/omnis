@@ -7,8 +7,16 @@ export class Feed extends EventTarget {
 
   emit(msg) { this.dispatchEvent(new CustomEvent("msg", { detail: msg })); }
 
-  async loadReplay(url) {
+  async loadReplay(url, overlayUrl = null) {
     const d = await (await fetch(url)).json();
+    if (overlayUrl) {
+      // real-run payload from the pipeline: take its timeline, keep the big camera roster (union, main wins)
+      const o = await (await fetch(overlayUrl)).json();
+      const have = new Set(d.cameras.map(c => c.id));
+      d.cameras = [...d.cameras, ...(o.cameras || []).filter(c => !have.has(c.id))];
+      for (const k of ["tracks", "sightings", "events", "predictions", "ground_truth"]) d[k] = o[k] || [];
+      d.meta = { ...d.meta, ...(o.meta || {}), overlay: overlayUrl };
+    }
     this.data = d;
     d.cameras.forEach(c => this.emit({ type: "camera", ...c }));
     const items = [

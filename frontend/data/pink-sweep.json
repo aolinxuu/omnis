@@ -1,0 +1,3035 @@
+{
+ "meta": {
+  "note": "Built by pipeline/build_payload.py from detector output. Shape is the frozen contract in frontend/CONTRACT.md.",
+  "session": "ride-2026-08-15-a",
+  "corridor": "2nd Ave, Belltown -> Pioneer Square",
+  "subject_track": "T-SUBJ",
+  "started": "2026-08-15T18:02:00-07:00",
+  "generated": "2026-08-16T08:12:01+00:00",
+  "detector": {
+   "detector": "vss.pink_subject",
+   "note": "VSS 3.2.1 video_understanding over hard-coded SDOT screen recordings; subject = man in a pink shirt.",
+   "generated": "2026-08-16T05:41:26+00:00",
+   "skipped_no_camera": [
+    "broadway-195253"
+   ]
+  },
+  "title": "PINK SHIRT \u00b7 REAL SWEEP \u00b7 2026-08-15 18:49\u201319:16",
+  "rides": [
+   {
+    "track": "T-SUBJ",
+    "label": "real run: man in a pink shirt, 2nd Ave south from Pike to Spring, over to 3rd, back north to University (VSS-verified, 7/7 vs ground truth)",
+    "cameras": [
+     "CMR-0302",
+     "CMR-0069",
+     "CMR-0415",
+     "CMR-0305",
+     "CMR-0191",
+     "CMR-0035"
+    ],
+    "started": "2026-08-15T18:49:17-07:00"
+   }
+  ],
+  "corridor_cameras": [
+   "CMR-0302",
+   "CMR-0069",
+   "CMR-0415",
+   "CMR-0305",
+   "CMR-0191",
+   "CMR-0035"
+  ]
+ },
+ "cameras": [
+  {
+   "id": "CMR-0016",
+   "name": "1st Ave & Stewart St",
+   "lat": 47.610275,
+   "lon": -122.341343,
+   "kind": "sdot",
+   "alive": true,
+   "image": "https://www.seattle.gov/trafficcams/images/1_Stewart_NS.jpg",
+   "stream": "https://61e0c5d388c2e.streamlock.net:443/live/1_Stewart_NS.stream/playlist.m3u8"
+  },
+  {
+   "id": "CMR-0030",
+   "name": "2nd Ave & Stewart St",
+   "lat": 47.610964,
+   "lon": -122.340452,
+   "kind": "sdot",
+   "alive": true,
+   "image": "https://www.seattle.gov/trafficcams/images/2_Stewart_NS.jpg",
+   "stream": "https://61e0c5d388c2e.streamlock.net:443/live/2_Stewart_NS.stream/playlist.m3u8"
+  },
+  {
+   "id": "CMR-0033",
+   "name": "3rd Ave & Columbia St",
+   "lat": 47.604197,
+   "lon": -122.332714,
+   "kind": "sdot",
+   "alive": true,
+   "image": "https://www.seattle.gov/trafficcams/images/3_Columbia_EW.jpg",
+   "stream": "https://61e0c5d388c2e.streamlock.net:443/live/3_Columbia_EW.stream/playlist.m3u8"
+  },
+  {
+   "id": "CMR-0034",
+   "name": "3rd Ave & Stewart St",
+   "lat": 47.611629,
+   "lon": -122.339592,
+   "kind": "sdot",
+   "alive": true,
+   "image": "https://www.seattle.gov/trafficcams/images/3_Stewart_NS.jpg",
+   "stream": "https://61e0c5d388c2e.streamlock.net:443/live/3_Stewart_NS.stream/playlist.m3u8"
+  },
+  {
+   "id": "CMR-0035",
+   "name": "3rd Ave & University St",
+   "lat": 47.607763,
+   "lon": -122.335976,
+   "kind": "sdot",
+   "alive": true,
+   "image": "https://www.seattle.gov/trafficcams/images/3_University_NS.jpg",
+   "stream": "http://gn100-223b:8091/CMR-0035/index.m3u8",
+   "evidence": {
+    "clip": "20260815-191534.mp4",
+    "boxed": true,
+    "start_s": 11.0,
+    "length_s": 14.75
+   }
+  },
+  {
+   "id": "CMR-0036",
+   "name": "3rd Ave & Yesler Way",
+   "lat": 47.601716,
+   "lon": -122.330265,
+   "kind": "sdot",
+   "alive": true,
+   "image": "https://www.seattle.gov/trafficcams/images/3_Yesler_NS.jpg",
+   "stream": "https://61e0c5d388c2e.streamlock.net:443/live/3_Yesler_NS.stream/playlist.m3u8"
+  },
+  {
+   "id": "CMR-0039",
+   "name": "4th Ave & Olive St",
+   "lat": 47.612182,
+   "lon": -122.338543,
+   "kind": "sdot",
+   "alive": true,
+   "image": "https://www.seattle.gov/trafficcams/images/4_Olive_NS.jpg",
+   "stream": "https://61e0c5d388c2e.streamlock.net:443/live/4_Olive_NS.stream/playlist.m3u8"
+  },
+  {
+   "id": "CMR-0040",
+   "name": "4th Ave & Battery St",
+   "lat": 47.616083,
+   "lon": -122.345143,
+   "kind": "sdot",
+   "alive": true,
+   "image": "https://www.seattle.gov/trafficcams/images/4_Battery_EW.jpg",
+   "stream": "https://61e0c5d388c2e.streamlock.net:443/live/4_Battery_EW.stream/playlist.m3u8"
+  },
+  {
+   "id": "CMR-0043",
+   "name": "4th Ave S & S Jackson St",
+   "lat": 47.599197,
+   "lon": -122.328968,
+   "kind": "sdot",
+   "alive": true,
+   "image": "https://www.seattle.gov/trafficcams/images/4_S_Jackson.jpg",
+   "stream": "https://61e0c5d388c2e.streamlock.net:443/live/4_S_Jackson.stream/playlist.m3u8"
+  },
+  {
+   "id": "CMR-0046",
+   "name": "5th Ave & Olive Way",
+   "lat": 47.612665,
+   "lon": -122.337394,
+   "kind": "sdot",
+   "alive": true,
+   "image": "https://www.seattle.gov/trafficcams/images/5_Olive.jpg",
+   "stream": "https://61e0c5d388c2e.streamlock.net:443/live/5_Olive.stream/playlist.m3u8"
+  },
+  {
+   "id": "CMR-0047",
+   "name": "5th Ave & Battery St East Side",
+   "lat": 47.616983,
+   "lon": -122.344142,
+   "kind": "sdot",
+   "alive": true,
+   "image": "https://www.seattle.gov/trafficcams/images/5_Battery_East.jpg",
+   "stream": "https://61e0c5d388c2e.streamlock.net:443/live/5_Battery_East.stream/playlist.m3u8"
+  },
+  {
+   "id": "CMR-0048",
+   "name": "5th Ave & Battery St West Side",
+   "lat": 47.616642,
+   "lon": -122.344487,
+   "kind": "sdot",
+   "alive": true,
+   "image": "https://www.seattle.gov/trafficcams/images/5_Battery_West.jpg",
+   "stream": "https://61e0c5d388c2e.streamlock.net:443/live/5_Battery_West.stream/playlist.m3u8"
+  },
+  {
+   "id": "CMR-0049",
+   "name": "5th Ave & James St",
+   "lat": 47.603698,
+   "lon": -122.329187,
+   "kind": "sdot",
+   "alive": true,
+   "image": "https://www.seattle.gov/trafficcams/images/5_James.jpg",
+   "stream": "https://61e0c5d388c2e.streamlock.net:443/live/5_James.stream/playlist.m3u8"
+  },
+  {
+   "id": "CMR-0050",
+   "name": "5th Ave & Madison St NS",
+   "lat": 47.606553,
+   "lon": -122.331798,
+   "kind": "sdot",
+   "alive": true,
+   "image": "https://www.seattle.gov/trafficcams/images/5_Madison_NS.jpg",
+   "stream": "https://61e0c5d388c2e.streamlock.net:443/live/5_Madison_NS.stream/playlist.m3u8"
+  },
+  {
+   "id": "CMR-0055",
+   "name": "6th Ave & Pine St",
+   "lat": 47.612136,
+   "lon": -122.335373,
+   "kind": "sdot",
+   "alive": true,
+   "image": "https://www.seattle.gov/trafficcams/images/6_Pine_EW.jpg",
+   "stream": "https://61e0c5d388c2e.streamlock.net:443/live/6_Pine_EW.stream/playlist.m3u8"
+  },
+  {
+   "id": "CMR-0056",
+   "name": "6th Ave & Wall St",
+   "lat": 47.618022,
+   "lon": -122.344452,
+   "kind": "sdot",
+   "alive": true,
+   "image": "https://www.seattle.gov/trafficcams/images/6_Wall_EW.jpg",
+   "stream": "https://61e0c5d388c2e.streamlock.net:443/live/6_Wall_EW.stream/playlist.m3u8"
+  },
+  {
+   "id": "CMR-0058",
+   "name": "7th Ave & Pike St",
+   "lat": 47.611606,
+   "lon": -122.333354,
+   "kind": "sdot",
+   "alive": true,
+   "image": "https://www.seattle.gov/trafficcams/images/7_Pike_EW.jpg",
+   "stream": "https://61e0c5d388c2e.streamlock.net:443/live/7_Pike_EW.stream/playlist.m3u8"
+  },
+  {
+   "id": "CMR-0059",
+   "name": "8th Ave & Olive Way",
+   "lat": 47.614065,
+   "lon": -122.33404,
+   "kind": "sdot",
+   "alive": true,
+   "image": "https://www.seattle.gov/trafficcams/images/8_Olive.jpg",
+   "stream": "https://61e0c5d388c2e.streamlock.net:443/live/8_Olive.stream/playlist.m3u8"
+  },
+  {
+   "id": "CMR-0065",
+   "name": "Alaskan Way & Yesler Way",
+   "lat": 47.601718,
+   "lon": -122.336582,
+   "kind": "sdot",
+   "alive": true,
+   "image": "https://www.seattle.gov/trafficcams/images/Alaskan_Yesler_NS.jpg",
+   "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Alaskan_Yesler_NS.stream/playlist.m3u8"
+  },
+  {
+   "id": "CMR-0069",
+   "name": "2nd Ave & University St",
+   "lat": 47.607347,
+   "lon": -122.337128,
+   "kind": "sdot",
+   "alive": true,
+   "image": "https://www.seattle.gov/trafficcams/images/2_University_NS.jpg",
+   "stream": "http://gn100-223b:8091/CMR-0069/index.m3u8",
+   "evidence": {
+    "clip": "20260815-185645.mp4",
+    "boxed": true,
+    "start_s": 30.5,
+    "length_s": 14.5
+   }
+  },
+  {
+   "id": "CMR-0087",
+   "name": "Boren Ave & Howell St",
+   "lat": 47.616187,
+   "lon": -122.331404,
+   "kind": "sdot",
+   "alive": true,
+   "image": "https://www.seattle.gov/trafficcams/images/Boren_Howell_NS.jpg",
+   "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Boren_Howell_NS.stream/playlist.m3u8"
+  },
+  {
+   "id": "CMR-0089",
+   "name": "Boren Ave & Seneca St",
+   "lat": 47.610765,
+   "lon": -122.326444,
+   "kind": "sdot",
+   "alive": true,
+   "image": "https://www.seattle.gov/trafficcams/images/Boren_Seneca_NS.jpg",
+   "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Boren_Seneca_NS.stream/playlist.m3u8"
+  },
+  {
+   "id": "CMR-0096",
+   "name": "4th Ave N & Denny Way",
+   "lat": 47.618576,
+   "lon": -122.348925,
+   "kind": "sdot",
+   "alive": true,
+   "image": "https://www.seattle.gov/trafficcams/images/4_Denny_EW.jpg",
+   "stream": "https://61e0c5d388c2e.streamlock.net:443/live/4_Denny_EW.stream/playlist.m3u8"
+  },
+  {
+   "id": "CMR-0097",
+   "name": "Denny Way & Yale St / Stewart St",
+   "lat": 47.618274,
+   "lon": -122.330999,
+   "kind": "sdot",
+   "alive": true,
+   "image": "https://www.seattle.gov/trafficcams/images/Stewart_Denny_EW.jpg",
+   "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Stewart_Denny_EW.stream/playlist.m3u8"
+  },
+  {
+   "id": "CMR-0098",
+   "name": "Dexter Ave & Denny Way",
+   "lat": 47.61855,
+   "lon": -122.342402,
+   "kind": "sdot",
+   "alive": true,
+   "image": "https://www.seattle.gov/trafficcams/images/Dexter_N_Denny_EW.jpg",
+   "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Dexter_N_Denny_EW.stream/playlist.m3u8"
+  },
+  {
+   "id": "CMR-0153",
+   "name": "Alaskan Way & Madison St",
+   "lat": 47.603844,
+   "lon": -122.338244,
+   "kind": "sdot",
+   "alive": true,
+   "image": "https://www.seattle.gov/trafficcams/images/Alaskan_Madison_NS.jpg",
+   "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Alaskan_Madison_NS.stream/playlist.m3u8"
+  },
+  {
+   "id": "CMR-0155",
+   "name": "4th Ave & Cherry St EW",
+   "lat": 47.603825,
+   "lon": -122.331241,
+   "kind": "sdot",
+   "alive": true,
+   "image": "https://www.seattle.gov/trafficcams/images/4_Cherry_EW.jpg",
+   "stream": "https://61e0c5d388c2e.streamlock.net:443/live/4_Cherry_EW.stream/playlist.m3u8"
+  },
+  {
+   "id": "CMR-0156",
+   "name": "4th Ave & Cherry St NS",
+   "lat": 47.603948,
+   "lon": -122.330952,
+   "kind": "sdot",
+   "alive": true,
+   "image": "https://www.seattle.gov/trafficcams/images/4_Cherry_NS.jpg",
+   "stream": "https://61e0c5d388c2e.streamlock.net:443/live/4_Cherry_NS.stream/playlist.m3u8"
+  },
+  {
+   "id": "CMR-0167",
+   "name": "1st Ave & Wall St EW",
+   "lat": 47.614452,
+   "lon": -122.349062,
+   "kind": "sdot",
+   "alive": true,
+   "image": "https://www.seattle.gov/trafficcams/images/1_Wall_EW.jpg",
+   "stream": "https://61e0c5d388c2e.streamlock.net:443/live/1_Wall_EW.stream/playlist.m3u8"
+  },
+  {
+   "id": "CMR-0168",
+   "name": "1st Ave & Wall St NS",
+   "lat": 47.614696,
+   "lon": -122.348746,
+   "kind": "sdot",
+   "alive": true,
+   "image": "https://www.seattle.gov/trafficcams/images/1_Wall_NS.jpg",
+   "stream": "https://61e0c5d388c2e.streamlock.net:443/live/1_Wall_NS.stream/playlist.m3u8"
+  },
+  {
+   "id": "CMR-0169",
+   "name": "3rd Ave & Wall St",
+   "lat": 47.616046,
+   "lon": -122.347025,
+   "kind": "sdot",
+   "alive": true,
+   "image": "https://www.seattle.gov/trafficcams/images/3_Wall_NS.jpg",
+   "stream": "https://61e0c5d388c2e.streamlock.net:443/live/3_Wall_NS.stream/playlist.m3u8"
+  },
+  {
+   "id": "CMR-0170",
+   "name": "6th Ave & Lenora St",
+   "lat": 47.61516,
+   "lon": -122.339614,
+   "kind": "sdot",
+   "alive": true,
+   "image": "https://www.seattle.gov/trafficcams/images/6_Lenora_NS.jpg",
+   "stream": "https://61e0c5d388c2e.streamlock.net:443/live/6_Lenora_NS.stream/playlist.m3u8"
+  },
+  {
+   "id": "CMR-0172",
+   "name": "9th Ave & Pine St",
+   "lat": 47.613528,
+   "lon": -122.332042,
+   "kind": "sdot",
+   "alive": true,
+   "image": "https://www.seattle.gov/trafficcams/images/9_Pine_EW.jpg",
+   "stream": "https://61e0c5d388c2e.streamlock.net:443/live/9_Pine_EW.stream/playlist.m3u8"
+  },
+  {
+   "id": "CMR-0173",
+   "name": "7th Ave & Virginia St",
+   "lat": 47.615057,
+   "lon": -122.337454,
+   "kind": "sdot",
+   "alive": true,
+   "image": "https://www.seattle.gov/trafficcams/images/7_Virginia_EW.jpg",
+   "stream": "https://61e0c5d388c2e.streamlock.net:443/live/7_Virginia_EW.stream/playlist.m3u8"
+  },
+  {
+   "id": "CMR-0174",
+   "name": "4th Ave & Virginia St",
+   "lat": 47.613063,
+   "lon": -122.340033,
+   "kind": "sdot",
+   "alive": true,
+   "image": "https://www.seattle.gov/trafficcams/images/4_Virginia.jpg",
+   "stream": "https://61e0c5d388c2e.streamlock.net:443/live/4_Virginia.stream/playlist.m3u8"
+  },
+  {
+   "id": "CMR-0175",
+   "name": "9th Ave & Stewart St",
+   "lat": 47.615616,
+   "lon": -122.334436,
+   "kind": "sdot",
+   "alive": true,
+   "image": "https://www.seattle.gov/trafficcams/images/9_Stewart_EW.jpg",
+   "stream": "https://61e0c5d388c2e.streamlock.net:443/live/9_Stewart_EW.stream/playlist.m3u8"
+  },
+  {
+   "id": "CMR-0176",
+   "name": "5th Ave & Pine St EW",
+   "lat": 47.611466,
+   "lon": -122.336976,
+   "kind": "sdot",
+   "alive": true,
+   "image": "https://www.seattle.gov/trafficcams/images/5_Pine_EW.jpg",
+   "stream": "https://61e0c5d388c2e.streamlock.net:443/live/5_Pine_EW.stream/playlist.m3u8"
+  },
+  {
+   "id": "CMR-0178",
+   "name": "1st Ave & Union St",
+   "lat": 47.607828,
+   "lon": -122.339105,
+   "kind": "sdot",
+   "alive": true,
+   "image": "https://www.seattle.gov/trafficcams/images/1_Union_NS.jpg",
+   "stream": "https://61e0c5d388c2e.streamlock.net:443/live/1_Union_NS.stream/playlist.m3u8"
+  },
+  {
+   "id": "CMR-0179",
+   "name": "Western Ave & Spring St",
+   "lat": 47.604943,
+   "lon": -122.338001,
+   "kind": "sdot",
+   "alive": true,
+   "image": "https://www.seattle.gov/trafficcams/images/Western_Spring.jpg",
+   "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Western_Spring.stream/playlist.m3u8"
+  },
+  {
+   "id": "CMR-0180",
+   "name": "4th Ave & Madison St",
+   "lat": 47.606088,
+   "lon": -122.332909,
+   "kind": "sdot",
+   "alive": true,
+   "image": "https://www.seattle.gov/trafficcams/images/4_Madison_NS.jpg",
+   "stream": "https://61e0c5d388c2e.streamlock.net:443/live/4_Madison_NS.stream/playlist.m3u8"
+  },
+  {
+   "id": "CMR-0181",
+   "name": "5th Ave & Madison St EW",
+   "lat": 47.606553,
+   "lon": -122.331798,
+   "kind": "sdot",
+   "alive": true,
+   "image": "https://www.seattle.gov/trafficcams/images/5_Madison_EW.jpg",
+   "stream": "https://61e0c5d388c2e.streamlock.net:443/live/5_Madison_EW.stream/playlist.m3u8"
+  },
+  {
+   "id": "CMR-0184",
+   "name": "Westlake Ave & Denny Way NS",
+   "lat": 47.618534,
+   "lon": -122.338485,
+   "kind": "sdot",
+   "alive": true,
+   "image": "https://www.seattle.gov/trafficcams/images/Westlake_Denny_NS.jpg",
+   "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Westlake_Denny_NS.stream/playlist.m3u8"
+  },
+  {
+   "id": "CMR-0185",
+   "name": "2nd Ave & Battery St",
+   "lat": 47.614809,
+   "lon": -122.346954,
+   "kind": "sdot",
+   "alive": true,
+   "image": "https://www.seattle.gov/trafficcams/images/2_Battery_NS.jpg",
+   "stream": "https://61e0c5d388c2e.streamlock.net:443/live/2_Battery_NS.stream/playlist.m3u8"
+  },
+  {
+   "id": "CMR-0186",
+   "name": "Western Ave & Wall St",
+   "lat": 47.614031,
+   "lon": -122.349606,
+   "kind": "sdot",
+   "alive": true,
+   "image": "https://www.seattle.gov/trafficcams/images/Western_Wall_NS.jpg",
+   "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Western_Wall_NS.stream/playlist.m3u8"
+  },
+  {
+   "id": "CMR-0187",
+   "name": "7th Ave & Bell St",
+   "lat": 47.617382,
+   "lon": -122.341394,
+   "kind": "sdot",
+   "alive": true,
+   "image": "https://www.seattle.gov/trafficcams/images/7_Bell.jpg",
+   "stream": "https://61e0c5d388c2e.streamlock.net:443/live/7_Bell.stream/playlist.m3u8"
+  },
+  {
+   "id": "CMR-0188",
+   "name": "6th Ave & Seneca St",
+   "lat": 47.608486,
+   "lon": -122.331987,
+   "kind": "sdot",
+   "alive": true,
+   "image": "https://www.seattle.gov/trafficcams/images/6_Seneca_NS.jpg",
+   "stream": "https://61e0c5d388c2e.streamlock.net:443/live/6_Seneca_NS.stream/playlist.m3u8"
+  },
+  {
+   "id": "CMR-0189",
+   "name": "1st Ave S & Jackson St",
+   "lat": 47.599205,
+   "lon": -122.334188,
+   "kind": "sdot",
+   "alive": true,
+   "image": "https://www.seattle.gov/trafficcams/images/1_S_Jackson_EW.jpg",
+   "stream": "https://61e0c5d388c2e.streamlock.net:443/live/1_S_Jackson_EW.stream/playlist.m3u8"
+  },
+  {
+   "id": "CMR-0191",
+   "name": "3rd Ave & Seneca St",
+   "lat": 47.607085,
+   "lon": -122.335326,
+   "kind": "sdot",
+   "alive": true,
+   "image": "https://www.seattle.gov/trafficcams/images/3_Seneca_EW.jpg",
+   "stream": "http://gn100-223b:8091/CMR-0191/index.m3u8",
+   "evidence": {
+    "clip": "20260815-191211.mp4",
+    "boxed": false,
+    "start_s": 28.0,
+    "length_s": 22.0
+   }
+  },
+  {
+   "id": "CMR-0194",
+   "name": "5th Ave & Marion St",
+   "lat": 47.605839,
+   "lon": -122.331146,
+   "kind": "sdot",
+   "alive": true,
+   "image": "https://www.seattle.gov/trafficcams/images/5_Marion_EW.jpg",
+   "stream": "https://61e0c5d388c2e.streamlock.net:443/live/5_Marion_EW.stream/playlist.m3u8"
+  },
+  {
+   "id": "CMR-0204",
+   "name": "Alaskan Way & Marion St",
+   "lat": 47.603134,
+   "lon": -122.3376,
+   "kind": "sdot",
+   "alive": true,
+   "image": "https://www.seattle.gov/trafficcams/images/Alaskan_Marion_NS.jpg",
+   "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Alaskan_Marion_NS.stream/playlist.m3u8"
+  },
+  {
+   "id": "CMR-0217",
+   "name": "1st Ave & Seneca St",
+   "lat": 47.606125,
+   "lon": -122.337536,
+   "kind": "sdot",
+   "alive": true,
+   "image": "https://www.seattle.gov/trafficcams/images/1_Seneca.jpg",
+   "stream": "https://61e0c5d388c2e.streamlock.net:443/live/1_Seneca.stream/playlist.m3u8"
+  },
+  {
+   "id": "CMR-0218",
+   "name": "2nd Ave & Marion St",
+   "lat": 47.604446,
+   "lon": -122.334477,
+   "kind": "sdot",
+   "alive": true,
+   "image": "https://www.seattle.gov/trafficcams/images/2_Marion_NS.jpg",
+   "stream": "https://61e0c5d388c2e.streamlock.net:443/live/2_Marion_NS.stream/playlist.m3u8"
+  },
+  {
+   "id": "CMR-0223",
+   "name": "5th Ave & Pine St NS",
+   "lat": 47.611672,
+   "lon": -122.336484,
+   "kind": "sdot",
+   "alive": true,
+   "image": "https://www.seattle.gov/trafficcams/images/5_Pine_NS.jpg",
+   "stream": "https://61e0c5d388c2e.streamlock.net:443/live/5_Pine_NS.stream/playlist.m3u8"
+  },
+  {
+   "id": "CMR-0239",
+   "name": "2nd Ave & Virginia St",
+   "lat": 47.611733,
+   "lon": -122.341753,
+   "kind": "sdot",
+   "alive": true,
+   "image": "https://www.seattle.gov/trafficcams/images/2_Virginia.jpg",
+   "stream": "https://61e0c5d388c2e.streamlock.net:443/live/2_Virginia.stream/playlist.m3u8"
+  },
+  {
+   "id": "CMR-0240",
+   "name": "2nd Ave & Lenora St",
+   "lat": 47.612502,
+   "lon": -122.343053,
+   "kind": "sdot",
+   "alive": true,
+   "image": "https://www.seattle.gov/trafficcams/images/2_Lenora_NS.jpg",
+   "stream": "https://61e0c5d388c2e.streamlock.net:443/live/2_Lenora_NS.stream/playlist.m3u8"
+  },
+  {
+   "id": "CMR-0241",
+   "name": "2nd Ave & Clay St",
+   "lat": 47.617019,
+   "lon": -122.350691,
+   "kind": "sdot",
+   "alive": true,
+   "image": "https://www.seattle.gov/trafficcams/images/2_Clay_NS.jpg",
+   "stream": "https://61e0c5d388c2e.streamlock.net:443/live/2_Clay_NS.stream/playlist.m3u8"
+  },
+  {
+   "id": "CMR-0255",
+   "name": "5th Ave & Union St",
+   "lat": 47.609685,
+   "lon": -122.334666,
+   "kind": "sdot",
+   "alive": true,
+   "image": "https://www.seattle.gov/trafficcams/images/5_Union_EW.jpg",
+   "stream": "https://61e0c5d388c2e.streamlock.net:443/live/5_Union_EW.stream/playlist.m3u8"
+  },
+  {
+   "id": "CMR-0256",
+   "name": "1st Ave & Madison St",
+   "lat": 47.604695,
+   "lon": -122.336238,
+   "kind": "sdot",
+   "alive": true,
+   "image": "https://www.seattle.gov/trafficcams/images/1_Madison_NS.jpg",
+   "stream": "https://61e0c5d388c2e.streamlock.net:443/live/1_Madison_NS.stream/playlist.m3u8"
+  },
+  {
+   "id": "CMR-0257",
+   "name": "4th Ave & Pine St",
+   "lat": 47.611207,
+   "lon": -122.337592,
+   "kind": "sdot",
+   "alive": true,
+   "image": "https://www.seattle.gov/trafficcams/images/4_Pine.jpg",
+   "stream": "https://61e0c5d388c2e.streamlock.net:443/live/4_Pine.stream/playlist.m3u8"
+  },
+  {
+   "id": "CMR-0258",
+   "name": "5th Ave S & S Washington St",
+   "lat": 47.600873,
+   "lon": -122.32766,
+   "kind": "sdot",
+   "alive": true,
+   "image": "https://www.seattle.gov/trafficcams/images/5_S_Washington_NS.jpg",
+   "stream": "https://61e0c5d388c2e.streamlock.net:443/live/5_S_Washington_NS.stream/playlist.m3u8"
+  },
+  {
+   "id": "CMR-0261",
+   "name": "Alaskan Way & Wall St",
+   "lat": 47.612814,
+   "lon": -122.351186,
+   "kind": "sdot",
+   "alive": true,
+   "image": "https://www.seattle.gov/trafficcams/images/Alaskan_Wall.jpg",
+   "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Alaskan_Wall.stream/playlist.m3u8"
+  },
+  {
+   "id": "CMR-0264",
+   "name": "2nd Ave & Blanchard St",
+   "lat": 47.613271,
+   "lon": -122.344353,
+   "kind": "sdot",
+   "alive": true,
+   "image": "https://www.seattle.gov/trafficcams/images/2_Blanchard_NS.jpg",
+   "stream": "https://61e0c5d388c2e.streamlock.net:443/live/2_Blanchard_NS.stream/playlist.m3u8"
+  },
+  {
+   "id": "CMR-0265",
+   "name": "2nd Ave & James St",
+   "lat": 47.602306,
+   "lon": -122.332519,
+   "kind": "sdot",
+   "alive": true,
+   "image": "https://www.seattle.gov/trafficcams/images/2_James_EW.jpg",
+   "stream": "https://61e0c5d388c2e.streamlock.net:443/live/2_James_EW.stream/playlist.m3u8"
+  },
+  {
+   "id": "CMR-0267",
+   "name": "Westlake Ave & Denny Way EW",
+   "lat": 47.618534,
+   "lon": -122.338485,
+   "kind": "sdot",
+   "alive": true,
+   "image": "https://www.seattle.gov/trafficcams/images/Westlake_Denny_EW.jpg",
+   "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Westlake_Denny_EW.stream/playlist.m3u8"
+  },
+  {
+   "id": "CMR-0291",
+   "name": "5th Ave & Spring St",
+   "lat": 47.607266,
+   "lon": -122.332451,
+   "kind": "sdot",
+   "alive": true,
+   "image": "https://www.seattle.gov/trafficcams/images/5_Spring_EW.jpg",
+   "stream": "https://61e0c5d388c2e.streamlock.net:443/live/5_Spring_EW.stream/playlist.m3u8"
+  },
+  {
+   "id": "CMR-0302",
+   "name": "2nd Ave & Pike St NS",
+   "lat": 47.609268,
+   "lon": -122.338888,
+   "kind": "sdot",
+   "alive": true,
+   "image": "https://www.seattle.gov/trafficcams/images/2_Pike_NS.jpg",
+   "stream": "http://gn100-223b:8091/CMR-0302/index.m3u8",
+   "evidence": {
+    "clip": "20260815-184958.mp4",
+    "boxed": true,
+    "start_s": 1.0,
+    "length_s": 14.25
+   }
+  },
+  {
+   "id": "CMR-0303",
+   "name": "2nd Ave & Pike St EW",
+   "lat": 47.609268,
+   "lon": -122.338888,
+   "kind": "sdot",
+   "alive": true,
+   "image": "https://www.seattle.gov/trafficcams/images/2_Pike_EW.jpg",
+   "stream": "https://61e0c5d388c2e.streamlock.net:443/live/2_Pike_EW.stream/playlist.m3u8"
+  },
+  {
+   "id": "CMR-0304",
+   "name": "3rd Ave & Union St",
+   "lat": 47.608756,
+   "lon": -122.336885,
+   "kind": "sdot",
+   "alive": true,
+   "image": "https://www.seattle.gov/trafficcams/images/3_Union_SWC.jpg",
+   "stream": "https://61e0c5d388c2e.streamlock.net:443/live/3_Union_SWC.stream/playlist.m3u8"
+  },
+  {
+   "id": "CMR-0305",
+   "name": "3rd Ave & Spring St",
+   "lat": 47.606337,
+   "lon": -122.334672,
+   "kind": "sdot",
+   "alive": true,
+   "image": "https://www.seattle.gov/trafficcams/images/3_Spring_EW.jpg",
+   "stream": "http://gn100-223b:8091/CMR-0305/index.m3u8",
+   "evidence": {
+    "clip": "20260815-190806.mp4",
+    "boxed": false,
+    "start_s": 5.75,
+    "length_s": 16.5
+   }
+  },
+  {
+   "id": "CMR-0308",
+   "name": "4th Ave & James St",
+   "lat": 47.603286,
+   "lon": -122.330364,
+   "kind": "sdot",
+   "alive": true,
+   "image": "https://www.seattle.gov/trafficcams/images/4_James_NWC.jpg",
+   "stream": "https://61e0c5d388c2e.streamlock.net:443/live/4_James_NWC.stream/playlist.m3u8"
+  },
+  {
+   "id": "CMR-0309",
+   "name": "5th Ave & Pike St",
+   "lat": 47.610678,
+   "lon": -122.335574,
+   "kind": "sdot",
+   "alive": true,
+   "image": "https://www.seattle.gov/trafficcams/images/5_Pike_NS.jpg",
+   "stream": "https://61e0c5d388c2e.streamlock.net:443/live/5_Pike_NS.stream/playlist.m3u8"
+  },
+  {
+   "id": "CMR-0310",
+   "name": "1st Ave & Yesler Way",
+   "lat": 47.601722,
+   "lon": -122.334179,
+   "kind": "sdot",
+   "alive": true,
+   "image": "https://www.seattle.gov/trafficcams/images/1_Yesler_EW.jpg",
+   "stream": "https://61e0c5d388c2e.streamlock.net:443/live/1_Yesler_EW.stream/playlist.m3u8"
+  },
+  {
+   "id": "CMR-0311",
+   "name": "4th Ave S & S Washington St",
+   "lat": 47.600875,
+   "lon": -122.328963,
+   "kind": "sdot",
+   "alive": true,
+   "image": "https://www.seattle.gov/trafficcams/images/4_S_Washington_NS.jpg",
+   "stream": "https://61e0c5d388c2e.streamlock.net:443/live/4_S_Washington_NS.stream/playlist.m3u8"
+  },
+  {
+   "id": "CMR-0312",
+   "name": "Boren Ave & Pike St",
+   "lat": 47.613466,
+   "lon": -122.328913,
+   "kind": "sdot",
+   "alive": true,
+   "image": "https://www.seattle.gov/trafficcams/images/Boren_Pike_EW.jpg",
+   "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Boren_Pike_EW.stream/playlist.m3u8"
+  },
+  {
+   "id": "CMR-0315",
+   "name": "Fairview Ave & Denny Way",
+   "lat": 47.618517,
+   "lon": -122.334255,
+   "kind": "sdot",
+   "alive": true,
+   "image": "https://www.seattle.gov/trafficcams/images/Fairview_Denny_NS.jpg",
+   "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Fairview_Denny_NS.stream/playlist.m3u8"
+  },
+  {
+   "id": "CMR-0316",
+   "name": "Howell St & Minor Ave",
+   "lat": 47.61684,
+   "lon": -122.330559,
+   "kind": "sdot",
+   "alive": true,
+   "image": "https://www.seattle.gov/trafficcams/images/Minor_Howell_EW.jpg",
+   "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Minor_Howell_EW.stream/playlist.m3u8"
+  },
+  {
+   "id": "CMR-0317",
+   "name": "Fairview Ave & Boren Ave",
+   "lat": 47.617852,
+   "lon": -122.334251,
+   "kind": "sdot",
+   "alive": true,
+   "image": "https://www.seattle.gov/trafficcams/images/Fairview_Boren_NS.jpg",
+   "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Fairview_Boren_NS.stream/playlist.m3u8"
+  },
+  {
+   "id": "CMR-0318",
+   "name": "6th Ave & Cherry St",
+   "lat": 47.604876,
+   "lon": -122.328734,
+   "kind": "sdot",
+   "alive": true,
+   "image": "https://www.seattle.gov/trafficcams/images/6_Cherry.jpg",
+   "stream": "https://61e0c5d388c2e.streamlock.net:443/live/6_Cherry.stream/playlist.m3u8"
+  },
+  {
+   "id": "CMR-0319",
+   "name": "7th Ave & James St",
+   "lat": 47.604625,
+   "lon": -122.32697,
+   "kind": "sdot",
+   "alive": true,
+   "image": "https://www.seattle.gov/trafficcams/images/7_James_EW.jpg",
+   "stream": "https://61e0c5d388c2e.streamlock.net:443/live/7_James_EW.stream/playlist.m3u8"
+  },
+  {
+   "id": "CMR-0320",
+   "name": "2nd Ave Ext S & S Main St",
+   "lat": 47.599991,
+   "lon": -122.330342,
+   "kind": "sdot",
+   "alive": true,
+   "image": "https://www.seattle.gov/trafficcams/images/2_Ext_Main_NS.jpg",
+   "stream": "https://61e0c5d388c2e.streamlock.net:443/live/2_Ext_Main_NS.stream/playlist.m3u8"
+  },
+  {
+   "id": "CMR-0321",
+   "name": "6th Ave & Stewart St",
+   "lat": 47.613622,
+   "lon": -122.337015,
+   "kind": "sdot",
+   "alive": true,
+   "image": "https://www.seattle.gov/trafficcams/images/6_Stewart_EW.jpg",
+   "stream": "https://61e0c5d388c2e.streamlock.net:443/live/6_Stewart_EW.stream/playlist.m3u8"
+  },
+  {
+   "id": "CMR-0332",
+   "name": "3rd Ave & Denny Way",
+   "lat": 47.618586,
+   "lon": -122.35136,
+   "kind": "sdot",
+   "alive": true,
+   "image": "https://www.seattle.gov/trafficcams/images/3_N_Denny_EW.jpg",
+   "stream": "https://61e0c5d388c2e.streamlock.net:443/live/3_N_Denny_EW.stream/playlist.m3u8"
+  },
+  {
+   "id": "CMR-0333",
+   "name": "Alaskan Way S & S King St",
+   "lat": 47.598297,
+   "lon": -122.335906,
+   "kind": "sdot",
+   "alive": true,
+   "image": "https://www.seattle.gov/trafficcams/images/Alaskan_S_King.jpg",
+   "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Alaskan_S_King.stream/playlist.m3u8"
+  },
+  {
+   "id": "CMR-0350",
+   "name": "Alaskan Way S & S Jackson St",
+   "lat": 47.599209,
+   "lon": -122.335907,
+   "kind": "sdot",
+   "alive": true,
+   "image": "https://www.seattle.gov/trafficcams/images/Alaskan_S_Jackson.jpg",
+   "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Alaskan_S_Jackson.stream/playlist.m3u8"
+  },
+  {
+   "id": "CMR-0358",
+   "name": "Elliott Ave & Elliott Way",
+   "lat": 47.611611,
+   "lon": -122.346522,
+   "kind": "sdot",
+   "alive": true,
+   "image": "https://www.seattle.gov/trafficcams/images/Elliott_Ave_Elliott_Wy_NEC.jpg",
+   "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Elliott_Ave_Elliott_Wy_NEC.stream/playlist.m3u8"
+  },
+  {
+   "id": "CMR-0361",
+   "name": "Alaskan Way & Spring St",
+   "lat": 47.604624,
+   "lon": -122.338812,
+   "kind": "sdot",
+   "alive": true,
+   "image": "https://www.seattle.gov/trafficcams/images/Alaskan_Spring.jpg",
+   "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Alaskan_Spring.stream/playlist.m3u8"
+  },
+  {
+   "id": "CMR-0365",
+   "name": "7th Ave N & Denny Way 1",
+   "lat": 47.618561,
+   "lon": -122.343645,
+   "kind": "sdot",
+   "alive": true,
+   "image": "https://www.seattle.gov/trafficcams/images/7_Denny_1.jpg",
+   "stream": "https://61e0c5d388c2e.streamlock.net:443/live/7_Denny_1.stream/playlist.m3u8"
+  },
+  {
+   "id": "CMR-0366",
+   "name": "7th Ave N & Denny Way 2",
+   "lat": 47.618561,
+   "lon": -122.343645,
+   "kind": "sdot",
+   "alive": true,
+   "image": "https://www.seattle.gov/trafficcams/images/7_Denny_2.jpg",
+   "stream": "https://61e0c5d388c2e.streamlock.net:443/live/7_Denny_2.stream/playlist.m3u8"
+  },
+  {
+   "id": "CMR-0370",
+   "name": "8th Ave & Pike St",
+   "lat": 47.61208,
+   "lon": -122.332265,
+   "kind": "sdot",
+   "alive": true,
+   "image": "https://www.seattle.gov/trafficcams/images/8_Pike_NWC.jpg",
+   "stream": "https://61e0c5d388c2e.streamlock.net:443/live/8_Pike_NWC.stream/playlist.m3u8"
+  },
+  {
+   "id": "CMR-0373",
+   "name": "6th Ave & Spring St",
+   "lat": 47.607733,
+   "lon": -122.331339,
+   "kind": "sdot",
+   "alive": true,
+   "image": "https://www.seattle.gov/trafficcams/images/6_Spring_NEC.jpg",
+   "stream": "https://61e0c5d388c2e.streamlock.net:443/live/6_Spring_NEC.stream/playlist.m3u8"
+  },
+  {
+   "id": "CMR-0379",
+   "name": "Alaskan Way & Columbia St",
+   "lat": 47.602417,
+   "lon": -122.336956,
+   "kind": "sdot",
+   "alive": true,
+   "image": "https://www.seattle.gov/trafficcams/images/Alaskan_Columbia_SWC.jpg",
+   "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Alaskan_Columbia_SWC.stream/playlist.m3u8"
+  },
+  {
+   "id": "CMR-0380",
+   "name": "6th Ave N & Denny Way",
+   "lat": 47.618559,
+   "lon": -122.344969,
+   "kind": "sdot",
+   "alive": true,
+   "image": "https://www.seattle.gov/trafficcams/images/6_N_Denny_NWC.jpg",
+   "stream": "https://61e0c5d388c2e.streamlock.net:443/live/6_N_Denny_NWC.stream/playlist.m3u8"
+  },
+  {
+   "id": "CMR-0382",
+   "name": "Terry Ave & Olive Way",
+   "lat": 47.615005,
+   "lon": -122.331809,
+   "kind": "sdot",
+   "alive": true,
+   "image": "https://www.seattle.gov/trafficcams/images/Terry_Olive_SEC.jpg",
+   "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Terry_Olive_SEC.stream/playlist.m3u8"
+  },
+  {
+   "id": "CMR-0389",
+   "name": "Alaskan Way & Union St",
+   "lat": 47.607052,
+   "lon": -122.34102,
+   "kind": "sdot",
+   "alive": true,
+   "image": "https://www.seattle.gov/trafficcams/images/Alaskan_Union.jpg",
+   "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Alaskan_Union.stream/playlist.m3u8"
+  },
+  {
+   "id": "CMR-0404",
+   "name": "Denny Way & Terry Ave",
+   "lat": 47.618538,
+   "lon": -122.337187,
+   "kind": "sdot",
+   "alive": true,
+   "image": "https://www.seattle.gov/trafficcams/images/Terry_Denny_SEC.jpg",
+   "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Terry_Denny_SEC.stream/playlist.m3u8"
+  },
+  {
+   "id": "CMR-0409",
+   "name": "8th Ave & Madison St",
+   "lat": 47.607944,
+   "lon": -122.328453,
+   "kind": "sdot",
+   "alive": true,
+   "image": "https://www.seattle.gov/trafficcams/images/8_Madison.jpg",
+   "stream": "https://61e0c5d388c2e.streamlock.net:443/live/8_Madison.stream/playlist.m3u8"
+  },
+  {
+   "id": "CMR-0415",
+   "name": "2nd Ave & Spring St",
+   "lat": 47.605881,
+   "lon": -122.335771,
+   "kind": "sdot",
+   "alive": false,
+   "image": "https://www.seattle.gov/trafficcams/images/2_Spring.jpg",
+   "stream": "http://gn100-223b:8091/CMR-0415/index.m3u8",
+   "evidence": {
+    "clip": "20260815-190340.mp4",
+    "boxed": true,
+    "start_s": 31.25,
+    "length_s": 15.08
+   }
+  },
+  {
+   "id": "CMR-0425",
+   "name": "2nd Ave S & S Jackson St",
+   "lat": 47.599225,
+   "lon": -122.331578,
+   "kind": "sdot",
+   "alive": true,
+   "image": "https://www.seattle.gov/trafficcams/images/2_S_Jackson.jpg",
+   "stream": "https://61e0c5d388c2e.streamlock.net:443/live/2_S_Jackson.stream/playlist.m3u8"
+  },
+  {
+   "id": "CMR-0427",
+   "name": "4th Ave S & S Weller St",
+   "lat": 47.597601,
+   "lon": -122.328961,
+   "kind": "sdot",
+   "alive": true,
+   "image": "https://www.seattle.gov/trafficcams/images/4_S_Weller.jpg",
+   "stream": "https://61e0c5d388c2e.streamlock.net:443/live/4_S_Weller.stream/playlist.m3u8"
+  },
+  {
+   "id": "CMR-0428",
+   "name": "5th Ave S & S Jackson St",
+   "lat": 47.599263,
+   "lon": -122.327665,
+   "kind": "sdot",
+   "alive": true,
+   "image": "https://www.seattle.gov/trafficcams/images/5_S_Jackson.jpg",
+   "stream": "https://61e0c5d388c2e.streamlock.net:443/live/5_S_Jackson.stream/playlist.m3u8"
+  },
+  {
+   "id": "CMR-0434",
+   "name": "Dexter Ave N & Denny Way - 2",
+   "lat": 47.61855,
+   "lon": -122.342402,
+   "kind": "sdot",
+   "alive": true,
+   "image": "https://www.seattle.gov/trafficcams/images/Dexter_N_Denny_2.jpg",
+   "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Dexter_N_Denny_2.stream/playlist.m3u8"
+  },
+  {
+   "id": "CMR-0444",
+   "name": "Alaskan Way & Elliott Way",
+   "lat": 47.608724,
+   "lon": -122.342892,
+   "kind": "sdot",
+   "alive": true,
+   "image": "https://www.seattle.gov/trafficcams/images/Alaskan_Elliott_NWC.jpg",
+   "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Alaskan_Elliott_NWC.stream/playlist.m3u8"
+  },
+  {
+   "id": "CMR-T01",
+   "name": "Occidental Ave S & S King St",
+   "lat": 47.598271,
+   "lon": -122.333257,
+   "kind": "sdot",
+   "alive": true,
+   "image": "https://www.seattle.gov/trafficcams/images/SDOT_Portable_1.jpg",
+   "stream": "https://61e0c5d388c2e.streamlock.net:443/live/SDOT_Portable_1.stream/playlist.m3u8"
+  },
+  {
+   "id": "CMR-T03",
+   "name": "Madison St & 7th Ave",
+   "lat": 47.607504,
+   "lon": -122.329591,
+   "kind": "sdot",
+   "alive": true,
+   "image": "https://www.seattle.gov/trafficcams/images/SDOT_Portable_3.jpg",
+   "stream": "https://61e0c5d388c2e.streamlock.net:443/live/SDOT_Portable_3.stream/playlist.m3u8"
+  },
+  {
+   "id": "CMR-0260",
+   "name": "Westlake Ave N & Harrison St",
+   "lat": 47.622041,
+   "lon": -122.338456,
+   "kind": "sdot",
+   "alive": true,
+   "image": "https://www.seattle.gov/trafficcams/images/Westlake_N_Harrison_NS.jpg",
+   "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Westlake_N_Harrison_NS.stream/playlist.m3u8"
+  },
+  {
+   "id": "CMR-0146",
+   "name": "Westlake Ave & Valley St",
+   "lat": 47.625796,
+   "lon": -122.338635,
+   "kind": "sdot",
+   "alive": true,
+   "image": "https://www.seattle.gov/trafficcams/images/Westlake_Valley.jpg",
+   "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Westlake_Valley.stream/playlist.m3u8"
+  },
+  {
+   "id": "CMR-0154",
+   "name": "9th Ave N & Mercer St",
+   "lat": 47.624687,
+   "lon": -122.339741,
+   "kind": "sdot",
+   "alive": true,
+   "image": "https://www.seattle.gov/trafficcams/images/9_N_Mercer.jpg",
+   "stream": "https://61e0c5d388c2e.streamlock.net:443/live/9_N_Mercer.stream/playlist.m3u8"
+  },
+  {
+   "id": "CMR-0266",
+   "name": "9th Ave N & Thomas St",
+   "lat": 47.620879,
+   "lon": -122.339769,
+   "kind": "sdot",
+   "alive": true,
+   "image": "https://www.seattle.gov/trafficcams/images/9_N_Thomas_NS.jpg",
+   "stream": "https://61e0c5d388c2e.streamlock.net:443/live/9_N_Thomas_NS.stream/playlist.m3u8"
+  },
+  {
+   "id": "CMR-0202",
+   "name": "Terry Ave N & Mercer St",
+   "lat": 47.624685,
+   "lon": -122.33713,
+   "kind": "sdot",
+   "alive": true,
+   "image": "https://www.seattle.gov/trafficcams/images/Terry_N_Mercer_EW.jpg",
+   "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Terry_N_Mercer_EW.stream/playlist.m3u8"
+  },
+  {
+   "id": "CMR-0259",
+   "name": "Fairview Ave N & Republican St",
+   "lat": 47.623162,
+   "lon": -122.334279,
+   "kind": "sdot",
+   "alive": true,
+   "image": "https://www.seattle.gov/trafficcams/images/Fairview_N_Republican_NS.jpg",
+   "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Fairview_N_Republican_NS.stream/playlist.m3u8"
+  },
+  {
+   "id": "CMR-0211",
+   "name": "Dexter Ave N & Mercer St",
+   "lat": 47.62455,
+   "lon": -122.34235,
+   "kind": "sdot",
+   "alive": true,
+   "image": "https://www.seattle.gov/trafficcams/images/Dexter_N_Mercer.jpg",
+   "stream": "https://61e0c5d388c2e.streamlock.net:443/live/Dexter_N_Mercer.stream/playlist.m3u8"
+  },
+  {
+   "id": "CMR-0203",
+   "name": "9th Ave N & Roy St",
+   "lat": 47.625393,
+   "lon": -122.339735,
+   "kind": "sdot",
+   "alive": true,
+   "image": "https://www.seattle.gov/trafficcams/images/9_Roy.jpg",
+   "stream": "https://61e0c5d388c2e.streamlock.net:443/live/9_Roy.stream/playlist.m3u8"
+  }
+ ],
+ "tracks": [
+  {
+   "id": "T-SUBJ",
+   "label": "SUBJECT (presenter, consented)",
+   "class": "scooter",
+   "color": "amber"
+  }
+ ],
+ "sightings": [
+  {
+   "id": "S-001",
+   "t": "2026-08-15T18:49:17-07:00",
+   "camera_id": "CMR-0302",
+   "lat": 47.609268,
+   "lon": -122.338888,
+   "class": "runner",
+   "state": "linked",
+   "conf": 0.84,
+   "track_id": "T-SUBJ",
+   "note": "At timestamp 00:00:00, a man wearing a bright pink or salmon-colored shirt is visible on the sidewalk in the lower-left corner of the frame. He is walking away from the camera, moving along the sidewa",
+   "source": "vss:CMR-0302-184917"
+  },
+  {
+   "id": "S-002",
+   "t": "2026-08-15T18:50:02-07:00",
+   "camera_id": "CMR-0302",
+   "lat": 47.609268,
+   "lon": -122.338888,
+   "class": "runner",
+   "state": "linked",
+   "conf": 0.95,
+   "track_id": "T-SUBJ",
+   "note": "At timestamp 00:00:04, a man wearing a bright pink or salmon-colored shirt enters the frame from the bottom left. He is jogging away from the camera, moving along the sidewalk on the left side of the ",
+   "source": "vss:CMR-0302-184958"
+  },
+  {
+   "id": "L-002",
+   "t": "2026-08-15T18:53:34-07:00",
+   "camera_id": "CMR-0302",
+   "lat": 47.609268,
+   "lon": -122.338888,
+   "class": "runner",
+   "state": "lost",
+   "conf": 0.475,
+   "track_id": "T-SUBJ",
+   "note": "no subject detection for 425s after CMR-0302"
+  },
+  {
+   "id": "S-003",
+   "t": "2026-08-15T18:57:07-07:00",
+   "camera_id": "CMR-0069",
+   "lat": 47.607347,
+   "lon": -122.337128,
+   "class": "runner",
+   "state": "linked",
+   "conf": 0.95,
+   "track_id": "T-SUBJ",
+   "note": "At timestamp 00:00:22, a man wearing a bright pink shirt is visible on the right side of the street. He is running away from the camera, heading up the hill in the bike lane. His image is clear and di",
+   "source": "vss:CMR-0069-185645"
+  },
+  {
+   "id": "L-003",
+   "t": "2026-08-15T19:00:42-07:00",
+   "camera_id": "CMR-0069",
+   "lat": 47.607347,
+   "lon": -122.337128,
+   "class": "runner",
+   "state": "lost",
+   "conf": 0.475,
+   "track_id": "T-SUBJ",
+   "note": "no subject detection for 431s after CMR-0069"
+  },
+  {
+   "id": "S-004",
+   "t": "2026-08-15T19:04:18-07:00",
+   "camera_id": "CMR-0415",
+   "lat": 47.605881,
+   "lon": -122.335771,
+   "class": "runner",
+   "state": "linked",
+   "conf": 0.95,
+   "track_id": "T-SUBJ",
+   "note": "At timestamp 00:38, a man wearing a bright pink shirt and white shorts is visible on the right-hand sidewalk. He is jogging away from the camera's viewpoint, moving down the sidewalk in the same direc",
+   "source": "vss:CMR-0415-190340"
+  },
+  {
+   "id": "L-004",
+   "t": "2026-08-15T19:06:15-07:00",
+   "camera_id": "CMR-0415",
+   "lat": 47.605881,
+   "lon": -122.335771,
+   "class": "runner",
+   "state": "lost",
+   "conf": 0.475,
+   "track_id": "T-SUBJ",
+   "note": "no subject detection for 234s after CMR-0415"
+  },
+  {
+   "id": "S-005",
+   "t": "2026-08-15T19:08:12-07:00",
+   "camera_id": "CMR-0305",
+   "lat": 47.606337,
+   "lon": -122.334672,
+   "class": "runner",
+   "state": "linked",
+   "conf": 0.84,
+   "track_id": "T-SUBJ",
+   "note": "A man in a bright pink shirt is seen walking from the bottom left corner of the frame towards the right. He is clearly visible at timestamp 00:00:06.  - **Motion:** Walking - **Direction:** From the b (moving From the bottom-left towards the right side of the frame.)",
+   "source": "vss:CMR-0305-190806"
+  },
+  {
+   "id": "L-005",
+   "t": "2026-08-15T19:10:27-07:00",
+   "camera_id": "CMR-0305",
+   "lat": 47.606337,
+   "lon": -122.334672,
+   "class": "runner",
+   "state": "lost",
+   "conf": 0.42,
+   "track_id": "T-SUBJ",
+   "note": "no subject detection for 270s after CMR-0305"
+  },
+  {
+   "id": "S-006",
+   "t": "2026-08-15T19:12:42-07:00",
+   "camera_id": "CMR-0191",
+   "lat": 47.607085,
+   "lon": -122.335326,
+   "class": "runner",
+   "state": "linked",
+   "conf": 0.84,
+   "track_id": "T-SUBJ",
+   "note": "At timestamp 00:31, a man wearing a bright pink or salmon-colored shirt appears on the sidewalk on the right side of the street. He is walking from right to left, moving along the sidewalk in front of",
+   "source": "vss:CMR-0191-191211"
+  },
+  {
+   "id": "L-006",
+   "t": "2026-08-15T19:14:15-07:00",
+   "camera_id": "CMR-0191",
+   "lat": 47.607085,
+   "lon": -122.335326,
+   "class": "runner",
+   "state": "lost",
+   "conf": 0.42,
+   "track_id": "T-SUBJ",
+   "note": "no subject detection for 186s after CMR-0191"
+  },
+  {
+   "id": "S-007",
+   "t": "2026-08-15T19:15:48-07:00",
+   "camera_id": "CMR-0035",
+   "lat": 47.607763,
+   "lon": -122.335976,
+   "class": "runner",
+   "state": "linked",
+   "conf": 0.84,
+   "track_id": "T-SUBJ",
+   "note": "At timestamp 00:00:14, a man wearing a bright pink or salmon-colored shirt is visible on the right sidewalk. He is walking from right to left across the frame. The clearest moment of his appearance is",
+   "source": "vss:CMR-0035-191534"
+  }
+ ],
+ "predictions": [
+  {
+   "id": "P-S-001",
+   "t": "2026-08-15T18:49:17-07:00",
+   "track_id": "T-SUBJ",
+   "at": [
+    47.609268,
+    -122.338888
+   ],
+   "at_camera": "CMR-0302",
+   "heading_deg": null,
+   "speed_mps": 3.5,
+   "horizon_s": 180.0,
+   "branches": [
+    {
+     "label": "2nd Ave & University St via 2nd Avenue",
+     "p": 0.402,
+     "camera_id": "CMR-0069",
+     "also_cameras": [],
+     "distance_m": 251,
+     "eta_s": 72,
+     "turn_deg": 0,
+     "path": [
+      [
+       47.609289,
+       -122.338932
+      ],
+      [
+       47.609203,
+       -122.338853
+      ],
+      [
+       47.608699,
+       -122.338388
+      ],
+      [
+       47.608362,
+       -122.338077
+      ],
+      [
+       47.608289,
+       -122.33801
+      ],
+      [
+       47.608223,
+       -122.337949
+      ],
+      [
+       47.608071,
+       -122.337809
+      ],
+      [
+       47.607479,
+       -122.337264
+      ],
+      [
+       47.607365,
+       -122.337157
+      ]
+     ]
+    },
+    {
+     "label": "5th Ave & Pike St via Pike Street",
+     "p": 0.363,
+     "camera_id": "CMR-0309",
+     "also_cameras": [],
+     "distance_m": 296,
+     "eta_s": 85,
+     "turn_deg": 0,
+     "path": [
+      [
+       47.609289,
+       -122.338932
+      ],
+      [
+       47.609338,
+       -122.338845
+      ],
+      [
+       47.60938,
+       -122.338743
+      ],
+      [
+       47.609539,
+       -122.33836
+      ],
+      [
+       47.609724,
+       -122.337918
+      ],
+      [
+       47.609765,
+       -122.33782
+      ],
+      [
+       47.609807,
+       -122.337719
+      ],
+      [
+       47.609999,
+       -122.337256
+      ],
+      [
+       47.610106,
+       -122.336997
+      ],
+      [
+       47.610122,
+       -122.336958
+      ],
+      [
+       47.610152,
+       -122.336887
+      ],
+      [
+       47.610196,
+       -122.336781
+      ],
+      [
+       47.610214,
+       -122.336737
+      ],
+      [
+       47.610244,
+       -122.336666
+      ],
+      [
+       47.610288,
+       -122.336558
+      ],
+      [
+       47.610452,
+       -122.336164
+      ],
+      [
+       47.610464,
+       -122.336135
+      ],
+      [
+       47.61055,
+       -122.335928
+      ],
+      [
+       47.610641,
+       -122.335708
+      ],
+      [
+       47.610696,
+       -122.335578
+      ]
+     ]
+    },
+    {
+     "label": "7th Ave & Pike St via Pike Street",
+     "p": 0.235,
+     "camera_id": "CMR-0058",
+     "also_cameras": [],
+     "distance_m": 491,
+     "eta_s": 140,
+     "turn_deg": 0,
+     "path": [
+      [
+       47.609289,
+       -122.338932
+      ],
+      [
+       47.609338,
+       -122.338845
+      ],
+      [
+       47.60938,
+       -122.338743
+      ],
+      [
+       47.609539,
+       -122.33836
+      ],
+      [
+       47.609724,
+       -122.337918
+      ],
+      [
+       47.609765,
+       -122.33782
+      ],
+      [
+       47.609807,
+       -122.337719
+      ],
+      [
+       47.609999,
+       -122.337256
+      ],
+      [
+       47.610106,
+       -122.336997
+      ],
+      [
+       47.610122,
+       -122.336958
+      ],
+      [
+       47.610152,
+       -122.336887
+      ],
+      [
+       47.610196,
+       -122.336781
+      ],
+      [
+       47.610214,
+       -122.336737
+      ],
+      [
+       47.610244,
+       -122.336666
+      ],
+      [
+       47.610288,
+       -122.336558
+      ],
+      [
+       47.610452,
+       -122.336164
+      ],
+      [
+       47.610464,
+       -122.336135
+      ],
+      [
+       47.61055,
+       -122.335928
+      ],
+      [
+       47.610641,
+       -122.335708
+      ],
+      [
+       47.610696,
+       -122.335578
+      ],
+      [
+       47.610744,
+       -122.33546
+      ],
+      [
+       47.610783,
+       -122.335365
+      ],
+      [
+       47.610814,
+       -122.335289
+      ],
+      [
+       47.610919,
+       -122.335033
+      ],
+      [
+       47.611092,
+       -122.334624
+      ],
+      [
+       47.611106,
+       -122.334592
+      ],
+      [
+       47.611152,
+       -122.334482
+      ],
+      [
+       47.611217,
+       -122.334324
+      ],
+      [
+       47.611349,
+       -122.334007
+      ],
+      [
+       47.611389,
+       -122.333913
+      ],
+      [
+       47.611457,
+       -122.333749
+      ],
+      [
+       47.611486,
+       -122.333679
+      ],
+      [
+       47.611557,
+       -122.333508
+      ],
+      [
+       47.611574,
+       -122.333467
+      ],
+      [
+       47.6116,
+       -122.333405
+      ],
+      [
+       47.611619,
+       -122.333358
+      ]
+     ]
+    }
+   ],
+   "actual": "2nd Ave & University St via 2nd Avenue",
+   "resolved_at": "2026-08-15T18:57:07-07:00"
+  },
+  {
+   "id": "P-S-002",
+   "t": "2026-08-15T18:50:02-07:00",
+   "track_id": "T-SUBJ",
+   "at": [
+    47.609268,
+    -122.338888
+   ],
+   "at_camera": "CMR-0302",
+   "heading_deg": null,
+   "speed_mps": 3.5,
+   "horizon_s": 180.0,
+   "branches": [
+    {
+     "label": "2nd Ave & University St via 2nd Avenue",
+     "p": 0.402,
+     "camera_id": "CMR-0069",
+     "also_cameras": [],
+     "distance_m": 251,
+     "eta_s": 72,
+     "turn_deg": 0,
+     "path": [
+      [
+       47.609289,
+       -122.338932
+      ],
+      [
+       47.609203,
+       -122.338853
+      ],
+      [
+       47.608699,
+       -122.338388
+      ],
+      [
+       47.608362,
+       -122.338077
+      ],
+      [
+       47.608289,
+       -122.33801
+      ],
+      [
+       47.608223,
+       -122.337949
+      ],
+      [
+       47.608071,
+       -122.337809
+      ],
+      [
+       47.607479,
+       -122.337264
+      ],
+      [
+       47.607365,
+       -122.337157
+      ]
+     ]
+    },
+    {
+     "label": "5th Ave & Pike St via Pike Street",
+     "p": 0.363,
+     "camera_id": "CMR-0309",
+     "also_cameras": [],
+     "distance_m": 296,
+     "eta_s": 85,
+     "turn_deg": 0,
+     "path": [
+      [
+       47.609289,
+       -122.338932
+      ],
+      [
+       47.609338,
+       -122.338845
+      ],
+      [
+       47.60938,
+       -122.338743
+      ],
+      [
+       47.609539,
+       -122.33836
+      ],
+      [
+       47.609724,
+       -122.337918
+      ],
+      [
+       47.609765,
+       -122.33782
+      ],
+      [
+       47.609807,
+       -122.337719
+      ],
+      [
+       47.609999,
+       -122.337256
+      ],
+      [
+       47.610106,
+       -122.336997
+      ],
+      [
+       47.610122,
+       -122.336958
+      ],
+      [
+       47.610152,
+       -122.336887
+      ],
+      [
+       47.610196,
+       -122.336781
+      ],
+      [
+       47.610214,
+       -122.336737
+      ],
+      [
+       47.610244,
+       -122.336666
+      ],
+      [
+       47.610288,
+       -122.336558
+      ],
+      [
+       47.610452,
+       -122.336164
+      ],
+      [
+       47.610464,
+       -122.336135
+      ],
+      [
+       47.61055,
+       -122.335928
+      ],
+      [
+       47.610641,
+       -122.335708
+      ],
+      [
+       47.610696,
+       -122.335578
+      ]
+     ]
+    },
+    {
+     "label": "7th Ave & Pike St via Pike Street",
+     "p": 0.235,
+     "camera_id": "CMR-0058",
+     "also_cameras": [],
+     "distance_m": 491,
+     "eta_s": 140,
+     "turn_deg": 0,
+     "path": [
+      [
+       47.609289,
+       -122.338932
+      ],
+      [
+       47.609338,
+       -122.338845
+      ],
+      [
+       47.60938,
+       -122.338743
+      ],
+      [
+       47.609539,
+       -122.33836
+      ],
+      [
+       47.609724,
+       -122.337918
+      ],
+      [
+       47.609765,
+       -122.33782
+      ],
+      [
+       47.609807,
+       -122.337719
+      ],
+      [
+       47.609999,
+       -122.337256
+      ],
+      [
+       47.610106,
+       -122.336997
+      ],
+      [
+       47.610122,
+       -122.336958
+      ],
+      [
+       47.610152,
+       -122.336887
+      ],
+      [
+       47.610196,
+       -122.336781
+      ],
+      [
+       47.610214,
+       -122.336737
+      ],
+      [
+       47.610244,
+       -122.336666
+      ],
+      [
+       47.610288,
+       -122.336558
+      ],
+      [
+       47.610452,
+       -122.336164
+      ],
+      [
+       47.610464,
+       -122.336135
+      ],
+      [
+       47.61055,
+       -122.335928
+      ],
+      [
+       47.610641,
+       -122.335708
+      ],
+      [
+       47.610696,
+       -122.335578
+      ],
+      [
+       47.610744,
+       -122.33546
+      ],
+      [
+       47.610783,
+       -122.335365
+      ],
+      [
+       47.610814,
+       -122.335289
+      ],
+      [
+       47.610919,
+       -122.335033
+      ],
+      [
+       47.611092,
+       -122.334624
+      ],
+      [
+       47.611106,
+       -122.334592
+      ],
+      [
+       47.611152,
+       -122.334482
+      ],
+      [
+       47.611217,
+       -122.334324
+      ],
+      [
+       47.611349,
+       -122.334007
+      ],
+      [
+       47.611389,
+       -122.333913
+      ],
+      [
+       47.611457,
+       -122.333749
+      ],
+      [
+       47.611486,
+       -122.333679
+      ],
+      [
+       47.611557,
+       -122.333508
+      ],
+      [
+       47.611574,
+       -122.333467
+      ],
+      [
+       47.6116,
+       -122.333405
+      ],
+      [
+       47.611619,
+       -122.333358
+      ]
+     ]
+    }
+   ],
+   "actual": "2nd Ave & University St via 2nd Avenue",
+   "resolved_at": "2026-08-15T18:57:07-07:00"
+  },
+  {
+   "id": "P-S-003",
+   "t": "2026-08-15T18:57:07-07:00",
+   "track_id": "T-SUBJ",
+   "at": [
+    47.607347,
+    -122.337128
+   ],
+   "at_camera": "CMR-0069",
+   "heading_deg": 148,
+   "speed_mps": 3.5,
+   "horizon_s": 180.0,
+   "branches": [
+    {
+     "label": "2nd Ave & Marion St via 2nd Avenue",
+     "p": 0.604,
+     "camera_id": "CMR-0218",
+     "also_cameras": [],
+     "distance_m": 379,
+     "eta_s": 108,
+     "turn_deg": 0,
+     "path": [
+      [
+       47.607365,
+       -122.337157
+      ],
+      [
+       47.607298,
+       -122.337096
+      ],
+      [
+       47.607238,
+       -122.33704
+      ],
+      [
+       47.606808,
+       -122.336645
+      ],
+      [
+       47.606776,
+       -122.336616
+      ],
+      [
+       47.606665,
+       -122.336513
+      ],
+      [
+       47.606582,
+       -122.336438
+      ],
+      [
+       47.606529,
+       -122.336389
+      ],
+      [
+       47.606312,
+       -122.33619
+      ],
+      [
+       47.606246,
+       -122.336129
+      ],
+      [
+       47.605941,
+       -122.335848
+      ],
+      [
+       47.605873,
+       -122.335787
+      ],
+      [
+       47.605805,
+       -122.335724
+      ],
+      [
+       47.605352,
+       -122.335309
+      ],
+      [
+       47.605242,
+       -122.335208
+      ],
+      [
+       47.605157,
+       -122.335131
+      ],
+      [
+       47.605097,
+       -122.335074
+      ],
+      [
+       47.604603,
+       -122.334622
+      ],
+      [
+       47.604521,
+       -122.334546
+      ],
+      [
+       47.604458,
+       -122.334488
+      ]
+     ]
+    },
+    {
+     "label": "2nd Ave & Spring St via 2nd Avenue",
+     "p": 0.319,
+     "camera_id": "CMR-0415",
+     "also_cameras": [],
+     "distance_m": 194,
+     "eta_s": 56,
+     "turn_deg": 0,
+     "path": [
+      [
+       47.607365,
+       -122.337157
+      ],
+      [
+       47.607298,
+       -122.337096
+      ],
+      [
+       47.607238,
+       -122.33704
+      ],
+      [
+       47.606808,
+       -122.336645
+      ],
+      [
+       47.606776,
+       -122.336616
+      ],
+      [
+       47.606665,
+       -122.336513
+      ],
+      [
+       47.606582,
+       -122.336438
+      ],
+      [
+       47.606529,
+       -122.336389
+      ],
+      [
+       47.606312,
+       -122.33619
+      ],
+      [
+       47.606246,
+       -122.336129
+      ],
+      [
+       47.605941,
+       -122.335848
+      ],
+      [
+       47.605873,
+       -122.335787
+      ]
+     ]
+    },
+    {
+     "label": "3rd Ave & University St via 2nd Avenue \u2192 University Street",
+     "p": 0.077,
+     "camera_id": "CMR-0035",
+     "also_cameras": [],
+     "distance_m": 107,
+     "eta_s": 31,
+     "turn_deg": 90,
+     "path": [
+      [
+       47.607365,
+       -122.337157
+      ],
+      [
+       47.607298,
+       -122.337096
+      ],
+      [
+       47.607332,
+       -122.337014
+      ],
+      [
+       47.607351,
+       -122.336967
+      ],
+      [
+       47.607718,
+       -122.336085
+      ],
+      [
+       47.607762,
+       -122.335978
+      ]
+     ]
+    }
+   ],
+   "actual": "2nd Ave & Spring St via 2nd Avenue",
+   "resolved_at": "2026-08-15T19:04:18-07:00"
+  },
+  {
+   "id": "P-S-004",
+   "t": "2026-08-15T19:04:18-07:00",
+   "track_id": "T-SUBJ",
+   "at": [
+    47.605881,
+    -122.335771
+   ],
+   "at_camera": "CMR-0415",
+   "heading_deg": 148,
+   "speed_mps": 3.5,
+   "horizon_s": 180.0,
+   "branches": [
+    {
+     "label": "2nd Ave & Marion St via 2nd Avenue",
+     "p": 0.617,
+     "camera_id": "CMR-0218",
+     "also_cameras": [],
+     "distance_m": 184,
+     "eta_s": 53,
+     "turn_deg": 0,
+     "path": [
+      [
+       47.605873,
+       -122.335787
+      ],
+      [
+       47.605805,
+       -122.335724
+      ],
+      [
+       47.605352,
+       -122.335309
+      ],
+      [
+       47.605242,
+       -122.335208
+      ],
+      [
+       47.605157,
+       -122.335131
+      ],
+      [
+       47.605097,
+       -122.335074
+      ],
+      [
+       47.604603,
+       -122.334622
+      ],
+      [
+       47.604521,
+       -122.334546
+      ],
+      [
+       47.604458,
+       -122.334488
+      ]
+     ]
+    },
+    {
+     "label": "2nd Ave & James St via 2nd Avenue",
+     "p": 0.332,
+     "camera_id": "CMR-0265",
+     "also_cameras": [],
+     "distance_m": 464,
+     "eta_s": 133,
+     "turn_deg": 0,
+     "path": [
+      [
+       47.605873,
+       -122.335787
+      ],
+      [
+       47.605805,
+       -122.335724
+      ],
+      [
+       47.605352,
+       -122.335309
+      ],
+      [
+       47.605242,
+       -122.335208
+      ],
+      [
+       47.605157,
+       -122.335131
+      ],
+      [
+       47.605097,
+       -122.335074
+      ],
+      [
+       47.604603,
+       -122.334622
+      ],
+      [
+       47.604521,
+       -122.334546
+      ],
+      [
+       47.604458,
+       -122.334488
+      ],
+      [
+       47.604389,
+       -122.334425
+      ],
+      [
+       47.603909,
+       -122.333984
+      ],
+      [
+       47.603806,
+       -122.333889
+      ],
+      [
+       47.603722,
+       -122.333813
+      ],
+      [
+       47.603666,
+       -122.333761
+      ],
+      [
+       47.603178,
+       -122.333313
+      ],
+      [
+       47.603124,
+       -122.333264
+      ],
+      [
+       47.603086,
+       -122.333229
+      ],
+      [
+       47.603029,
+       -122.333177
+      ],
+      [
+       47.602968,
+       -122.333122
+      ],
+      [
+       47.602509,
+       -122.332709
+      ],
+      [
+       47.602377,
+       -122.332582
+      ],
+      [
+       47.602312,
+       -122.332519
+      ]
+     ]
+    },
+    {
+     "label": "3rd Ave & Spring St via Spring Street",
+     "p": 0.051,
+     "camera_id": "CMR-0305",
+     "also_cameras": [],
+     "distance_m": 97,
+     "eta_s": 28,
+     "turn_deg": 90,
+     "path": [
+      [
+       47.605873,
+       -122.335787
+      ],
+      [
+       47.605906,
+       -122.335707
+      ],
+      [
+       47.605926,
+       -122.335659
+      ],
+      [
+       47.606294,
+       -122.334784
+      ],
+      [
+       47.606336,
+       -122.334686
+      ]
+     ]
+    }
+   ],
+   "actual": "3rd Ave & Spring St via Spring Street",
+   "resolved_at": "2026-08-15T19:08:12-07:00"
+  },
+  {
+   "id": "P-S-005",
+   "t": "2026-08-15T19:08:12-07:00",
+   "track_id": "T-SUBJ",
+   "at": [
+    47.606337,
+    -122.334672
+   ],
+   "at_camera": "CMR-0305",
+   "heading_deg": 58,
+   "speed_mps": 3.5,
+   "horizon_s": 180.0,
+   "branches": [
+    {
+     "label": "5th Ave & Spring St via Spring Street",
+     "p": 0.555,
+     "camera_id": "CMR-0291",
+     "also_cameras": [],
+     "distance_m": 195,
+     "eta_s": 56,
+     "turn_deg": 0,
+     "path": [
+      [
+       47.606336,
+       -122.334686
+      ],
+      [
+       47.606391,
+       -122.334555
+      ],
+      [
+       47.606577,
+       -122.334114
+      ],
+      [
+       47.606747,
+       -122.333707
+      ],
+      [
+       47.606778,
+       -122.333634
+      ],
+      [
+       47.606801,
+       -122.33358
+      ],
+      [
+       47.606861,
+       -122.333437
+      ],
+      [
+       47.606948,
+       -122.333231
+      ],
+      [
+       47.607044,
+       -122.333003
+      ],
+      [
+       47.607078,
+       -122.332922
+      ],
+      [
+       47.607098,
+       -122.332874
+      ],
+      [
+       47.607223,
+       -122.332577
+      ],
+      [
+       47.607266,
+       -122.332474
+      ]
+     ]
+    },
+    {
+     "label": "6th Ave & Spring St via Spring Street",
+     "p": 0.445,
+     "camera_id": "CMR-0373",
+     "also_cameras": [],
+     "distance_m": 294,
+     "eta_s": 84,
+     "turn_deg": 0,
+     "path": [
+      [
+       47.606336,
+       -122.334686
+      ],
+      [
+       47.606391,
+       -122.334555
+      ],
+      [
+       47.606577,
+       -122.334114
+      ],
+      [
+       47.606747,
+       -122.333707
+      ],
+      [
+       47.606778,
+       -122.333634
+      ],
+      [
+       47.606801,
+       -122.33358
+      ],
+      [
+       47.606861,
+       -122.333437
+      ],
+      [
+       47.606948,
+       -122.333231
+      ],
+      [
+       47.607044,
+       -122.333003
+      ],
+      [
+       47.607078,
+       -122.332922
+      ],
+      [
+       47.607098,
+       -122.332874
+      ],
+      [
+       47.607223,
+       -122.332577
+      ],
+      [
+       47.607266,
+       -122.332474
+      ],
+      [
+       47.60731,
+       -122.33237
+      ],
+      [
+       47.607424,
+       -122.332099
+      ],
+      [
+       47.607511,
+       -122.331891
+      ],
+      [
+       47.607698,
+       -122.331461
+      ],
+      [
+       47.607741,
+       -122.331356
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "id": "P-S-006",
+   "t": "2026-08-15T19:12:42-07:00",
+   "track_id": "T-SUBJ",
+   "at": [
+    47.607085,
+    -122.335326
+   ],
+   "at_camera": "CMR-0191",
+   "heading_deg": 329,
+   "speed_mps": 3.5,
+   "horizon_s": 180.0,
+   "branches": [
+    {
+     "label": "3rd Ave & University St via 3rd Avenue",
+     "p": 0.482,
+     "camera_id": "CMR-0035",
+     "also_cameras": [],
+     "distance_m": 94,
+     "eta_s": 27,
+     "turn_deg": 1,
+     "path": [
+      [
+       47.607045,
+       -122.335321
+      ],
+      [
+       47.607115,
+       -122.335385
+      ],
+      [
+       47.607717,
+       -122.335936
+      ],
+      [
+       47.607762,
+       -122.335978
+      ]
+     ]
+    },
+    {
+     "label": "3rd Ave & Union St via 3rd Avenue",
+     "p": 0.362,
+     "camera_id": "CMR-0304",
+     "also_cameras": [],
+     "distance_m": 223,
+     "eta_s": 64,
+     "turn_deg": 1,
+     "path": [
+      [
+       47.607045,
+       -122.335321
+      ],
+      [
+       47.607115,
+       -122.335385
+      ],
+      [
+       47.607717,
+       -122.335936
+      ],
+      [
+       47.607762,
+       -122.335978
+      ],
+      [
+       47.607831,
+       -122.336041
+      ],
+      [
+       47.608167,
+       -122.336348
+      ],
+      [
+       47.608493,
+       -122.33665
+      ],
+      [
+       47.608689,
+       -122.33683
+      ],
+      [
+       47.608756,
+       -122.336891
+      ]
+     ]
+    },
+    {
+     "label": "3rd Ave & Stewart St via 3rd Avenue",
+     "p": 0.156,
+     "camera_id": "CMR-0034",
+     "also_cameras": [],
+     "distance_m": 601,
+     "eta_s": 172,
+     "turn_deg": 1,
+     "path": [
+      [
+       47.607045,
+       -122.335321
+      ],
+      [
+       47.607115,
+       -122.335385
+      ],
+      [
+       47.607717,
+       -122.335936
+      ],
+      [
+       47.607762,
+       -122.335978
+      ],
+      [
+       47.607831,
+       -122.336041
+      ],
+      [
+       47.608167,
+       -122.336348
+      ],
+      [
+       47.608493,
+       -122.33665
+      ],
+      [
+       47.608689,
+       -122.33683
+      ],
+      [
+       47.608756,
+       -122.336891
+      ],
+      [
+       47.608823,
+       -122.336953
+      ],
+      [
+       47.609102,
+       -122.33721
+      ],
+      [
+       47.609575,
+       -122.337645
+      ],
+      [
+       47.609703,
+       -122.337762
+      ],
+      [
+       47.609765,
+       -122.33782
+      ],
+      [
+       47.609808,
+       -122.337858
+      ],
+      [
+       47.609991,
+       -122.338027
+      ],
+      [
+       47.61017,
+       -122.338192
+      ],
+      [
+       47.61067,
+       -122.338651
+      ],
+      [
+       47.610745,
+       -122.338721
+      ],
+      [
+       47.610834,
+       -122.338802
+      ],
+      [
+       47.611006,
+       -122.33896
+      ],
+      [
+       47.611031,
+       -122.338983
+      ],
+      [
+       47.611474,
+       -122.339395
+      ],
+      [
+       47.611518,
+       -122.339438
+      ],
+      [
+       47.611558,
+       -122.339484
+      ],
+      [
+       47.611598,
+       -122.339543
+      ],
+      [
+       47.611633,
+       -122.339601
+      ]
+     ]
+    }
+   ],
+   "actual": "3rd Ave & University St via 3rd Avenue",
+   "resolved_at": "2026-08-15T19:15:48-07:00"
+  },
+  {
+   "id": "P-S-007",
+   "t": "2026-08-15T19:15:48-07:00",
+   "track_id": "T-SUBJ",
+   "at": [
+    47.607763,
+    -122.335976
+   ],
+   "at_camera": "CMR-0035",
+   "heading_deg": 328,
+   "speed_mps": 3.5,
+   "horizon_s": 180.0,
+   "branches": [
+    {
+     "label": "3rd Ave & Union St via 3rd Avenue",
+     "p": 0.698,
+     "camera_id": "CMR-0304",
+     "also_cameras": [],
+     "distance_m": 129,
+     "eta_s": 37,
+     "turn_deg": 0,
+     "path": [
+      [
+       47.607762,
+       -122.335978
+      ],
+      [
+       47.607831,
+       -122.336041
+      ],
+      [
+       47.608167,
+       -122.336348
+      ],
+      [
+       47.608493,
+       -122.33665
+      ],
+      [
+       47.608689,
+       -122.33683
+      ],
+      [
+       47.608756,
+       -122.336891
+      ]
+     ]
+    },
+    {
+     "label": "3rd Ave & Stewart St via 3rd Avenue",
+     "p": 0.302,
+     "camera_id": "CMR-0034",
+     "also_cameras": [],
+     "distance_m": 507,
+     "eta_s": 145,
+     "turn_deg": 0,
+     "path": [
+      [
+       47.607762,
+       -122.335978
+      ],
+      [
+       47.607831,
+       -122.336041
+      ],
+      [
+       47.608167,
+       -122.336348
+      ],
+      [
+       47.608493,
+       -122.33665
+      ],
+      [
+       47.608689,
+       -122.33683
+      ],
+      [
+       47.608756,
+       -122.336891
+      ],
+      [
+       47.608823,
+       -122.336953
+      ],
+      [
+       47.609102,
+       -122.33721
+      ],
+      [
+       47.609575,
+       -122.337645
+      ],
+      [
+       47.609703,
+       -122.337762
+      ],
+      [
+       47.609765,
+       -122.33782
+      ],
+      [
+       47.609808,
+       -122.337858
+      ],
+      [
+       47.609991,
+       -122.338027
+      ],
+      [
+       47.61017,
+       -122.338192
+      ],
+      [
+       47.61067,
+       -122.338651
+      ],
+      [
+       47.610745,
+       -122.338721
+      ],
+      [
+       47.610834,
+       -122.338802
+      ],
+      [
+       47.611006,
+       -122.33896
+      ],
+      [
+       47.611031,
+       -122.338983
+      ],
+      [
+       47.611474,
+       -122.339395
+      ],
+      [
+       47.611518,
+       -122.339438
+      ],
+      [
+       47.611558,
+       -122.339484
+      ],
+      [
+       47.611598,
+       -122.339543
+      ],
+      [
+       47.611633,
+       -122.339601
+      ]
+     ]
+    }
+   ]
+  }
+ ],
+ "events": [
+  {
+   "t": "2026-08-15T18:48:47-07:00",
+   "kind": "system",
+   "text": "capture window open \u00b7 112 cameras \u00b7 111 alive \u00b7 dead: CMR-0415"
+  },
+  {
+   "t": "2026-08-15T18:49:12-07:00",
+   "kind": "system",
+   "text": "seed CMR-0185 (2nd Ave & Battery St) \u00b7 reachability clock started"
+  },
+  {
+   "t": "2026-08-15T18:49:17-07:00",
+   "kind": "system",
+   "camera_id": "CMR-0302",
+   "text": "subject linked at CMR-0302 \u00b7 conf 0.84"
+  },
+  {
+   "t": "2026-08-15T18:50:02-07:00",
+   "kind": "system",
+   "camera_id": "CMR-0302",
+   "text": "subject linked at CMR-0302 \u00b7 conf 0.95"
+  },
+  {
+   "t": "2026-08-15T18:53:34-07:00",
+   "kind": "system",
+   "camera_id": "CMR-0302",
+   "text": "subject lost after CMR-0302 \u00b7 confidence decaying"
+  },
+  {
+   "t": "2026-08-15T18:57:07-07:00",
+   "kind": "system",
+   "camera_id": "CMR-0069",
+   "text": "subject linked at CMR-0069 \u00b7 conf 0.95"
+  },
+  {
+   "t": "2026-08-15T19:00:42-07:00",
+   "kind": "system",
+   "camera_id": "CMR-0069",
+   "text": "subject lost after CMR-0069 \u00b7 confidence decaying"
+  },
+  {
+   "t": "2026-08-15T19:04:18-07:00",
+   "kind": "system",
+   "camera_id": "CMR-0415",
+   "text": "subject linked at CMR-0415 \u00b7 conf 0.95"
+  },
+  {
+   "t": "2026-08-15T19:06:15-07:00",
+   "kind": "system",
+   "camera_id": "CMR-0415",
+   "text": "subject lost after CMR-0415 \u00b7 confidence decaying"
+  },
+  {
+   "t": "2026-08-15T19:08:12-07:00",
+   "kind": "system",
+   "camera_id": "CMR-0305",
+   "text": "subject linked at CMR-0305 \u00b7 conf 0.84"
+  },
+  {
+   "t": "2026-08-15T19:10:27-07:00",
+   "kind": "system",
+   "camera_id": "CMR-0305",
+   "text": "subject lost after CMR-0305 \u00b7 confidence decaying"
+  },
+  {
+   "t": "2026-08-15T19:12:42-07:00",
+   "kind": "system",
+   "camera_id": "CMR-0191",
+   "text": "subject linked at CMR-0191 \u00b7 conf 0.84"
+  },
+  {
+   "t": "2026-08-15T19:14:15-07:00",
+   "kind": "system",
+   "camera_id": "CMR-0191",
+   "text": "subject lost after CMR-0191 \u00b7 confidence decaying"
+  },
+  {
+   "t": "2026-08-15T19:15:48-07:00",
+   "kind": "system",
+   "camera_id": "CMR-0035",
+   "text": "subject linked at CMR-0035 \u00b7 conf 0.84"
+  }
+ ],
+ "ground_truth": [
+  {
+   "camera_id": "CMR-0302",
+   "t": "2026-08-15T18:49:18-07:00",
+   "kind": "sighting",
+   "note": "2nd & Pike - standing/walking by the bike racks, lower left"
+  },
+  {
+   "camera_id": "CMR-0302",
+   "t": "2026-08-15T18:50:02-07:00",
+   "kind": "sighting",
+   "note": "2nd & Pike - running away up the left sidewalk, player clock 00:00:04"
+  },
+  {
+   "camera_id": "CMR-0069",
+   "t": "2026-08-15T18:57:18-07:00",
+   "kind": "sighting",
+   "note": "2nd & University - mid-stride in the bike lane, player clock 00:00:33"
+  },
+  {
+   "camera_id": "CMR-0415",
+   "t": "2026-08-15T19:04:15-07:00",
+   "kind": "sighting",
+   "note": "2nd & Spring - right-hand bike lane, moving away, player clock 00:00:35"
+  },
+  {
+   "camera_id": "CMR-0305",
+   "t": "2026-08-15T19:08:11-07:00",
+   "kind": "sighting",
+   "note": "3rd & Spring - lower left on the near sidewalk, player clock 00:00:05"
+  },
+  {
+   "camera_id": "CMR-0191",
+   "t": "2026-08-15T19:12:41-07:00",
+   "kind": "sighting",
+   "note": "3rd & Seneca - right edge of frame on the far sidewalk, player clock 00:00:30"
+  },
+  {
+   "camera_id": "CMR-0035",
+   "t": "2026-08-15T19:15:48-07:00",
+   "kind": "sighting",
+   "note": "3rd & University - far sidewalk past the bus stop; found at 14s, not the 8s VSS reported"
+  }
+ ]
+}

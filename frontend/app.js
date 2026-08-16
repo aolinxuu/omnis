@@ -238,7 +238,7 @@ function hud() {
   const s = state.lastSubject;
   if (s) {
     $("subjCam").textContent = (state.cameras.get(s.camera_id)?.name || s.camera_id).replace("2nd Ave & ", "2nd & ").replace("Westlake Ave N & ", "Westlake & ").replace("Westlake Ave & ", "Westlake & ");
-    $("subjHdr").textContent = `${s.track_id} · PRESENTER · CONSENTED`;
+    $("subjHdr").textContent = state.target ? `TARGET · ${state.target.query.toUpperCase().slice(0, 30)}` : REPLAY ? "REAL RUN · PINK SHIRT · VSS-VERIFIED" : `${s.track_id} · DEMO RIDE · CONSENTED`;
     // confidence decays while lost: 0.7%/s of replay clock after last sighting
     const age = state.clock ? (state.clock - new Date(s.t).getTime()) / 1000 : 0;
     const conf = s.state === "lost" || age > 45 ? Math.max(0.05, s.conf - age * 0.007) : s.conf;
@@ -318,7 +318,8 @@ function camsPanel() {
 
 // ---------- feed wiring ----------
 const feed = new Feed({ autoplay: new URLSearchParams(location.search).get("demo") === "1" });
-feed.loadReplay("data/sightings.json");
+const REPLAY = new URLSearchParams(location.search).get("replay");   // e.g. ?replay=pink-sweep
+feed.loadReplay("data/sightings.json", REPLAY ? `data/${REPLAY}.json` : null);
 feed.addEventListener("msg", ({ detail: m }) => handleMsg(m));
 function handleMsg(m) {
   switch (m.type) {
@@ -327,6 +328,9 @@ function handleMsg(m) {
       if (!state.target && !state.demoSubject) $("subjHdr").textContent = "NO TARGET · ⌘K TO DESCRIBE WHO TO FOLLOW";
       tickerEl.innerHTML = ""; $("predictPanel").hidden = true; $("dispatchPanel").hidden = true; $("resultsPanel").hidden = true; map.getSource("dispatch")?.setData({ type: "FeatureCollection", features: [] }); camSighting = null; refresh(); break;
     case "ready": $("btnPlay").textContent = "PLAY DEMO"; $("lcdFeed").textContent = API ? "LIVE" : "IDLE";
+      { const r0 = new URLSearchParams(location.search).get("ride"); if (r0 !== null && !REPLAY) setTimeout(() => document.querySelector(`.chip-btn[data-ride="${r0}"]`)?.click(), 600); }
+      if (REPLAY) { $("chipPink").classList.add("on"); tickerAdd({ kind: "system", text: `replay loaded: ${feed.data?.meta?.title || REPLAY} · ${m.sightings} sightings` });
+        if (new URLSearchParams(location.search).get("play") === "1") setTimeout(() => $("chipPink").click(), 600); }
       tickerAdd({ kind: "system", text: `${m.cameras} cameras loaded · idle · ⌘K to describe who to follow, R.1/R.2 to play a demo ride` }); break;
     case "camera": state.cameras.set(m.id, m); map.getSource("cameras")?.setData(camerasGeo()); clearTimeout(window.__frameT); window.__frameT = setTimeout(() => frameCurrent(), 50); break;
     case "clock": state.clock = m.t; hud(); if (!$("evalPanel").hidden && (tick % 10 === 0)) evalPanel(); if (!$("camsPanel").hidden && (tick % 10 === 0)) camsPanel(); break;
@@ -589,8 +593,15 @@ $("btnCluster").onclick = e => { const on = e.currentTarget.classList.toggle("on
     layout: { "icon-image": ["concat", "sight-", ["get", "state"]], "icon-allow-overlap": true, "icon-size": 1 }, paint: { "icon-opacity": ["get", "op"] } }, "subject-now"); };
 $("btnEval").onclick = e => { const p = $("evalPanel"); p.hidden = !p.hidden; e.currentTarget.classList.toggle("on", !p.hidden); if (!p.hidden) { $("camsPanel").hidden = true; $("resultsPanel").hidden = true; $("btnCams").classList.remove("on"); evalPanel(); } };
 $("btnCams").onclick = e => { const p = $("camsPanel"); p.hidden = !p.hidden; e.currentTarget.classList.toggle("on", !p.hidden); if (!p.hidden) { $("evalPanel").hidden = true; $("resultsPanel").hidden = true; $("btnEval").classList.remove("on"); camsPanel(); } };
+$("chipPink").onclick = () => {
+  if (REPLAY !== "pink-sweep") { const u = new URL(location.href); u.searchParams.set("replay", "pink-sweep"); u.searchParams.set("play", "1"); location.href = u.toString(); return; }
+  stopFollow(); state.target = null; state.demoSubject = true; $("subjHdr").textContent = "REAL RUN · PINK SHIRT · VSS-VERIFIED";
+  if (!feed.armed) { feed.start(); $("btnPlay").textContent = "PAUSE"; }
+  frameCurrent(); callout("REAL RUN", "man in a pink shirt · 2nd Ave → 3rd Ave · 2026-08-15", "#8E2C24");
+};
 document.querySelectorAll(".chip-btn[data-ride]").forEach(b => b.onclick = () => {
-  const ride = (feed.data?.meta?.rides || [])[+b.dataset.ride]; if (!ride) return;
+  const ride = (feed.data?.meta?.rides || [])[+b.dataset.ride];
+  if (!ride || REPLAY) { const u = new URL(location.href); u.searchParams.delete("replay"); u.searchParams.delete("play"); u.searchParams.set("ride", b.dataset.ride); location.href = u.toString(); return; }
   document.querySelectorAll(".chip-btn[data-ride]").forEach(x => x.classList.toggle("on", x === b));
   stopFollow(); state.target = null; state.demoSubject = true; $("subjHdr").textContent = "DEMO RIDE · PRESENTER · CONSENTED";
   if (!feed.armed) { feed.start(); $("btnPlay").textContent = "PAUSE"; }
@@ -612,4 +623,4 @@ document.addEventListener("keydown", e => {
 
 // live mode: ?ws=ws://gn100-223b:8765
 const wsUrl = new URLSearchParams(location.search).get("ws");
-if (wsUrl) { map.on("load", () => feed.connectLive(wsUrl)); $("chipLive").classList.add("on"); }
+if (wsUrl) { map.on("load", () => feed.connectLive(wsUrl)); $("chipLive")?.classList.add("on"); }

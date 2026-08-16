@@ -268,3 +268,5 @@ html, body { height:100%; margin:0; background:var(--navy); color:var(--cream); 
 .results header .progress { margin-left:auto; color:var(--hud-ink); opacity:.75; font-size:7px; }
 .results header .x { border:0; background:var(--hud-ink); color:#9EC1F0; font-family:var(--font-lcd); font-size:18px; line-height:1; padding:0 6px; cursor:pointer; margin-left:8px; }
 .results .palette-results { max-height:none; overflow:auto; }
+.chip-btn.pink { background:#F06AA8; color:#3A0A22; box-shadow:0 0 0 3px #8E2C5E, inset 0 0 0 3px #FFB3D6, inset -3px -3px 0 0 #C74A86; }
+.chip-btn.pink.on { background:#FFB3D6; }
