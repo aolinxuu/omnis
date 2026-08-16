@@ -203,8 +203,9 @@ function tileRecorded(sighting, cam) {
   if (tileHls) { tileHls.destroy(); tileHls = null; } clearInterval(tileStillTimer); clearTimeout(tileHlsTimer);
   tileCam = null; tileClip = sighting.clip_url;
   img.style.display = "none"; cv.classList.remove("synthetic");
-  video.removeAttribute("src"); video.src = sighting.clip_url; video.loop = false; video.muted = true;
-  const seek = Math.max(0, (sighting.clip_t || 0) - 2);
+  video.removeAttribute("src"); video.src = sighting.clip_url; video.loop = true; video.muted = true;   // loop: never park on the last frame
+  const len = sighting.clip_len_s || 0;
+  const seek = Math.max(0, Math.min((sighting.clip_t || 0) - 2, len ? len - 4 : Infinity));
   video.addEventListener("loadedmetadata", () => { try { video.currentTime = seek; } catch {} video.play().catch(() => {}); }, { once: true });
   video.classList.add("on"); badge.hidden = false; badge.classList.remove("live");
   badge.textContent = `RECORDED · ${sighting.t.slice(11, 19)} · ${(sighting.clip_url.split("/").pop() || "").replace(".mp4", "")}`;
