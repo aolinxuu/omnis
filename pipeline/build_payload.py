@@ -144,6 +144,8 @@ def main() -> None:
     ap.add_argument("--validate", action="store_true",
                     help="check against the frozen contract and exit non-zero on problems")
     ap.add_argument("--lost-gap", type=float, default=LOST_GAP_S)
+    ap.add_argument("--ground-truth", type=Path, default=DATA / "wave-log.json",
+                    help="wave log to score against (default data/wave-log.json)")
     ap.add_argument("--detections", type=Path, default=PIPELINE_OUT,
                     help="detector output to build from (default data/sightings.json)")
     ap.add_argument("--out", type=Path, default=BUILT)
@@ -167,7 +169,7 @@ def main() -> None:
     sightings += derive_lost(sightings, t0, args.lost_gap)
     sightings.sort(key=lambda s: s["t"])
 
-    wave = load_json(DATA / "wave-log.json")
+    wave = load_json(args.ground_truth)
 
     payload = {
         "meta": {
