@@ -410,6 +410,7 @@ async function liveQuery(q, onProgress, cams) {
       const line = buf.slice(0, i).trim(); buf = buf.slice(i + 1); if (!line) continue;
       const j = JSON.parse(line);
       if (j.complete) { final = j; if (j.error) throw new Error(j.error); }
+      else if (j.skipped_dead && !j.camera_id) { if (onProgress) onProgress({ skipped: j.skipped_dead, total: j.total }); }
       else if (onProgress) onProgress(j);
     }
   }
@@ -444,6 +445,7 @@ async function runPalette(q) {
   list.innerHTML = `<div class="pr empty">searching ${API ? "VSS on the Spark" : "the loaded replay"} for "${q}"…</div>`;
   let hits = [], mode = API ? "live" : "demo";
   const progress = j => {
+    if (j.skipped) { prog.textContent = `${j.skipped.length} dead cam${j.skipped.length === 1 ? "" : "s"} skipped · asking ${j.total}`; return; }
     if (j.done === 1) list.innerHTML = "";
     if (j.hit) { const h = { ...j.hit, score: 1, image: state.cameras.get(j.hit.camera_id)?.image }; renderResults(q, [...collect(list), h], "live"); }
     prog.textContent = `${j.done}/${j.total} cameras · ${j.camera_id} ${j.hit ? "✔" : "—"}`;

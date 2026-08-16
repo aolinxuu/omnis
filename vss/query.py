@@ -283,9 +283,19 @@ def serve(client: VSSClient, files: dict[str, Any], model: str, t0: datetime,
             if qs.get("cams", [""])[0]:
                 only = {c for c in qs["cams"][0].split(",") if c}
             sub_files = {c: i for c, i in files.items() if only is None or c in only}
+            # skip cameras the health probe says are dead (SDOT maintenance card / unreachable),
+            # unless the caller insists with &include_dead=1. Never skip when health is unknown.
+            skipped = []
+            if qs.get("include_dead", ["0"])[0] not in ("1", "true") and shared.get("health"):
+                for c in list(sub_files):
+                    st = shared["health"].get(c, {}).get("status")
+                    if st in ("placeholder", "error"):
+                        skipped.append(c); sub_files.pop(c)
             if qs.get("stream", ["0"])[0] in ("1", "true"):
                 self._head(200, "application/x-ndjson"); self.end_headers()
                 total = len(sub_files); n = [0]
+                if skipped:
+                    self.wfile.write((json.dumps({"skipped_dead": skipped, "total": total}) + "\n").encode()); self.wfile.flush()
                 def emit(obj):
                     try:
                         self.wfile.write((json.dumps(obj) + "\n").encode()); self.wfile.flush()
@@ -295,7 +305,7 @@ def serve(client: VSSClient, files: dict[str, Any], model: str, t0: datetime,
                     n[0] += 1; emit({"camera_id": cam_id, "done": n[0], "total": total, "hit": hit})
                 try:
                     hits = search(client, sub_files, q, model, t0, cams, on_result=cb)
-                    emit({"query": q, "results": hits, "complete": True, "asked": sorted(sub_files)})
+                    emit({"query": q, "results": hits, "complete": True, "asked": sorted(sub_files), "skipped_dead": skipped})
                 except (BrokenPipeError, ConnectionResetError):
                     return
                 except Exception as exc:
@@ -303,7 +313,7 @@ def serve(client: VSSClient, files: dict[str, Any], model: str, t0: datetime,
                 return
             try:
                 hits = search(client, sub_files, q, model, t0, cams)
-                body = json.dumps({"query": q, "results": hits, "asked": sorted(sub_files)}).encode(); code = 200
+                body = json.dumps({"query": q, "results": hits, "asked": sorted(sub_files), "skipped_dead": skipped}).encode(); code = 200
             except Exception as exc:  # keep the demo alive on a bad query
                 body = json.dumps({"query": q, "error": str(exc)}).encode(); code = 500
             self._head(code, "application/json"); self.send_header("Content-Length", str(len(body))); self.end_headers(); self.wfile.write(body)
