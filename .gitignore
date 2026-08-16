@@ -9,6 +9,7 @@ __pycache__/
 /data/*
 !/data/cameras.json
 !/data/wave-log.json
+!/data/wave-log-pink.json
 !/data/raw-manifest.json
 !/data/road_graph.json
 

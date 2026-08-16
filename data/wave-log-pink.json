@@ -1,0 +1,53 @@
+{
+  "meta": {
+    "note": "GROUND TRUTH for the pink-shirt scenario. Established by frame inspection, NOT by VSS: each time below was read off the burned-in player clock in the recording at the frame where the man in the pink shirt is visible. Scoring only - no detector may read this file.",
+    "session": "pink-shirt-2026-08-15",
+    "t0": "2026-08-15T18:02:00-07:00",
+    "method": "ffmpeg -ss <t> on the source capture, subject confirmed visually, player clock cross-checked",
+    "caveat": "For six of the seven the frame was checked at the second VSS named, so agreement there is confirmation rather than a blind trial. CMR-0035 is the exception: VSS said 8s, inspection found the subject at 14-20s, and 14s is what is recorded here."
+  },
+  "waves": [
+    {
+      "camera_id": "CMR-0302",
+      "t": "2026-08-15T18:49:18-07:00",
+      "kind": "sighting",
+      "note": "2nd & Pike - standing/walking by the bike racks, lower left"
+    },
+    {
+      "camera_id": "CMR-0302",
+      "t": "2026-08-15T18:50:02-07:00",
+      "kind": "sighting",
+      "note": "2nd & Pike - running away up the left sidewalk, player clock 00:00:04"
+    },
+    {
+      "camera_id": "CMR-0069",
+      "t": "2026-08-15T18:57:18-07:00",
+      "kind": "sighting",
+      "note": "2nd & University - mid-stride in the bike lane, player clock 00:00:33"
+    },
+    {
+      "camera_id": "CMR-0415",
+      "t": "2026-08-15T19:04:15-07:00",
+      "kind": "sighting",
+      "note": "2nd & Spring - right-hand bike lane, moving away, player clock 00:00:35"
+    },
+    {
+      "camera_id": "CMR-0305",
+      "t": "2026-08-15T19:08:11-07:00",
+      "kind": "sighting",
+      "note": "3rd & Spring - lower left on the near sidewalk, player clock 00:00:05"
+    },
+    {
+      "camera_id": "CMR-0191",
+      "t": "2026-08-15T19:12:41-07:00",
+      "kind": "sighting",
+      "note": "3rd & Seneca - right edge of frame on the far sidewalk, player clock 00:00:30"
+    },
+    {
+      "camera_id": "CMR-0035",
+      "t": "2026-08-15T19:15:48-07:00",
+      "kind": "sighting",
+      "note": "3rd & University - far sidewalk past the bus stop; found at 14s, not the 8s VSS reported"
+    }
+  ]
+}
