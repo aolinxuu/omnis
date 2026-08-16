@@ -35,7 +35,7 @@ import sys
 from datetime import datetime
 from typing import Any
 
-from .common import (DATA, FRONTEND_PAYLOAD, PIPELINE_OUT, distance_m, load_json, write_json)
+from .common import (DATA, FRONTEND_PAYLOAD, PIPELINE_OUT, distance_m, load_cameras, load_json, write_json)
 from .roadgraph import ROAD_GRAPH, RoadGraph, bearing_deg, turn_deg
 
 PREDICTIONS_OUT = DATA / "predictions.json"
@@ -244,7 +244,9 @@ def main() -> None:
     if not src.exists():
         print(f"missing {src}", file=sys.stderr); sys.exit(2)
     payload = load_json(src)
-    cameras, sightings = payload["cameras"], payload["sightings"]
+    sightings = payload["sightings"]
+    # detector output keeps the roster in data/cameras.json; the frontend payload carries its own
+    cameras = payload.get("cameras") or load_cameras()["cameras"]
     tracks = [a.track] if a.track else sorted({s.get("track_id") for s in sightings
                                                if (s.get("track_id") or "").startswith("T-SUBJ")})
     out = []
