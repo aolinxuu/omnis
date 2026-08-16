@@ -16,6 +16,7 @@ Changes after the freeze require all three of us to agree. Expect zero.
 | `conf` | 0–1 | detector confidence; `lost` carries the decayed value |
 | `track_id` | string, optional | present when `state` is `linked` or `lost` |
 | `bbox` | `[x, y, w, h]` px, optional | in the source frame; drawn on the camera tile |
+| `frame_size` | `[w, h]` px, optional | frame the bbox is expressed in. If absent the UI infers 640×360 (hand-written fake data) or 1280×720 (detector clip frames). Additive, 2026-08-15. |
 | `frame_url` | string, optional | still of the frame with the box, if saved |
 | `note` | string, optional | free text, debugging only, never shown |
 
@@ -33,3 +34,7 @@ Changes after the freeze require all three of us to agree. Expect zero.
 
 ## ground_truth  (eval only — additive, added at minute ~40 with all three aware)
 `camera_id`, `t`, `kind` (`wave`), optional `note`. The presenter waves at each camera; the eval panel compares these to linked subject sightings per camera → precision / recall.
+
+## query results  (frontend ⌘K palette ↔ `vss.query --serve`)
+`GET <api>/query?q=<text>` → `{query, results:[{camera_id, camera_name, lat, lon, t, detail, t_clip_s?, approximate_time?}]}`.
+The frontend shows results and also drops them on the map as sightings of track `T-QUERY` (state `confirmed`). Open the page with `?api=http://<spark>:8765` to enable; without it the palette matches against the loaded replay (labelled DEMO MATCH).

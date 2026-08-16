@@ -93,7 +93,29 @@ export function camIcon(alive, kind = "sdot", s = 3) {
   return { data: ctx.getImageData(0, 0, N*s, N*s), pixelRatio: s };
 }
 
-/** Draw the fake "raw camera" tile: a road, lane lines, the detection box. Replaced by <video>/<img> when live. */
+/** Frame size a sighting's bbox is expressed in: explicit `frame_size`, else inferred
+ *  (hand-written fake data used 640x360; the real detector emits 1280x720 clip frames). */
+export function bboxFrame(s) {
+  if (s?.frame_size) return s.frame_size;
+  const [x, y, w, h] = s?.bbox || [0, 0, 0, 0];
+  return (x + w <= 640 && y + h <= 360) ? [640, 360] : [1280, 720];
+}
+
+/** Overlay only: draw the detection box + label over a live still/video. */
+export function drawDetectionOverlay(canvas, sighting) {
+  const ctx = canvas.getContext("2d"), W = canvas.width, H = canvas.height;
+  ctx.clearRect(0, 0, W, H);
+  if (!sighting?.bbox) return;
+  const [fw, fh] = bboxFrame(sighting);
+  const [bx, by, bw, bh] = sighting.bbox;
+  const x = bx * W / fw, y = by * H / fh, w = bw * W / fw, h = bh * H / fh;
+  const c = STATE_COLORS[sighting.state]?.fill || "#fff";
+  ctx.strokeStyle = c; ctx.lineWidth = 2; ctx.strokeRect(x - 2, y - 2, w + 4, h + 4);
+  ctx.fillStyle = c; ctx.fillRect(x - 2, y - 14, 78, 12);
+  ctx.fillStyle = "#000"; ctx.font = "9px monospace"; ctx.fillText(`${sighting.class} ${sighting.conf.toFixed(2)}`, x + 1, y - 5);
+}
+
+/** Draw the fake "raw camera" tile: a road, lane lines, the detection box. Used when the camera has no image feed. */
 export function drawCameraFrame(canvas, sighting, camera, tick) {
   const ctx = canvas.getContext("2d"), W = canvas.width, H = canvas.height;
   ctx.imageSmoothingEnabled = false;
@@ -151,4 +173,104 @@ export function drawLogo(canvas, s = 4) {
   const ctx = canvas.getContext("2d");
   LOGO.forEach((row, y) => [...row].forEach((c, x) => { if (LOGO_COLORS[c]) { ctx.fillStyle = LOGO_COLORS[c]; ctx.fillRect(x*s, y*s, s, s); } }));
   return canvas;
+}
+
+// ---- more pixel art (original): spider silhouette badge, rider avatar, hearts ----
+const SPIDER = [
+  "....#..#....",
+  "..#..##..#..",
+  "...#.##.#...",
+  ".##.####.##.",
+  "#..######..#",
+  "..########..",
+  "..########..",
+  "#..######..#",
+  ".##.####.##.",
+  "...#.##.#...",
+  "..#..##..#..",
+  "....#..#....",
+];
+const RIDER = [   // 12x18: helmeted rider standing on a kick scooter
+  "....####....",
+  "...######...",
+  "...#vvvv#...",
+  "...######...",
+  "....o..o....",
+  "..oooooooo..",
+  ".o.oooooo.o.",
+  ".o.oooooo.o.",
+  "...oooooo...",
+  "...##..##...",
+  "...##..##...",
+  "...##..##..#",
+  "..###..###.#",
+  "...........#",
+  "..#########.",
+  ".#.........#",
+  "#.#.......#.#",
+  ".#.........#.",
+];
+const HEART = [
+  ".##..##.",
+  "########",
+  "########",
+  ".######.",
+  "..####..",
+  "...##...",
+];
+const RIDER_COLORS = { "#": "#1B1410", "v": "#F5E6C4", "o": "#F26B2B" };
+
+export function drawGlyph(canvas, rows, colors, s = 4, bg = null) {
+  const W = Math.max(...rows.map(r => r.length)), H = rows.length; canvas.width = W * s; canvas.height = H * s;
+  const ctx = canvas.getContext("2d");
+  if (bg) { ctx.fillStyle = bg; ctx.fillRect(0, 0, W * s, H * s); }
+  rows.forEach((row, y) => [...row].forEach((c, x) => { const col = typeof colors === "string" ? (c === "#" ? colors : null) : colors[c]; if (col) { ctx.fillStyle = col; ctx.fillRect(x * s, y * s, s, s); } }));
+  return canvas;
+}
+export const GLYPHS = { SPIDER, RIDER, HEART, RIDER_COLORS };
+
+/** Web-radar minimap: concentric rings + spokes, sightings as dots relative to the centre. */
+export function drawRadar(canvas, centre, points, radiusM = 900, sweep = 0) {
+  const ctx = canvas.getContext("2d"), W = canvas.width, H = canvas.height, R = W / 2 - 4, cx = W / 2, cy = H / 2;
+  ctx.clearRect(0, 0, W, H);
+  ctx.fillStyle = "#061024"; ctx.beginPath(); ctx.arc(cx, cy, R + 2, 0, Math.PI * 2); ctx.fill();
+  ctx.strokeStyle = "#2E5FAE"; ctx.lineWidth = 1;
+  for (let i = 1; i <= 4; i++) { ctx.beginPath(); ctx.arc(cx, cy, R * i / 4, 0, Math.PI * 2); ctx.stroke(); }
+  for (let a = 0; a < 12; a++) { const t = a * Math.PI / 6; ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(cx + R * Math.cos(t), cy + R * Math.sin(t)); ctx.stroke(); }
+  // sweep
+  const g = ctx.createConicGradient ? ctx.createConicGradient(sweep, cx, cy) : null;
+  if (g) { g.addColorStop(0, "rgba(72,208,106,.35)"); g.addColorStop(0.15, "rgba(72,208,106,0)"); g.addColorStop(1, "rgba(72,208,106,0)");
+    ctx.fillStyle = g; ctx.beginPath(); ctx.moveTo(cx, cy); ctx.arc(cx, cy, R, 0, Math.PI * 2); ctx.fill(); }
+  if (!centre) return;
+  const mPerDegLat = 110540, mPerDegLon = 111320 * Math.cos(centre.lat * Math.PI / 180);
+  for (const p of points) {
+    const dx = (p.lon - centre.lon) * mPerDegLon, dy = (p.lat - centre.lat) * mPerDegLat;
+    const d = Math.hypot(dx, dy); if (d > radiusM) continue;
+    const x = cx + dx / radiusM * R, y = cy - dy / radiusM * R;
+    ctx.fillStyle = p.color || "#F0645A"; ctx.fillRect(Math.round(x) - 2, Math.round(y) - 2, 4, 4);
+  }
+  ctx.fillStyle = "#F6B53A"; ctx.fillRect(cx - 3, cy - 3, 6, 6);
+  ctx.strokeStyle = "#F6B53A"; ctx.strokeRect(cx - 6.5, cy - 6.5, 13, 13);
+}
+
+
+// police shield badge for dispatch positions
+const SHIELD = [
+  ".########.",
+  "#vvvvvvvv#",
+  "#v#vvvv#v#",
+  "#vvvvvvvv#",
+  "#vv####vv#",
+  "#vvvvvvvv#",
+  ".#vvvvvv#.",
+  "..#vvvv#..",
+  "...#vv#...",
+  "....##....",
+];
+export function shieldIcon(s = 3) {
+  const N = 14; const cv = document.createElement("canvas"); cv.width = cv.height = N * s;
+  const ctx = cv.getContext("2d");
+  glyph(ctx, SHIELD.map(r => r.replace(/v/g, "v")), 2, 2, s, "#0B2247");
+  SHIELD.forEach((row, y) => [...row].forEach((c, x) => { if (c === "v") { ctx.fillStyle = "#4E8FD1"; ctx.fillRect((2 + x) * s, (2 + y) * s, s, s); } }));
+  return { data: ctx.getImageData(0, 0, N * s, N * s), pixelRatio: s };
 }

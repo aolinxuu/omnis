@@ -10,11 +10,13 @@
 <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.15/dist/hls.min.js"></script>
 <link rel="stylesheet" href="style.css">
-<script>window.__errs=[];addEventListener("error",e=>__errs.push(String(e.message)));addEventListener("unhandledrejection",e=>__errs.push("rej:"+String(e.reason&&e.reason.stack||e.reason)));</script>
+<script>window.__errs=[];addEventListener("error",e=>{__errs.push(String(e.message));document.documentElement.setAttribute("data-errs",(document.documentElement.getAttribute("data-errs")||"")+" | "+e.message)});addEventListener("unhandledrejection",e=>__errs.push("rej:"+String(e.reason&&e.reason.stack||e.reason)));</script>
 </head>
 <body>
 <div id="map" style="position:fixed;inset:0"></div>
 <div class="scanlines" aria-hidden="true"></div>
+<div class="bezel" aria-hidden="true"></div>
+<svg class="reticle" id="reticle" aria-hidden="true"><line id="retH" x1="0" y1="0" x2="0" y2="0"/><line id="retV" x1="0" y1="0" x2="0" y2="0"/><circle id="retC" cx="-100" cy="-100" r="18"/></svg>
 
 <!-- HUD chrome -->
 <div class="hud">
@@ -26,30 +28,36 @@
   <!-- top-left: raw camera tile -->
   <section class="panel cam" id="camPanel">
     <header><span class="dot live"></span><span id="camId">CMR-----</span><span class="cam-name" id="camName">waiting for feed</span></header>
-    <canvas id="camCanvas" width="256" height="176"></canvas>
+    <div class="cam-view"><img id="camStill" alt=""><video id="camVideo" muted playsinline autoplay></video><canvas id="camCanvas" width="256" height="176"></canvas><span class="badge" id="camBadge">NO FEED</span></div>
     <footer><span id="camClass">—</span><span id="camConf">conf —</span></footer>
   </section>
 
   <!-- top-center: callout -->
   <div class="callout" id="callout" hidden>
+    <img class="callout-mask" src="static/spider-mask-transparent.png" alt="">
+    <div class="lights"><i></i><i></i><i></i><i></i><span></span><i></i><i></i><i></i><i></i></div>
     <div class="callout-eyebrow" id="calloutEyebrow">SUBJECT SIGHTED</div>
     <div class="callout-text" id="calloutText">2nd Ave &amp; Pike St · 0.92</div>
   </div>
 
-  <!-- top-right: LCD + status -->
+  <!-- top-right: badge, LCD + status, hearts -->
+  <button class="badge-btn" id="badgeBtn" title="alerts"><canvas id="badgeGlyph"></canvas></button>
   <section class="panel lcd-panel">
     <div class="lcd-label">UNLINKED SIGHTINGS</div>
-    <div class="lcd" id="lcdUnlinked">0x0000</div>
+    <div class="lcd" id="lcdUnlinked">0x00000000</div>
     <div class="lcd-row"><span class="lcd-label">CLOCK</span><span class="lcd small" id="lcdClock">--:--:--</span></div>
     <div class="lcd-row"><span class="lcd-label">CAMS</span><span class="lcd small" id="lcdCams">--/--</span></div>
     <div class="lcd-row"><span class="lcd-label">FEED</span><span class="lcd small" id="lcdFeed">REPLAY ×6</span></div>
   </section>
+  <section class="hearts" id="hearts"><i class="screw tl"></i><i class="screw tr"></i><i class="screw bl"></i><i class="screw br"></i>
+    <canvas id="heartGlyph"></canvas><b id="heartCount">0</b><span>SUBJECT<br>SIGHTINGS</span></section>
 
   <!-- left rail: counters -->
   <aside class="rail">
     <div class="tile"><b id="cntSight">0</b><span>SIGHT</span></div>
     <div class="tile"><b id="cntTrack">0</b><span>TRACK</span></div>
     <div class="tile lost"><b id="cntLost">0</b><span>LOST</span></div>
+    <div class="avatars"><div class="avatar round"><img src="static/spider-mask-transparent.png" alt=""><i class="led"></i></div><div class="avatar hex"><canvas id="riderGlyph"></canvas></div></div>
     <div class="legend">
       <div><i class="sw s-detected"></i>detected</div>
       <div><i class="sw s-unverified"></i>unverified</div>
@@ -90,18 +98,39 @@
     <footer><span id="evalRecall">recall —</span><span id="evalPrec">precision —</span></footer>
   </section>
 
+  <div class="radar" id="radarWrap"><canvas id="radar" width="176" height="176"></canvas><span>RADAR · 900 m</span></div>
+
+  <!-- ⌘K palette -->
+  <div class="palette" id="palette" hidden>
+    <div class="palette-box">
+      <div class="palette-hd"><span class="k">⌘K</span> DESCRIBE THE SUSPECT / VEHICLE <span class="mode" id="paletteMode">DEMO MATCH · no query server</span></div>
+      <input id="paletteInput" placeholder='e.g. "suspect wearing pink, driving a white SUV" · /dispatch · /clear' autocomplete="off" spellcheck="false">
+      <div class="palette-hints"><button data-q="person in orange on a kick scooter">orange scooter rider</button><button data-q="delivery van parked in bike lane">van in bike lane</button><button data-q="rider without helmet">no helmet</button><button data-q="/dispatch">/dispatch</button></div>
+      <div class="palette-results" id="paletteResults"></div>
+    </div>
+  </div>
+
+  <!-- dispatch card -->
+  <section class="panel dispatch" id="dispatchPanel" hidden>
+    <header>DISPATCH · WHERE UNITS SHOULD BE</header>
+    <ol id="dispatchList"></ol>
+    <div class="dispatch-note" id="dispatchNote"></div>
+  </section>
+
   <!-- bottom: ticker + buttons -->
   <footer class="bottom">
     <div class="ticker"><div class="ticker-track" id="ticker"></div></div>
     <div class="buttons">
+      <div class="chips-col"><button class="chip-btn" data-ride="0">R.1</button><button class="chip-btn" data-ride="1">R.2</button><button class="chip-btn ghost" id="chipLive" title="live feed">LIVE</button></div>
       <button id="btnPlay" class="btn green">PAUSE</button>
-      <button id="btnFreeze" class="btn cream">FREEZE @ SPLIT</button>
-      <button id="btnCenter" class="btn cream">CENTER</button>
-      <button id="btnCluster" class="btn cream on">CLUSTER</button>
-      <button id="btnRestart" class="btn cream">RESTART</button>
-      <button id="btnSpeed" class="btn cream">×6</button>
-      <button id="btnEval" class="btn cream">EVAL</button>
-      <button id="btnCams" class="btn cream">CAMS</button>
+      <button id="btnCenter" class="btn amber">CENTER</button>
+      <button id="btnEval" class="btn amber">EVAL</button>
+      <button id="btnFreeze" class="btn green">FREEZE @ SPLIT</button>
+      <button id="btnCluster" class="btn amber on">CLUSTER</button>
+      <button id="btnCams" class="btn amber">CAMS</button>
+      <button id="btnRestart" class="btn green">RESTART</button>
+      <button id="btnSpeed" class="btn amber">×6</button>
+      <button id="btnMore" class="btn amber" title="toggle HUD extras">HUD</button>
     </div>
   </footer>
 </div>

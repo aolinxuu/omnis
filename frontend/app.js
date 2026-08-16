@@ -1,5 +1,8 @@
 import { Feed } from "./feed.js";
-import { badge, cluster, camIcon, drawCameraFrame, STATE_COLORS } from "./sprites.js";
+import { badge, cluster, camIcon, drawCameraFrame, drawDetectionOverlay, drawGlyph, drawRadar, GLYPHS, shieldIcon, STATE_COLORS } from "./sprites.js";
+drawGlyph(document.getElementById("badgeGlyph"), GLYPHS.SPIDER, "#1B1410", 4);
+drawGlyph(document.getElementById("heartGlyph"), GLYPHS.HEART, "#F26B2B", 4);
+drawGlyph(document.getElementById("riderGlyph"), GLYPHS.RIDER, GLYPHS.RIDER_COLORS, 3);
 { const f = document.createElement("link"); f.rel = "icon"; f.href = "static/spider-mask-transparent.png"; document.head.appendChild(f); }
 
 const $ = id => document.getElementById(id);
@@ -102,6 +105,12 @@ function initLayers() {
   map.addLayer({ id: "subject-now", type: "symbol", source: "subject-now",
     layout: { "icon-image": "subject-now", "icon-allow-overlap": true, "icon-size": 1 }, paint: { "icon-opacity": 1 } });
 
+  map.addImage("shield", shieldIcon().data, { pixelRatio: 3 });
+  map.addSource("dispatch", { type: "geojson", data: { type: "FeatureCollection", features: [] } });
+  map.addLayer({ id: "dispatch", type: "symbol", source: "dispatch",
+    layout: { "icon-image": "shield", "icon-allow-overlap": true, "icon-size": 1.1, "text-field": ["get", "unit"], "text-font": ["Open Sans Bold"], "text-size": 11, "text-offset": [0, 1.6], "text-allow-overlap": true },
+    paint: { "text-color": "#CFE4FF", "text-halo-color": "#0A1733", "text-halo-width": 2 } });
+
   map.on("click", "clusters", e => { const f = e.features[0];
     map.getSource("sightings").getClusterExpansionZoom(f.properties.cluster_id).then(z => map.easeTo({ center: f.geometry.coordinates, zoom: z })); });
   map.on("click", "sightings", e => { const p = e.features[0].properties;
@@ -182,9 +191,36 @@ function refresh() {
 
 // ---------- HUD ----------
 let tick = 0, camSighting = null, camCamera = null;
+// ---- camera tile: live still (+HLS after dwell) of the current sighting's camera, bbox drawn on top ----
+let tileCam = null, tileHls = null, tileStillTimer = null, tileHlsTimer = null;
+function tileFeed(cam) {
+  if (!cam || cam.id === tileCam?.id) return;
+  tileCam = cam;
+  const img = $("camStill"), video = $("camVideo"), badge = $("camBadge"), cv = $("camCanvas");
+  if (tileHls) { tileHls.destroy(); tileHls = null; } clearInterval(tileStillTimer); clearTimeout(tileHlsTimer);
+  video.classList.remove("on"); video.removeAttribute("src"); badge.classList.remove("live");
+  if (!cam.image) { img.removeAttribute("src"); img.style.display = "none"; cv.classList.add("synthetic"); badge.textContent = "SYNTHETIC"; return; }
+  img.style.display = ""; cv.classList.remove("synthetic");
+  const stillUrl = () => `${cam.image}?t=${Date.now()}`;
+  img.src = stillUrl(); badge.textContent = cam.kind === "wsdot" ? "WSDOT · STILL" : "STILL · refreshing";
+  tileStillTimer = setInterval(() => { if (!video.classList.contains("on")) img.src = stillUrl(); }, 4000);
+  if (cam.kind === "wsdot" || !cam.stream || cam.alive === false) return;
+  tileHlsTimer = setTimeout(() => {
+    badge.textContent = "CONNECTING…";
+    const giveUp = () => { badge.textContent = "STREAM DOWN · still"; if (tileHls) { tileHls.destroy(); tileHls = null; } };
+    const deadline = setTimeout(() => { if (!video.classList.contains("on")) giveUp(); }, 6000);
+    video.addEventListener("playing", () => { clearTimeout(deadline); video.classList.add("on"); badge.textContent = "LIVE · HLS"; badge.classList.add("live"); }, { once: true });
+    if (window.Hls && Hls.isSupported()) {
+      tileHls = new Hls({ liveSyncDurationCount: 2, maxBufferLength: 10, manifestLoadingTimeOut: 4000, manifestLoadingMaxRetry: 0, levelLoadingTimeOut: 4000, levelLoadingMaxRetry: 0 });
+      tileHls.loadSource(cam.stream); tileHls.attachMedia(video);
+      tileHls.on(Hls.Events.ERROR, (_, d) => { if (d.fatal) { clearTimeout(deadline); giveUp(); } });
+    } else if (video.canPlayType("application/vnd.apple.mpegurl")) video.src = cam.stream;
+  }, 1500);
+}
 function hud() {
   const unlinked = state.sightings.filter(s => !s.track_id && s.state !== "lost").length;
-  $("lcdUnlinked").textContent = "0x" + unlinked.toString(16).toUpperCase().padStart(4, "0");
+  $("lcdUnlinked").textContent = "0x" + unlinked.toString(16).toUpperCase().padStart(8, "0");
+  $("heartCount").textContent = state.subject.length;
   $("cntSight").textContent = state.sightings.length;
   $("cntTrack").textContent = state.tracks.size;
   $("cntLost").textContent = state.lostCount;
@@ -209,7 +245,19 @@ function hud() {
     map.getSource("subject-now")?.setData({ type: "FeatureCollection", features: [{ type: "Feature", geometry: { type: "Point", coordinates: [s.lon, s.lat] }, properties: {} }] });
     if (map.getLayer("subject-now")) map.setPaintProperty("subject-now", "icon-opacity", Math.max(0.25, conf));
   }
-  drawCameraFrame($("camCanvas"), camSighting, camCamera, tick++);
+  if (camCamera?.image) drawDetectionOverlay($("camCanvas"), camSighting); else drawCameraFrame($("camCanvas"), camSighting, camCamera, tick);
+  tick++;
+  // radar + reticle follow the subject
+  const sub = state.lastSubject;
+  const pts = state.sightings.slice(-120).map(x => ({ lat: x.lat, lon: x.lon, color: STATE_COLORS[x.state]?.fill }));
+  drawRadar($("radar"), sub ? { lat: sub.lat, lon: sub.lon } : null, pts, 900, (tick % 120) / 120 * Math.PI * 2);
+  if (sub && map.loaded && map.getContainer()) {
+    const p = map.project([sub.lon, sub.lat]);
+    $("retH").setAttribute("x1", 0); $("retH").setAttribute("x2", window.innerWidth); $("retH").setAttribute("y1", p.y); $("retH").setAttribute("y2", p.y);
+    $("retV").setAttribute("y1", 0); $("retV").setAttribute("y2", window.innerHeight); $("retV").setAttribute("x1", p.x); $("retV").setAttribute("x2", p.x);
+    $("retC").setAttribute("cx", p.x); $("retC").setAttribute("cy", p.y);
+  }
+  $("radarWrap").style.visibility = $("predictPanel").hidden ? "visible" : "hidden";
 }
 
 let calloutTimer;
@@ -267,7 +315,7 @@ feed.addEventListener("msg", ({ detail: m }) => {
   switch (m.type) {
     case "reset":
       Object.assign(state, { sightings: [], subject: [], subjectByTrack: new Map(), lastSubject: null, tracks: new Set(), lostCount: 0, prediction: null });
-      tickerEl.innerHTML = ""; $("predictPanel").hidden = true; camSighting = null; refresh(); break;
+      tickerEl.innerHTML = ""; $("predictPanel").hidden = true; $("dispatchPanel").hidden = true; map.getSource("dispatch")?.setData({ type: "FeatureCollection", features: [] }); camSighting = null; refresh(); break;
     case "camera": state.cameras.set(m.id, m); map.getSource("cameras")?.setData(camerasGeo()); clearTimeout(window.__frameT); window.__frameT = setTimeout(() => frameCurrent(), 50); break;
     case "clock": state.clock = m.t; hud(); if (!$("evalPanel").hidden && (tick % 10 === 0)) evalPanel(); if (!$("camsPanel").hidden && (tick % 10 === 0)) camsPanel(); break;
     case "sighting": {
@@ -275,7 +323,7 @@ feed.addEventListener("msg", ({ detail: m }) => {
       if (m.track_id) state.tracks.add(m.track_id);
       if (m.state === "lost") state.lostCount++;
       if (isSubject(m.track_id)) {
-        if (m.state === "linked") { state.subject.push(m); if (!state.subjectByTrack.has(m.track_id)) state.subjectByTrack.set(m.track_id, []); state.subjectByTrack.get(m.track_id).push(m); callout("SUBJECT SIGHTED", `${state.cameras.get(m.camera_id)?.name || m.camera_id} · ${m.conf.toFixed(2)}`, "#9C6A0C"); }
+        if (m.state === "linked") { const bb = $("badgeBtn"); bb.classList.remove("alert"); void bb.offsetWidth; bb.classList.add("alert"); state.subject.push(m); if (!state.subjectByTrack.has(m.track_id)) state.subjectByTrack.set(m.track_id, []); state.subjectByTrack.get(m.track_id).push(m); callout("SUBJECT SIGHTED", `${state.cameras.get(m.camera_id)?.name || m.camera_id} · ${m.conf.toFixed(2)}`, "#9C6A0C"); }
         else if (m.state === "lost") callout("SUBJECT LOST", "no camera coverage · confidence decaying", "#F0645A");
         const newRide = !state.lastSubject || state.lastSubject.track_id !== m.track_id;
         state.lastSubject = m;
@@ -283,20 +331,105 @@ feed.addEventListener("msg", ({ detail: m }) => {
         // resolve pending prediction when subject reappears
         if (state.prediction && !state.prediction.actual && m.state === "linked" && m.t !== state.prediction.t) {
           const p = feed.data?.predictions.find(x => x.id === state.prediction.id);
-          if (p?.actual) { state.prediction = { ...state.prediction, actual: p.actual }; showPrediction(state.prediction); }
+          if (p?.actual) { state.prediction = { ...state.prediction, actual: p.actual }; showPrediction(state.prediction); if (!$("dispatchPanel").hidden) showDispatch(); }
         }
       }
-      camSighting = m; camCamera = state.cameras.get(m.camera_id);
+      camSighting = m; camCamera = state.cameras.get(m.camera_id); tileFeed(camCamera);
       $("camId").textContent = m.camera_id; $("camName").textContent = camCamera?.name || "";
       $("camClass").textContent = `${m.class} · ${m.state}`; $("camConf").textContent = `conf ${m.conf.toFixed(2)}`;
       refresh(); break;
     }
     case "event": tickerAdd(m); break;
-    case "prediction": state.prediction = { ...m, actual: undefined }; showPrediction(state.prediction); refresh(); break;
+    case "prediction": state.prediction = { ...m, actual: undefined }; showPrediction(state.prediction); refresh(); if (!$("dispatchPanel").hidden) showDispatch(); break;
     case "frozen": callout("FROZEN AT SPLIT", "which way did the ride go? — press PAUSE to resume", "#2C6BB0"); $("btnPlay").textContent = "PLAY"; break;
     case "done": $("btnPlay").textContent = "REPLAY"; break;
   }
 });
+
+// ---------- ⌘K palette: describe suspect / vehicle → search ----------
+const API = new URLSearchParams(location.search).get("api") || localStorage.getItem("omnisApi") || "";
+$("paletteMode").textContent = API ? `LIVE · ${API}` : "DEMO MATCH · no query server (add ?api=http://spark:8765)";
+$("paletteMode").classList.toggle("live", !!API);
+let paletteOpen = false;
+function openPalette() { paletteOpen = true; $("palette").hidden = false; $("paletteInput").focus(); $("paletteInput").select(); }
+function closePalette() { paletteOpen = false; $("palette").hidden = true; }
+document.addEventListener("keydown", e => {
+  if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") { e.preventDefault(); paletteOpen ? closePalette() : openPalette(); }
+  else if (e.key === "Escape" && paletteOpen) closePalette();
+});
+$("palette").addEventListener("click", e => { if (e.target === $("palette")) closePalette(); });
+document.querySelectorAll(".palette-hints button").forEach(b => b.onclick = () => { $("paletteInput").value = b.dataset.q; runPalette(b.dataset.q); });
+$("paletteInput").addEventListener("keydown", e => { if (e.key === "Enter") runPalette($("paletteInput").value.trim()); });
+
+const STOP = new Set("a an the in on at of and or with is are was were to for by from into near person people someone driving riding wearing suspect vehicle".split(" "));
+const tokens = q => q.toLowerCase().replace(/[^a-z0-9 ]/g, " ").split(/\s+/).filter(w => w && !STOP.has(w));
+
+function demoMatch(q) {
+  // no VSS query server configured: match the description against what the replay already knows
+  const ws = tokens(q); if (!ws.length) return [];
+  const evs = feed.data?.events || [];
+  const scored = state.sightings.map(s => {
+    const cam = state.cameras.get(s.camera_id);
+    const near = evs.filter(e => e.camera_id === s.camera_id && Math.abs(new Date(e.t) - new Date(s.t)) < 90000).map(e => e.text).join(" ");
+    const hay = `${s.note || ""} ${s.class} ${s.state} ${cam?.name || ""} ${near}`.toLowerCase();
+    const hit = ws.filter(w => hay.includes(w)).length;
+    return { s, cam, score: hit / ws.length, detail: (s.note || near || `${s.class} · ${s.state}`).slice(0, 110) };
+  }).filter(r => r.score > 0).sort((a, b) => b.score - a.score || new Date(b.s.t) - new Date(a.s.t));
+  return scored.slice(0, 12).map(r => ({ camera_id: r.s.camera_id, camera_name: r.cam?.name || r.s.camera_id, lat: r.s.lat, lon: r.s.lon,
+    t: r.s.t, detail: r.detail, score: r.score, image: r.cam?.image, sighting_id: r.s.id }));
+}
+
+async function liveQuery(q) {
+  const r = await fetch(`${API.replace(/\/$/, "")}/query?q=${encodeURIComponent(q)}`);
+  const j = await r.json(); if (j.error) throw new Error(j.error);
+  return (j.results || []).map(h => ({ ...h, score: 1, image: state.cameras.get(h.camera_id)?.image }));
+}
+
+function renderResults(q, hits, mode) {
+  const box = $("paletteResults"); box.innerHTML = "";
+  if (!hits.length) { box.innerHTML = `<div class="pr empty">no matching sightings for "${q}"${mode === "demo" ? " (demo matcher searches notes + VSS captions of the loaded replay)" : ""}</div>`; return; }
+  hits.forEach(h => {
+    const el = document.createElement("div"); el.className = "pr";
+    el.innerHTML = `${h.image ? `<img src="${h.image}?t=${Date.now() >> 12}" alt="">` : "<span></span>"}<div><div class="t">${h.t.slice(11, 19)} · ${h.camera_name}</div><div class="d">${h.detail}</div></div><span class="s">${Math.round((h.score ?? 1) * 100)}%</span>`;
+    el.onclick = () => { closePalette(); map.easeTo({ center: [h.lon, h.lat], zoom: 16 }); callout("QUERY HIT", `${h.camera_name} · ${h.t.slice(11, 19)}`, "#2C6BB0"); };
+    box.appendChild(el);
+  });
+}
+
+async function runPalette(q) {
+  if (!q) return;
+  if (q === "/dispatch") { closePalette(); showDispatch(true); return; }
+  if (q === "/clear") { $("dispatchPanel").hidden = true; map.getSource("dispatch")?.setData({ type: "FeatureCollection", features: [] }); closePalette(); return; }
+  $("paletteResults").innerHTML = `<div class="pr empty">searching ${API ? "VSS on the Spark" : "the loaded replay"} for "${q}"…</div>`;
+  let hits = [], mode = API ? "live" : "demo";
+  try { hits = API ? await liveQuery(q) : demoMatch(q); }
+  catch (e) { $("paletteResults").innerHTML = `<div class="pr empty">query server error: ${e.message}</div>`; return; }
+  renderResults(q, hits, mode);
+  tickerAdd({ kind: "system", text: `query "${q}" → ${hits.length} hit${hits.length === 1 ? "" : "s"}${mode === "demo" ? " (demo match)" : ""}` });
+  // put the hits on the map as sightings of a query track
+  const src = map.getSource("sightings"); if (!src) return;
+  const now = new Date().toISOString();
+  hits.forEach((h, i) => { if (!state.sightings.some(s => s.id === `Q-${h.sighting_id || i}-${h.camera_id}`))
+    state.sightings.push({ id: `Q-${h.sighting_id || i}-${h.camera_id}`, t: h.t || now, camera_id: h.camera_id, lat: h.lat, lon: h.lon, class: "scooter", state: "confirmed", conf: h.score ?? 1, track_id: "T-QUERY", note: h.detail }); });
+  refresh();
+}
+
+// ---------- dispatch: where units should be, from the current prediction ----------
+function showDispatch(force = false) {
+  const p = state.prediction; const panel = $("dispatchPanel");
+  if (!p) { if (force) callout("NO PREDICTION YET", "dispatch needs a route split — wait for the next subject sighting", "#8E2C24"); return; }
+  const v = p.speed_mps || 4.0;
+  const rows = p.branches.map((b, i) => {
+    const end = b.path[b.path.length - 1];
+    let dist = b.distance_m; if (dist == null) { dist = 0; for (let k = 1; k < b.path.length; k++) dist += metres({ lat: b.path[k-1][0], lon: b.path[k-1][1] }, { lat: b.path[k][0], lon: b.path[k][1] }); }
+    const eta = b.eta_s ?? Math.round(dist / v);
+    return { unit: `UNIT ${String.fromCharCode(65 + i)}`, label: b.label.split(" via ")[0], p: b.p, eta, lat: end[0], lon: end[1], actual: p.actual === b.label };
+  });
+  panel.hidden = false;
+  $("dispatchList").innerHTML = rows.map(r => `<li class="${r.actual ? "actual" : ""}"><span class="unit">${r.unit}</span>${r.label}<b>${Math.round(r.p*100)}% · ETA ${r.eta}s</b></li>`).join("");
+  $("dispatchNote").textContent = `HOLD ONE UNIT AT ${state.cameras.get(p.at_camera)?.name || p.at_camera} · POSITIONS = PREDICTED NEXT CAMERAS, ORDERED BY PROBABILITY · NO LIVE POLICE FEED EXISTS; THIS IS OUR RECOMMENDATION`;
+  map.getSource("dispatch")?.setData({ type: "FeatureCollection", features: rows.map(r => ({ type: "Feature", geometry: { type: "Point", coordinates: [r.lon, r.lat] }, properties: { unit: r.unit } })) });
+}
 
 // ---------- controls ----------
 $("btnPlay").onclick = () => { if (feed.i >= feed.items?.length) return feed.restart(); feed.playing = !feed.playing; $("btnPlay").textContent = feed.playing ? "PAUSE" : "PLAY"; };
@@ -312,10 +445,20 @@ $("btnCluster").onclick = e => { const on = e.currentTarget.classList.toggle("on
     layout: { "icon-image": ["concat", "sight-", ["get", "state"]], "icon-allow-overlap": true, "icon-size": 1 }, paint: { "icon-opacity": ["get", "op"] } }, "subject-now"); };
 $("btnEval").onclick = e => { const p = $("evalPanel"); p.hidden = !p.hidden; e.currentTarget.classList.toggle("on", !p.hidden); if (!p.hidden) { $("camsPanel").hidden = true; $("btnCams").classList.remove("on"); evalPanel(); } };
 $("btnCams").onclick = e => { const p = $("camsPanel"); p.hidden = !p.hidden; e.currentTarget.classList.toggle("on", !p.hidden); if (!p.hidden) { $("evalPanel").hidden = true; $("btnEval").classList.remove("on"); camsPanel(); } };
+document.querySelectorAll(".chip-btn[data-ride]").forEach(b => b.onclick = () => {
+  const ride = (feed.data?.meta?.rides || [])[+b.dataset.ride]; if (!ride) return;
+  document.querySelectorAll(".chip-btn[data-ride]").forEach(x => x.classList.toggle("on", x === b));
+  const ids = ride.cameras || []; frame(ids.map(id => state.cameras.get(id)).filter(Boolean).map(c => [c.lon, c.lat]));
+  callout("RIDE " + (+b.dataset.ride + 1), ride.label.split(":")[0], "#3A0E0A");
+});
+$("btnMore").onclick = e => { document.body.classList.toggle("hud-lite"); e.currentTarget.classList.toggle("on", !document.body.classList.contains("hud-lite")); };
+$("btnMore").classList.add("on");
+setTimeout(() => tickerAdd({ kind: "system", text: "press ⌘K / Ctrl+K to describe a suspect or vehicle · /dispatch for unit positions" }), 1500);
+$("badgeBtn").onclick = () => $("btnCams").click();
 $("btnRestart").onclick = () => { feed.restart(); $("btnPlay").textContent = "PAUSE"; };
 $("btnSpeed").onclick = e => { const speeds = [1, 3, 6, 12, 30]; feed.speed = speeds[(speeds.indexOf(feed.speed) + 1) % speeds.length]; e.currentTarget.textContent = `×${feed.speed}`; };
 document.addEventListener("keydown", e => { if (e.key === " ") { e.preventDefault(); $("btnPlay").click(); } if (e.key === "f") $("btnFreeze").click(); if (e.key === "c") $("btnCenter").click(); });
 
 // live mode: ?ws=ws://gn100-223b:8765
 const wsUrl = new URLSearchParams(location.search).get("ws");
-if (wsUrl) map.on("load", () => feed.connectLive(wsUrl));
+if (wsUrl) { map.on("load", () => feed.connectLive(wsUrl)); $("chipLive").classList.add("on"); }
